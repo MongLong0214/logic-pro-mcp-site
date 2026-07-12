@@ -23,7 +23,12 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /<title>Logic Pro MCP — Agent-grade control for Logic Pro<\/title>/i);
   assert.match(html, /Give your agent a signal path into Logic Pro/);
   assert.match(html, /10<\/strong><span>MCP tools/);
-  assert.match(html, /99<\/strong><span>public commands/);
+  assert.match(html, /11<\/strong><span>resource templates/);
+  assert.match(html, /2,264<\/strong><span>deterministic tests/);
+  assert.match(html, /99 public commands/);
+  assert.match(html, /Architecture at a glance/);
+  assert.match(html, /Known limitations/);
+  assert.match(html, /Docs for every stage/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
 });

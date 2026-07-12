@@ -68,6 +68,18 @@ Cyan is interactive; amber is measurement-only. Accent colors never replace text
 ### Proof datum
 - Tabular number plus plain-language label, adjacent in DOM and visual order.
 
+### Specification row
+- Numbered row with a monospace system label, title, and factual description.
+- Used for architecture stages, tool groups, and trust contracts; collapses to two columns on mobile.
+
+### Document tile
+- Descriptive link with document name, audience, and purpose; full tile is the target.
+- Default, hover border/surface lift, active, and visible focus states; 48px minimum height.
+
+### Disclosure
+- Native `details`/`summary` for limitations and technical depth.
+- Summary remains a 48px keyboard and touch target; open state uses tonal shift only.
+
 ## 6. Motion & Interaction
 
 - Micro: 140ms, `cubic-bezier(.2,.8,.2,1)` for button and link feedback.
