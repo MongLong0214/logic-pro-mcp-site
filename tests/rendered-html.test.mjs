@@ -41,6 +41,7 @@ test("Given the production worker, when the landing page renders, then product p
   );
   assert.match(html, /rel="canonical" href="https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site"/);
   assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
+  assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
   assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");

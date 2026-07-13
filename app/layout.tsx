@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   category: "DeveloperApplication",
   referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false },
+  verification: { google: "bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc" },
   keywords: [
     "Logic Pro MCP",
     "Logic Pro MCP server",
