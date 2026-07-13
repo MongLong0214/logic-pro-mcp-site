@@ -80,6 +80,10 @@ Cyan is interactive; amber is measurement-only. Accent colors never replace text
 - Native `details`/`summary` for limitations and technical depth.
 - Summary remains a 48px keyboard and touch target; open state uses tonal shift only.
 
+### FAQ disclosure
+- Reuses the native disclosure interaction for indexable question-and-answer content.
+- Questions remain visible in the server-rendered document and map one-to-one to the FAQ structured data.
+
 ## 6. Motion & Interaction
 
 - Micro: 140ms, `cubic-bezier(.2,.8,.2,1)` for button and link feedback.

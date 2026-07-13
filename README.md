@@ -1,5 +1,10 @@
 # vinext-starter
 
+The production landing page includes canonical metadata, SoftwareApplication,
+HowTo, and FAQ structured data, plus `robots.txt`, `sitemap.xml`, and `llms.txt`
+discovery files. Keep the visible FAQ and install steps aligned with their
+structured-data counterparts when product claims change.
+
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
 Drizzle support.

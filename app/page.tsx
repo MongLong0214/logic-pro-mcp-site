@@ -1,4 +1,5 @@
 const github = "https://github.com/MongLong0214/logic-pro-mcp";
+const siteUrl = "https://logic-pro-mcp.monglong.chatgpt.site";
 const installCommand = [
   "brew tap MongLong0214/logic-pro-mcp \\",
   "  https://github.com/MongLong0214/logic-pro-mcp",
@@ -52,10 +53,78 @@ const docs = [
   ["CHANGELOG", "Stable release history, deferred work, and evidence-linked changes.", github + "/blob/main/CHANGELOG.md"],
   ["CONTRIBUTE", "Development setup, scoped PR workflow, verification, and open issues.", github + "/blob/main/CONTRIBUTING.md"],
 ] as const;
+const faqs = [
+  ["What is Logic Pro MCP?", "Logic Pro MCP is an open-source local Model Context Protocol server that lets compatible AI clients compose, control, inspect, and verify work in Logic Pro on macOS."],
+  ["Which AI clients can use it?", "It works with MCP clients that can launch a local stdio server, including Claude Code, Claude Desktop, Cursor, VS Code, and custom agents."],
+  ["What can an AI agent control in Logic Pro?", "Agents can create tracks and MIDI, operate transport and navigation, inspect mixer and project state, manage project workflows, analyze exported audio, and verify high-risk writes."],
+  ["How do I install Logic Pro MCP?", "Install the universal binary with the Homebrew tap, register LogicProMCP with your MCP client, grant the required macOS permissions, and run LogicProMCP doctor to verify readiness."],
+  ["Is Logic Pro MCP free?", "Yes. The project is open source under the MIT License, and its source, releases, setup guide, API reference, security policy, and issue tracker are public on GitHub."],
+] as const;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "Logic Pro MCP",
+      description: "Open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
+      inLanguage: "en",
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#software`,
+      name: "Logic Pro MCP",
+      alternateName: "Logic Pro Model Context Protocol Server",
+      url: siteUrl,
+      codeRepository: github,
+      downloadUrl: `${github}/releases/latest`,
+      softwareVersion: "3.11.0",
+      applicationCategory: "DeveloperApplication",
+      applicationSubCategory: "Model Context Protocol server for music production",
+      operatingSystem: "macOS 14 or later",
+      license: `${github}/blob/main/LICENSE`,
+      isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      featureList: [
+        "Logic Pro track and MIDI composition",
+        "Transport, mixer, and navigation control",
+        "Live project state resources",
+        "Confirmed, uncertain, or failed verification envelopes",
+        "Homebrew installation for Apple silicon and Intel Macs",
+      ],
+      sameAs: [github],
+    },
+    {
+      "@type": "HowTo",
+      "@id": `${siteUrl}/#install-guide`,
+      name: "How to install Logic Pro MCP",
+      description: "Install and verify the Logic Pro MCP server for a compatible AI client.",
+      totalTime: "PT10M",
+      step: [
+        { "@type": "HowToStep", position: 1, name: "Install", text: "Tap the GitHub repository, trust the third-party Homebrew tap on Homebrew 6 or later, and install logic-pro-mcp." },
+        { "@type": "HowToStep", position: 2, name: "Register", text: "Register LogicProMCP as a local stdio server in Claude Code or another compatible MCP client." },
+        { "@type": "HowToStep", position: 3, name: "Grant permissions", text: "Grant Accessibility, Automation, and Input Monitoring permissions required for the workflows you use." },
+        { "@type": "HowToStep", position: 4, name: "Verify", text: "Run LogicProMCP doctor with the profile and client that match your workflow." },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: faqs.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    },
+  ],
+};
 
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <a className="skip-link" href="#main">Skip to main content</a>
       <header className="site-header">
         <nav className="nav-shell" aria-label="Primary navigation">
@@ -153,6 +222,11 @@ export default function Home() {
         <section className="section docs-section" id="docs">
           <div className="docs-heading"><p className="eyebrow"><span /> Go to the source</p><h2>Docs for every stage.</h2><p>From first launch to API contracts, threat modeling, troubleshooting, and contribution.</p></div>
           <div className="docs-grid">{docs.map(([title, body, href]) => <a href={href} target="_blank" rel="noreferrer" key={title}><span>{title}</span><p>{body}</p><strong aria-hidden="true">↗</strong></a>)}</div>
+        </section>
+
+        <section className="section faq-section" id="faq">
+          <div className="section-heading"><p className="eyebrow"><span /> Logic Pro MCP FAQ</p><h2>Before you install.</h2><p>Direct answers for musicians, developers, and AI agents evaluating the server.</p></div>
+          <div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary><strong>{question}</strong><i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}</div>
         </section>
 
         <section className="final-cta section"><div><p className="eyebrow"><span /> Build with the signal, not the screen</p><h2>Make Logic Pro agent-ready.</h2></div><a className="button primary" href={github} target="_blank" rel="noreferrer">Explore the repository <span aria-hidden="true">↗</span></a></section>
