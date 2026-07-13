@@ -1,10 +1,12 @@
+import { githubUrl, siteUrl } from "../site-config";
+
 const content = `# Logic Pro MCP
 
 > Open-source local Model Context Protocol server for Claude, Cursor, VS Code, and custom AI agents to compose, control, inspect, and verify work in Logic Pro.
 
-Canonical site: https://logic-pro-mcp.monglong.chatgpt.site
-Source repository: https://github.com/MongLong0214/logic-pro-mcp
-Latest release: https://github.com/MongLong0214/logic-pro-mcp/releases/latest
+Canonical site: ${siteUrl}
+Source repository: ${githubUrl}
+Latest release: ${githubUrl}/releases/latest
 License: MIT
 Platform: macOS 14 or later; Logic Pro 12.3 is the actively validated target.
 

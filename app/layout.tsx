@@ -1,8 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
-
-const siteUrl = "https://logic-pro-mcp.monglong.chatgpt.site";
+import { siteUrl } from "./site-config";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
@@ -20,7 +19,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Logic Pro MCP Server for Claude, Cursor & AI Agents",
-  description: "Install the open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents. Compose MIDI, control transport and mixer state, inspect projects, and verify every result.",
+  description: "Install the open-source Logic Pro MCP server for Claude, Cursor, VS Code, and AI agents to compose, control, inspect, and verify Logic Pro sessions.",
   applicationName: "Logic Pro MCP",
   authors: [{ name: "MongLong0214", url: "https://github.com/MongLong0214" }],
   creator: "MongLong0214",
@@ -28,7 +27,6 @@ export const metadata: Metadata = {
   category: "DeveloperApplication",
   referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false },
-  themeColor: "#080b0c",
   keywords: [
     "Logic Pro MCP",
     "Logic Pro MCP server",
@@ -67,6 +65,11 @@ export const metadata: Metadata = {
     images: ["/og.png"],
   },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#080b0c",
 };
 
 export default function RootLayout({

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "./site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://logic-pro-mcp.monglong.chatgpt.site",
+      url: siteUrl,
       changeFrequency: "weekly",
       priority: 1,
     },

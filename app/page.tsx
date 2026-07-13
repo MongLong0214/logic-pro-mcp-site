@@ -1,5 +1,4 @@
-const github = "https://github.com/MongLong0214/logic-pro-mcp";
-const siteUrl = "https://logic-pro-mcp.monglong.chatgpt.site";
+import { githubUrl as github, siteUrl } from "./site-config";
 const installCommand = [
   "brew tap MongLong0214/logic-pro-mcp \\",
   "  https://github.com/MongLong0214/logic-pro-mcp",

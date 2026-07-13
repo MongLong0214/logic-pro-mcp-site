@@ -31,9 +31,18 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /Docs for every stage/);
   assert.match(html, /Before you install/);
   assert.match(html, /application\/ld\+json/);
-  assert.match(html, /SoftwareApplication/);
-  assert.match(html, /FAQPage/);
+  const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+  assert.ok(jsonLdMatch, "JSON-LD graph must be rendered");
+  const jsonLd = JSON.parse(jsonLdMatch[1]);
+  assert.equal(jsonLd["@context"], "https://schema.org");
+  assert.deepEqual(
+    jsonLd["@graph"].map((entry) => entry["@type"]),
+    ["WebSite", "SoftwareApplication", "Person", "HowTo", "FAQPage"],
+  );
+  assert.equal(jsonLd["@graph"][3].step.length, 4);
+  assert.equal(jsonLd["@graph"][4].mainEntity.length, 5);
   assert.match(html, /rel="canonical" href="https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site"/);
+  assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
   assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
@@ -73,7 +82,7 @@ test("Given the finished site, when assets are inspected, then starter artifacts
     access(new URL("../public/favicon.svg", import.meta.url)),
   ]);
 
-  assert.match(page, /const github = "https:\/\/github\.com\/MongLong0214\/logic-pro-mcp"/);
+  assert.match(page, /githubUrl as github, siteUrl/);
   assert.match(layout, /images: \["\/og\.png"\]/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
