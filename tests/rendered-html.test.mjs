@@ -24,7 +24,7 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /Give your agent a signal path into Logic Pro/);
   assert.match(html, /10<\/strong><span>MCP tools/);
   assert.match(html, /11<\/strong><span>resource templates/);
-  assert.match(html, /2,264<\/strong><span>deterministic tests/);
+  assert.match(html, /2,271<\/strong><span>deterministic tests/);
   assert.match(html, /99 public commands/);
   assert.match(html, /Architecture at a glance/);
   assert.match(html, /Known limitations/);
@@ -35,6 +35,10 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /FAQPage/);
   assert.match(html, /rel="canonical" href="https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site"/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
+  assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/);
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
+  assert.equal(response.headers.get("referrer-policy"), "strict-origin-when-cross-origin");
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
 });
 

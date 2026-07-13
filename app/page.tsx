@@ -15,6 +15,12 @@ const doctorOutput = [
   "✓ channel.mcu                 ready", "✓ channel.accessibility       ready",
   "", "STATUS  ready · 5/5 capabilities",
 ].join("\n");
+const installSteps = [
+  { name: "Install", description: "Tap the GitHub repository, trust the third-party Homebrew tap on Homebrew 6 or later, and install logic-pro-mcp.", command: installCommand },
+  { name: "Register", description: "Register LogicProMCP as a local stdio server in Claude Code or another compatible MCP client.", command: registerCommand },
+  { name: "Permissions", description: "Grant Accessibility, Automation, and Input Monitoring permissions required for the workflows you use.", command: permissionsCommand, note: "Checks Accessibility, Automation to Logic Pro and System Events, plus PostEvent/Input Monitoring." },
+  { name: "Diagnose", description: "Run LogicProMCP doctor with the profile and client that match your workflow.", command: doctorCommand },
+] as const;
 
 const capabilities = [
   ["COMPOSE", "Create tracks, write MIDI, set instruments, and shape tempo from an agent prompt."],
@@ -95,19 +101,21 @@ const structuredData = {
         "Homebrew installation for Apple silicon and Intel Macs",
       ],
       sameAs: [github],
+      author: { "@id": `${siteUrl}/#author` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#author`,
+      name: "MongLong0214",
+      url: "https://github.com/MongLong0214",
+      sameAs: ["https://github.com/MongLong0214"],
     },
     {
       "@type": "HowTo",
       "@id": `${siteUrl}/#install-guide`,
       name: "How to install Logic Pro MCP",
       description: "Install and verify the Logic Pro MCP server for a compatible AI client.",
-      totalTime: "PT10M",
-      step: [
-        { "@type": "HowToStep", position: 1, name: "Install", text: "Tap the GitHub repository, trust the third-party Homebrew tap on Homebrew 6 or later, and install logic-pro-mcp." },
-        { "@type": "HowToStep", position: 2, name: "Register", text: "Register LogicProMCP as a local stdio server in Claude Code or another compatible MCP client." },
-        { "@type": "HowToStep", position: 3, name: "Grant permissions", text: "Grant Accessibility, Automation, and Input Monitoring permissions required for the workflows you use." },
-        { "@type": "HowToStep", position: 4, name: "Verify", text: "Run LogicProMCP doctor with the profile and client that match your workflow." },
-      ],
+      step: installSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: step.name, text: step.description })),
     },
     {
       "@type": "FAQPage",
@@ -155,7 +163,7 @@ export default function Home() {
         <section className="proof-strip" aria-label="Project facts">
           <div><strong>10</strong><span>MCP tools</span></div><div><strong>18</strong><span>read resources</span></div>
           <div><strong>11</strong><span>resource templates</span></div><div><strong>7</strong><span>native channels</span></div>
-          <div><strong>2,264</strong><span>deterministic tests</span></div>
+          <div><strong>2,271</strong><span>deterministic tests</span></div>
         </section>
 
         <section className="section workflow" id="workflow">
@@ -195,7 +203,7 @@ export default function Home() {
         <section className="section evidence" id="evidence">
           <div className="evidence-heading"><p className="eyebrow"><span /> Claims tied to evidence</p><h2>Stable v3.11.0.<br />No green by implication.</h2><p>Release claims stay attached to shipped artifacts, deterministic tests, targeted live QA, or explicitly linked historical evidence.</p></div>
           <div className="evidence-grid">
-            <article><strong>2,264</strong><span>Swift tests</span><p>Current source tree deterministic suite: passed with zero failures.</p></article>
+            <article><strong>2,271</strong><span>Swift tests</span><p>Current source tree deterministic suite: passed with zero failures.</p></article>
             <article><strong>372 / 373</strong><span>strict live E2E</span><p>Last full Logic Pro 12.3 run on the v3.8 line: 372 passed, one skipped, zero failed.</p></article>
             <article><strong>UNIVERSAL</strong><span>release artifacts</span><p>arm64 and x86_64 archives with SHA256SUMS and release metadata.</p></article>
             <article><strong>TARGETED</strong><span>current live QA</span><p>Tempo fallback, native Bounce, partial regions, markers, Count In, Step Input, and help categories.</p></article>
@@ -205,12 +213,7 @@ export default function Home() {
 
         <section className="section install" id="install">
           <div className="section-heading install-heading"><p className="eyebrow"><span /> Start with a verified install</p><h2>From zero to ready.</h2><p>Install the universal binary, register your client, verify macOS permissions, then let Doctor order the remaining work.</p></div>
-          <div className="install-steps">
-            <article><span className="step-number">01</span><h3>Install</h3><pre><code>{installCommand}</code></pre></article>
-            <article><span className="step-number">02</span><h3>Register</h3><pre><code>{registerCommand}</code></pre></article>
-            <article><span className="step-number">03</span><h3>Permissions</h3><pre><code>{permissionsCommand}</code></pre><p>Checks Accessibility, Automation to Logic Pro and System Events, plus PostEvent/Input Monitoring.</p></article>
-            <article><span className="step-number">04</span><h3>Diagnose</h3><pre><code>{doctorCommand}</code></pre></article>
-          </div>
+          <div className="install-steps">{installSteps.map((step, index) => <article key={step.name}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><h3>{step.name}</h3><pre><code translate="no">{step.command}</code></pre>{"note" in step ? <p>{step.note}</p> : null}</article>)}</div>
           <p className="install-note">Full setup registers the LogicProMCP-MCU-Internal control surface. Scripter is optional unless you need legacy plugin-parameter writes.</p>
         </section>
 

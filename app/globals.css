@@ -9,9 +9,9 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--ink); }
+html { scroll-behavior: smooth; color-scheme: dark; background: var(--ink); }
 body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--font-plex-sans), system-ui, sans-serif; line-height: 1.65; }
-a { color: inherit; text-decoration: none; }
+a { color: inherit; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: rgba(94, 223, 227, .18); }
 a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
 ::selection { color: var(--ink); background: var(--cyan); }
 
@@ -39,6 +39,8 @@ body::before {
 .eyebrow { display: flex; gap: 10px; align-items: center; margin: 0 0 24px; color: var(--text-3); font-family: var(--font-plex-mono), ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
 .eyebrow span { width: 24px; height: 1px; background: var(--cyan); }
 h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 { text-wrap: balance; }
+section[id] { scroll-margin-top: 24px; }
 h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 500; line-height: .96; letter-spacing: -.045em; }
 h2 { margin-bottom: 24px; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 500; line-height: 1.02; letter-spacing: -.035em; }
 h3 { font-size: 20px; font-weight: 500; line-height: 1.2; letter-spacing: -.02em; }
@@ -151,6 +153,7 @@ pre { margin: 0; overflow-x: auto; color: var(--text-2); font-family: var(--font
 .limitation-list { border-top: 1px solid var(--line-strong); }
 .limitation-list details { border-bottom: 1px solid var(--line-strong); }
 .limitation-list summary { display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; min-height: 72px; cursor: pointer; list-style: none; }
+.limitation-list summary, .faq-list summary { color: var(--text); background: transparent; touch-action: manipulation; -webkit-tap-highlight-color: rgba(94, 223, 227, .18); }
 .limitation-list summary::-webkit-details-marker { display: none; }
 .limitation-list summary span { color: var(--text-3); font-family: var(--font-plex-mono), ui-monospace, monospace; font-size: 11px; }
 .limitation-list summary strong { font-size: 16px; font-weight: 500; }
