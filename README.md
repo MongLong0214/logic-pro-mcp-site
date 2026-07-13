@@ -1,41 +1,75 @@
-# Logic Pro MCP Landing Page
+# Logic Pro MCP Site
 
-Production landing page for [Logic Pro MCP](https://github.com/MongLong0214/logic-pro-mcp), deployed at [logic-pro-mcp.monglong.chatgpt.site](https://logic-pro-mcp.monglong.chatgpt.site/).
+The official landing page and installation guide for [Logic Pro MCP](https://github.com/MongLong0214/logic-pro-mcp), an open-source Model Context Protocol server that lets Claude, Cursor, VS Code, and custom AI agents compose, control, inspect, and automate Logic Pro on macOS.
 
-## Discovery surfaces
+**[Open the Logic Pro MCP website](https://logic-pro-mcp.monglong.chatgpt.site/)** · **[View the MCP server source](https://github.com/MongLong0214/logic-pro-mcp)** · **[Read the setup guide](https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md)**
 
-- Canonical, robots, Open Graph, and X metadata
-- WebSite, WebPage, SoftwareApplication, BreadcrumbList, and visible-step HowTo structured data
-- `robots.txt`, `sitemap.xml`, and `llms.txt`
-- Search-focused product copy, evidence, limitations, documentation, and install flow
-- Four client-specific install guides, two product guides, and three evidence-backed use cases
-- Privacy-preserving conversion instrumentation contract that is unconditionally `NOT_CONFIGURED`
+> This repository contains the website. The installable MCP server, releases, documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
 
-Keep product claims aligned with the current Logic Pro MCP README and stable release. The visible FAQ and installation cards share their source data with their structured-data counterparts.
+## Install Logic Pro MCP
 
-## Development
+Install the server with Homebrew:
+
+```bash
+brew install logic-pro-mcp
+LogicProMCP doctor
+```
+
+Then follow the client-specific guide:
+
+- [Claude Code](https://logic-pro-mcp.monglong.chatgpt.site/install/claude-code)
+- [Claude Desktop](https://logic-pro-mcp.monglong.chatgpt.site/install/claude-desktop)
+- [Cursor](https://logic-pro-mcp.monglong.chatgpt.site/install/cursor)
+- [VS Code](https://logic-pro-mcp.monglong.chatgpt.site/install/vscode)
+
+## What this site covers
+
+- Installation and recovery instructions for four MCP clients
+- Logic Pro MCP workflows for MIDI composition, mixer automation, and batch export
+- Evidence-backed product facts, operational limits, and verification boundaries
+- Links to the canonical source, releases, setup, API, security, and troubleshooting documentation
+
+Start with the [complete Logic Pro MCP guide](https://logic-pro-mcp.monglong.chatgpt.site/guides/logic-pro-mcp) or learn how to [control Logic Pro with Claude](https://logic-pro-mcp.monglong.chatgpt.site/guides/control-logic-pro-with-claude).
+
+## SEO and AI discovery
+
+The site provides:
+
+- Canonical URLs, robots directives, Open Graph, and X metadata
+- `WebSite`, `WebPage`, `SoftwareApplication`, `BreadcrumbList`, and visible-step `HowTo` structured data
+- Public [`robots.txt`](https://logic-pro-mcp.monglong.chatgpt.site/robots.txt), [`sitemap.xml`](https://logic-pro-mcp.monglong.chatgpt.site/sitemap.xml), and [`llms.txt`](https://logic-pro-mcp.monglong.chatgpt.site/llms.txt)
+- Nine focused acquisition pages with unique titles, descriptions, headings, and source-backed content
+- A privacy-preserving analytics event contract with no collector, storage, identifiers, or network transport configured
+
+Product claims are pinned to reviewed source excerpts under `docs/evidence/`. The verifier checks their hashes, expiry windows, and exact rendered coverage across UI copy, metadata, JSON-LD, and `llms.txt`.
+
+## Local development
 
 Requires Node.js `>=22.13.0`.
 
 ```bash
 npm install
 npm run dev
+```
+
+Run the production gates before publishing:
+
+```bash
 npm test
-npm run lint
-npm run build
 npm run typecheck
+npm run lint
 npm run verify:all
 npm run qa:e2e
 npm run qa:lighthouse
-npm run qa:secrets
-npm run verify:licenses
 npm run audit:prod
 ```
 
-`npm test` builds the production worker, runs contract tests, then validates the checked-in claim ledger, route uniqueness and similarity, links, structured data, privacy/security boundaries, production licenses, secrets, and the absence of starter artifacts. Claim evidence is pinned under `docs/evidence/`; `npm run verify:claims` recomputes every digest and verifies exact text across UI, metadata, JSON-LD, and `llms.txt`.
-
-Browser and Lighthouse QA run from an isolated, exact-version tool environment. QA-only packages are intentionally excluded from this application's dependency graph and lockfile so they cannot affect the shipped dependency inventory or production audit. The full matrix and version boundary are documented in `docs/qa.md`.
+The browser and Lighthouse suites use an isolated, exact-version QA environment so test-only packages do not enter the shipped dependency graph. See [`docs/qa.md`](docs/qa.md) for the complete release matrix.
 
 ## Deployment
 
-The project is hosted with OpenAI Sites. `.openai/hosting.json` contains only the Sites project identifier and optional resource bindings; runtime configuration and access policy are managed by Sites.
+The site is deployed with OpenAI Sites. `.openai/hosting.json` stores only the Sites project identifier and optional resource bindings; hosted configuration and access policy remain managed by Sites.
+
+## License
+
+The website source is available under the [MIT License](LICENSE). Logic Pro MCP is independently licensed in its [product repository](https://github.com/MongLong0214/logic-pro-mcp/blob/main/LICENSE).
