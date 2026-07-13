@@ -1,0 +1,133 @@
+{
+  "schema": "logic-pro-mcp-site.serp-observations.v1",
+  "accessedAt": "2026-07-13T05:56:43Z",
+  "locale": "en-US",
+  "geography": "US",
+  "deviceIntent": "desktop",
+  "personalization": "disabled",
+  "method": "signed-out provider index sample after direct engine endpoint checks",
+  "challenge": {
+    "google": "JavaScript/challenge shell; no observable organic positions recorded",
+    "bing": "JavaScript/challenge shell; no observable organic positions recorded"
+  },
+  "providerWindow": "qualitative, non-positional top-10 provider window",
+  "prohibitedInferences": ["rank", "search volume", "traffic", "ranking probability"],
+  "queries": [
+    {
+      "query": "install logic pro mcp claude code",
+      "route": "/install/claude-code",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Your first day in Claude Code", "url": "https://support.claude.com/en/articles/14552382-your-first-day-in-claude-code", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Logic Pro MCP directory entry", "url": "https://www.remoteopenclaw.com/mcp/MongLong0214/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Claude Code user FAQ", "url": "https://support.claude.com/en/articles/14554922-claude-code-user-faq", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp claude desktop",
+      "route": "/install/claude-desktop",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Getting started with local MCP servers on Claude Desktop", "url": "https://support.anthropic.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "MCP Apps troubleshooting", "url": "https://claude.com/docs/connectors/building/mcp-apps/troubleshooting", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp cursor",
+      "route": "/install/cursor",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Logic Pro MCP Server", "url": "https://www.pulsemcp.com/servers/monglong-logic-pro", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "I posted my Logic Pro MCP server here a month ago", "url": "https://www.reddit.com/r/LogicPro/comments/1u72gid/i_posted_my_logic_pro_mcp_server_here_a_month_ago/", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "logic-pro-mcp npm package", "url": "https://socket.dev/npm/package/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp vscode",
+      "route": "/install/vscode",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Use MCP servers in VS Code", "url": "https://code.visualstudio.com/docs/agent-customization/mcp-servers", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "MCP configuration reference", "url": "https://code.visualstudio.com/docs/agents/reference/mcp-configuration", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "MCP developer guide", "url": "https://code.visualstudio.com/api/extension-guides/ai/mcp", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp server",
+      "route": "/guides/logic-pro-mcp",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Logic Pro MCP Server", "url": "https://www.pulsemcp.com/servers/monglong-logic-pro", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "logic-pro-mcp npm package", "url": "https://socket.dev/npm/package/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Logic Pro MCP community server", "url": "https://www.remoteopenclaw.com/mcp/rubenknol/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "control logic pro with claude mcp",
+      "route": "/guides/control-logic-pro-with-claude",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Logic Pro MCP community server", "url": "https://www.remoteopenclaw.com/mcp/rubenknol/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "logic-pro-mcp npm package", "url": "https://socket.dev/npm/package/logic-pro-mcp", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Logic Pro", "url": "https://www.apple.com/logic-pro/", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp compose midi",
+      "route": "/use-cases/compose-midi",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Use MPE with software instruments", "url": "https://support.apple.com/en-gb/guide/logicpro/lgcp8f599497/mac", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "MIDI signal path", "url": "https://help.apple.com/logicpro/mac/9.1.6/en/logicpro/usermanual/chapter_36_section_5.html", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "I posted my Logic Pro MCP server here a month ago", "url": "https://www.reddit.com/r/LogicPro/comments/1u72gid/i_posted_my_logic_pro_mcp_server_here_a_month_ago/", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp mixer automation",
+      "route": "/use-cases/mixer-automation",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Automation overview", "url": "https://help.apple.com/logicpro/mac/9.1.6/en/logicpro/usermanual/chapter_28_section_0.html", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Mixer groups", "url": "https://help.apple.com/logicpro/mac/9.1.6/en/logicpro/usermanual/chapter_27_section_6.html", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Mixer automation using Logic", "url": "https://www.reddit.com/r/LogicPro/comments/1r84t62/mixer_automation_using_logic/", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    },
+    {
+      "query": "logic pro mcp batch export",
+      "route": "/use-cases/batch-export",
+      "accessedAt": "2026-07-13T05:56:43Z",
+      "method": "signed-out provider index sample",
+      "challenge": "direct Google and Bing HTML endpoints returned JavaScript/challenge shells",
+      "providerWindow": "qualitative, non-positional top-10 provider window",
+      "signals": [
+        { "heading": "Can I batch-export individual MP3 files?", "url": "https://www.reddit.com/r/LogicPro/comments/170r7pl/can_i_batchexport_individual_mp3_files/", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "How can I batch export 400 individual tracks?", "url": "https://www.reddit.com/r/Logic_Studio/comments/17948qw/how_can_i_batch_export_400_individual_track/", "accessedAt": "2026-07-13T05:56:43Z" },
+        { "heading": "Automating the export process", "url": "https://www.reddit.com/r/LogicPro/comments/yiq5zs/automating_the_export_process/", "accessedAt": "2026-07-13T05:56:43Z" }
+      ]
+    }
+  ]
+}

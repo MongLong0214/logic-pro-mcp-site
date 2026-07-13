@@ -1,20 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteUrl } from "./site-config";
-
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  preload: false,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -64,7 +50,6 @@ export const metadata: Metadata = {
     description: "Open-source, verified Logic Pro control for Claude, Cursor, VS Code, and custom agents.",
     images: ["/og.png"],
   },
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {
@@ -79,11 +64,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${plexSans.variable} ${plexMono.variable}`}
-      >
-        {children}
-      </body>
+      <head><link rel="icon" href="/favicon.svg" type="image/svg+xml" /></head>
+      <body>{children}</body>
     </html>
   );
 }

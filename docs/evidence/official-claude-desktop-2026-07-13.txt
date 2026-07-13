@@ -1,0 +1,25 @@
+Source URL: https://modelcontextprotocol.io/docs/develop/connect-local-servers
+Source headings: Editing your configuration; Restart Claude Desktop; Troubleshooting
+Accessed UTC: 2026-07-13T05:56:43Z
+Expires UTC: 2026-10-11T05:56:43Z
+
+Exact excerpts:
+
+macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": []
+    }
+  }
+}
+```
+
+### Restart Claude Desktop
+
+After saving the configuration file, completely quit Claude Desktop and restart it. The application needs to restart to load the new configuration and start the MCP server.
+
+On macOS, logs are stored in `~/Library/Logs/Claude`, including `mcp-server-SERVERNAME.log`.

@@ -34,8 +34,8 @@ Cyan is interactive; amber is measurement-only. Accent colors never replace text
 
 ## 3. Typography
 
-- Primary: IBM Plex Sans, system fallback.
-- Mono: IBM Plex Mono, monospace fallback.
+- Primary: native UI sans stack (`ui-sans-serif`, San Francisco, Segoe UI) for zero-request rendering.
+- Mono: native UI monospace stack (SF Mono, Consolas, Liberation Mono) for zero-request rendering.
 - Display: `clamp(3rem, 7vw, 5.5rem)`, 500, `.96`, `-.045em`.
 - H2: `clamp(2rem, 4vw, 3.5rem)`, 500, `1.02`, `-.035em`.
 - H3: `1.25rem`, 500, `1.2`.
@@ -83,6 +83,11 @@ Cyan is interactive; amber is measurement-only. Accent colors never replace text
 ### FAQ disclosure
 - Reuses the native disclosure interaction for indexable question-and-answer content.
 - Questions remain visible in the server-rendered document and map one-to-one to the FAQ structured data.
+
+### Evidence article
+- Uses the shared article hero, numbered workflow, observable-success panel, explicit limitation panel, primary-source links, and related-route grid.
+- Copy controls expose idle, copied, denied, hover, active, keyboard-focus, and live-status states without changing the command text.
+- At 768px and below, evidence panels and related routes collapse to one column; command text scrolls without widening the page.
 
 ## 6. Motion & Interaction
 

@@ -1,0 +1,16 @@
+Source URL: https://code.claude.com/docs/en/mcp
+Source heading: Option 3: Add a local stdio server
+Accessed UTC: 2026-07-13T05:56:43Z
+Expires UTC: 2026-10-11T05:56:43Z
+
+Exact excerpts:
+
+### Option 3: Add a local stdio server
+
+```bash
+claude mcp add [options] <name> -- <command> [args...]
+```
+
+The `--` (double dash) separates Claude's CLI flags from the command and arguments passed to the MCP server. Without it, Claude may interpret server flags as its own.
+
+Use `claude mcp get <name>` to inspect a server and `claude mcp remove <name>` to remove it.

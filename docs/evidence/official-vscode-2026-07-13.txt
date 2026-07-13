@@ -1,0 +1,30 @@
+Source URL: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+Source headings: Configure the mcp.json file; MCP server trust; Troubleshoot MCP servers
+Accessed UTC: 2026-07-13T05:56:43Z
+Expires UTC: 2026-10-11T05:56:43Z
+
+Exact excerpts:
+
+### Configure the mcp.json file
+
+For workspace configuration, create `.vscode/mcp.json`. For user profile configuration, run `MCP: Open User Configuration`.
+
+```json
+{
+  "servers": {
+    "my-mcp-server": {
+      "type": "stdio",
+      "command": "my-command",
+      "args": []
+    }
+  }
+}
+```
+
+### MCP server trust
+
+When you start an MCP server, VS Code prompts you to confirm that you trust the server and its configuration before running it.
+
+### Troubleshoot MCP servers
+
+Run `MCP: List Servers`, select the server, and then select `Show Output` to inspect the server log.

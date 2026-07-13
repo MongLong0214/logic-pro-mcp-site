@@ -1,14 +1,15 @@
 import { githubUrl, siteUrl } from "../site-config";
+import { productFacts } from "../content/product-facts";
 
 const content = `# Logic Pro MCP
 
 > Open-source local Model Context Protocol server for Claude, Cursor, VS Code, and custom AI agents to compose, control, inspect, and verify work in Logic Pro.
 
-Canonical site: ${siteUrl}
-Source repository: ${githubUrl}
-Latest release: ${githubUrl}/releases/latest
+Canonical site: [Logic Pro MCP](${siteUrl})
+Source repository: [MongLong0214/logic-pro-mcp](${githubUrl})
+Latest release: [Logic Pro MCP releases](${githubUrl}/releases/latest)
 License: MIT
-Platform: macOS 14 or later; Logic Pro 12.3 is the actively validated target.
+Platform: ${productFacts.requirements}
 
 ## Install
 
@@ -24,12 +25,27 @@ Verify readiness:
 
 LogicProMCP doctor --profile core --client claude-code
 
+## Installation guides
+
+- [Claude Code](${siteUrl}/install/claude-code)
+- [Claude Desktop](${siteUrl}/install/claude-desktop)
+- [Cursor](${siteUrl}/install/cursor)
+- [VS Code](${siteUrl}/install/vscode)
+
+## Evidence-backed workflows
+
+- [Product guide](${siteUrl}/guides/logic-pro-mcp)
+- [Control Logic Pro with Claude](${siteUrl}/guides/control-logic-pro-with-claude)
+- [Compose MIDI](${siteUrl}/use-cases/compose-midi)
+- [Mixer automation](${siteUrl}/use-cases/mixer-automation)
+- [Batch export](${siteUrl}/use-cases/batch-export)
+
 ## Primary documentation
 
-- Setup: https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md
-- API: https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/API.md
-- Troubleshooting: https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/TROUBLESHOOTING.md
-- Security: https://github.com/MongLong0214/logic-pro-mcp/blob/main/SECURITY.md
+- [Setup](${githubUrl}/blob/main/docs/SETUP.md)
+- [API](${githubUrl}/blob/main/docs/API.md)
+- [Troubleshooting](${githubUrl}/blob/main/docs/TROUBLESHOOTING.md)
+- [Security](${githubUrl}/blob/main/SECURITY.md)
 
 Logic Pro MCP is an independent open-source project. Logic Pro is a trademark of Apple Inc.; no affiliation or endorsement is implied.
 `;

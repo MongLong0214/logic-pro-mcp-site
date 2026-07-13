@@ -1,0 +1,42 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/docs/API.md
+Source tag: v3.11.0
+Source path: docs/API.md
+Source headings: Contract; logic_tracks; logic_plugins; logic_midi; logic_project; logic_audio
+Accessed UTC: 2026-07-13T05:56:43Z
+Expiry policy: on-release-change
+
+Exact excerpts:
+
+Current surface: Logic Pro MCP exposes 10 tools, 18 static resources, and 11 resource templates. The published stable release is v3.11.0.
+
+Use tools for actions. Use resources for state. Treat every mutating result as one of:
+
+- State A: confirmed success. The server wrote to Logic and independently read the result back.
+- State B: uncertain success. The server attempted the action but could not verify the result.
+- State C: hard failure. The action did not land and is safe to retry only when `retry_safe` says so.
+
+### `logic_tracks`
+
+`record_sequence` writes a server-generated MIDI file under a private server-managed temp directory, imports it into Logic, and verifies the created region. If the import returns an unverified State B result, including GM Device / External MIDI lanes that can bounce silent, `record_sequence` fails closed with `audibility_unverified` or `import_unverified` instead of promoting region readback to audible success.
+
+### `logic_plugins`
+
+`logic_plugins.set_param_verified` writes a supported parameter and verifies readback.
+
+### `logic_midi`
+
+Send-only success responses return an Honest Contract State B JSON envelope because CoreMIDI/MMC writes have no deterministic readback:
+
+No MIDI read-back command is shipped in v3.11.0: `read_selection_notes` and `record_sequence verify_notes` are deferred.
+
+### `logic_project`
+
+Common commands: `new`, `open`, `save`, `save_as`, `close`, `bounce`, `is_running`, `launch`, `quit`, `get_regions`, `export_plan`, `export_run`, `export_resume`, `audit`, `cleanup_plan`, `cleanup_apply`.
+
+Destructive or file-writing paths require confirmation. `save_as` verifies the resulting `.logicx` package. `audit` marks GM Device / External MIDI tracks with MIDI regions as `external_midi_regions_bounce_risk` export blockers. `bounce` runs that preflight, then opens and verifies Logic's native File > Bounce dialog; the caller completes the settings and destination in Logic. It returns `export_readiness_blocked` before opening the dialog when blockers are present. `export_plan` is read-only; `export_run` and `export_resume` re-plan, open, verify project identity, bounce, and verify artifacts via `logic_audio`.
+
+The native Bounce dialog is an observed UI state. It is not evidence that the user completed settings, selected a destination, or that an output file exists. Exported artifacts require independent file verification.
+
+### `logic_audio`
+
+`logic_audio` is the read-only audio artifact analysis surface.

@@ -1,0 +1,36 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/docs/SETUP.md
+Source tag: v3.11.0
+Source path: docs/SETUP.md
+Source headings: Requirements; Install; Register MCP Client; macOS Permissions
+Accessed UTC: 2026-07-13T05:56:43Z
+Expiry policy: on-release-change
+
+Exact excerpts:
+
+## Requirements
+
+- macOS 14+
+- Logic Pro — **latest release prioritized (currently 12.3)**; works down to the 12.0.1 floor on a best-effort basis.
+
+## Install
+
+```bash
+brew tap MongLong0214/logic-pro-mcp https://github.com/MongLong0214/logic-pro-mcp
+brew trust monglong0214/logic-pro-mcp   # Homebrew 6.0+ only
+brew install logic-pro-mcp
+```
+
+## Register MCP Client
+
+Claude Code:
+
+```bash
+claude mcp add --scope user logic-pro -- LogicProMCP
+```
+
+## macOS Permissions
+
+1. **Accessibility**: enable the app that launches `LogicProMCP` (Claude Code, Terminal, Cursor, or Claude Desktop).
+2. **Automation**: allow that app to control **Logic Pro** and **System Events**.
+
+`--check-permissions` and doctor readiness cover Accessibility, Automation for Logic Pro, Automation for System Events, and trusted PostEvent access.

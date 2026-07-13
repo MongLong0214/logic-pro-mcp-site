@@ -1,0 +1,18 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/SECURITY.md
+Source tag: v3.11.0
+Source path: SECURITY.md
+Source heading: Verified plugin apply-back gate
+Accessed UTC: 2026-07-13T05:56:43Z
+Expiry policy: on-release-change
+
+Exact excerpts:
+
+Destructive project operations (`quit`, `close`, `open`, `save_as`, `bounce`) require explicit `{ "confirmed": true }` in params. Without the flag they return a structured `confirmation_required` response.
+
+### Verified plugin apply-back gate
+
+Its mutating commands (`insert_verified`, `set_param_verified`) are scoped to `mode:"duplicate_applyback"` and require an explicit `project_expected_path`.
+
+State A is emitted only after post-write inventory readback observes the requested plugin at the requested slot.
+
+Unknown plugin aliases, unsupported parameters, unreadable inventory, unanchored popups, wrong-slot mounts, and rollback failures all return HC v2 State C with `verified:false`. The router treats these codes as terminal and never falls back to Scripter, MCU, or a best-effort macro path.

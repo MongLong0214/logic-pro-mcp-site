@@ -1,4 +1,5 @@
 import { githubUrl as github, siteUrl } from "./site-config";
+import Link from "next/link";
 const installCommand = [
   "brew tap MongLong0214/logic-pro-mcp \\",
   "  https://github.com/MongLong0214/logic-pro-mcp",
@@ -78,6 +79,13 @@ const structuredData = {
       inLanguage: "en",
     },
     {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/#webpage`,
+      url: siteUrl,
+      name: "Logic Pro MCP Server for Claude, Cursor & AI Agents",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+    },
+    {
       "@type": "SoftwareApplication",
       "@id": `${siteUrl}/#software`,
       name: "Logic Pro MCP",
@@ -91,7 +99,6 @@ const structuredData = {
       operatingSystem: "macOS 14 or later",
       license: `${github}/blob/main/LICENSE`,
       isAccessibleForFree: true,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       featureList: [
         "Logic Pro track and MIDI composition",
         "Transport, mixer, and navigation control",
@@ -100,30 +107,6 @@ const structuredData = {
         "Homebrew installation for Apple silicon and Intel Macs",
       ],
       sameAs: [github],
-      author: { "@id": `${siteUrl}/#author` },
-    },
-    {
-      "@type": "Person",
-      "@id": `${siteUrl}/#author`,
-      name: "MongLong0214",
-      url: "https://github.com/MongLong0214",
-      sameAs: ["https://github.com/MongLong0214"],
-    },
-    {
-      "@type": "HowTo",
-      "@id": `${siteUrl}/#install-guide`,
-      name: "How to install Logic Pro MCP",
-      description: "Install and verify the Logic Pro MCP server for a compatible AI client.",
-      step: installSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: step.name, text: step.description })),
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${siteUrl}/#faq`,
-      mainEntity: faqs.map(([question, answer]) => ({
-        "@type": "Question",
-        name: question,
-        acceptedAnswer: { "@type": "Answer", text: answer },
-      })),
     },
   ],
 };
@@ -136,7 +119,7 @@ export default function Home() {
       <header className="site-header">
         <nav className="nav-shell" aria-label="Primary navigation">
           <a className="wordmark" href="#top" aria-label="Logic Pro MCP home"><span className="mark" aria-hidden="true"><i /><i /><i /></span><span>Logic Pro <strong>MCP</strong></span></a>
-          <div className="nav-links"><a href="#workflow">Workflow</a><a href="#architecture">Architecture</a><a href="#evidence">Evidence</a><a href="#install">Install</a></div>
+          <div className="nav-links"><Link href="/guides/logic-pro-mcp">Guide</Link><Link href="/install/claude-code">Install</Link><Link href="/use-cases/mixer-automation">Use cases</Link><a href="#evidence">Evidence</a></div>
           <a className="nav-cta" href={github} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
         </nav>
       </header>
@@ -194,7 +177,7 @@ export default function Home() {
         <section className="section trust-section">
           <div className="trust-panel">
             <div className="trust-copy"><p className="eyebrow"><span /> Fail closed by design</p><h2>Honest when the UI is not.</h2><p>Targets are explicit. Destructive flows require confirmation. Unreadable or unverified state is returned as uncertain or failed, never promoted to success.</p><p className="trust-detail">Doctor scopes readiness to core, mixer, keycmd, legacy-scripter, or full, then adapts checks for Claude, Cursor, VS Code, terminal, or custom hosts.</p><a className="text-link" href={github + "#trust-model"} target="_blank" rel="noreferrer">Read the trust model <span aria-hidden="true">↗</span></a></div>
-            <div className="doctor-output" aria-label="Example Logic Pro MCP doctor output"><div className="code-label"><span>LOGICPRO MCP / DOCTOR</span><span>PROFILE: CORE</span></div><pre><code>{doctorOutput}</code></pre></div>
+            <div className="doctor-output" aria-label="Example Logic Pro MCP doctor output"><div className="code-label"><span>LOGICPRO MCP / DOCTOR</span><span>PROFILE: CORE</span></div><pre tabIndex={0}><code>{doctorOutput}</code></pre></div>
             <div className="trust-contracts">{trustContracts.map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}</div>
           </div>
         </section>
@@ -212,7 +195,7 @@ export default function Home() {
 
         <section className="section install" id="install">
           <div className="section-heading install-heading"><p className="eyebrow"><span /> Start with a verified install</p><h2>From zero to ready.</h2><p>Install the universal binary, register your client, verify macOS permissions, then let Doctor order the remaining work.</p></div>
-          <div className="install-steps">{installSteps.map((step, index) => <article key={step.name}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><h3>{step.name}</h3><pre><code translate="no">{step.command}</code></pre>{"note" in step ? <p>{step.note}</p> : null}</article>)}</div>
+          <div className="install-steps">{installSteps.map((step, index) => <article key={step.name}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><h3>{step.name}</h3><pre tabIndex={0}><code translate="no">{step.command}</code></pre>{"note" in step ? <p>{step.note}</p> : null}</article>)}</div>
           <p className="install-note">Full setup registers the LogicProMCP-MCU-Internal control surface. Scripter is optional unless you need legacy plugin-parameter writes.</p>
         </section>
 
@@ -224,6 +207,11 @@ export default function Home() {
         <section className="section docs-section" id="docs">
           <div className="docs-heading"><p className="eyebrow"><span /> Go to the source</p><h2>Docs for every stage.</h2><p>From first launch to API contracts, threat modeling, troubleshooting, and contribution.</p></div>
           <div className="docs-grid">{docs.map(([title, body, href]) => <a href={href} target="_blank" rel="noreferrer" key={title}><span>{title}</span><p>{body}</p><strong aria-hidden="true">↗</strong></a>)}</div>
+        </section>
+
+        <section className="section docs-section" aria-labelledby="acquisition-heading">
+          <div className="docs-heading"><p className="eyebrow"><span /> Choose your path</p><h2 id="acquisition-heading">Install, learn, then build.</h2><p>Client-specific setup and evidence-backed Logic Pro workflows, each tied to the current v3.11.0 source.</p></div>
+          <div className="docs-grid"><Link href="/install/claude-code"><span>CLAUDE CODE</span><p>CLI registration, launcher permissions, Doctor, and recovery.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/claude-desktop"><span>CLAUDE DESKTOP</span><p>Desktop configuration, restart boundary, permissions, and Doctor.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/cursor"><span>CURSOR</span><p>Editor-hosted MCP registration and client-context readiness.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/vscode"><span>VS CODE</span><p>Profile-scoped registration and launcher permission checks.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/logic-pro-mcp"><span>START GUIDE</span><p>Evaluate the real surface, requirements, evidence, and limitations.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/control-logic-pro-with-claude"><span>SAFE CONTROL</span><p>Inspect, target, act, and verify without guessing.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/compose-midi"><span>COMPOSE MIDI</span><p>Create material while preserving send-only readback limits.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/mixer-automation"><span>MIXER</span><p>Verified plug-in apply-back with project identity gates.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/batch-export"><span>EXPORT</span><p>Audit, plan, run, resume, and verify Logic-written files.</p><strong aria-hidden="true">→</strong></Link></div>
         </section>
 
         <section className="section faq-section" id="faq">

@@ -37,10 +37,8 @@ test("Given the production worker, when the landing page renders, then product p
   assert.equal(jsonLd["@context"], "https://schema.org");
   assert.deepEqual(
     jsonLd["@graph"].map((entry) => entry["@type"]),
-    ["WebSite", "SoftwareApplication", "Person", "HowTo", "FAQPage"],
+    ["WebSite", "WebPage", "SoftwareApplication"],
   );
-  assert.equal(jsonLd["@graph"][3].step.length, 4);
-  assert.equal(jsonLd["@graph"][4].mainEntity.length, 5);
   assert.match(html, /rel="canonical" href="https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site"/);
   assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
@@ -87,4 +85,53 @@ test("Given the finished site, when assets are inspected, then starter artifacts
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page + layout, /_sites-preview|codex-preview|SkeletonPreview/);
+});
+
+const acquisitionRoutes = [
+  "/install/claude-code",
+  "/install/claude-desktop",
+  "/install/cursor",
+  "/install/vscode",
+  "/guides/logic-pro-mcp",
+  "/guides/control-logic-pro-with-claude",
+  "/use-cases/compose-midi",
+  "/use-cases/mixer-automation",
+  "/use-cases/batch-export",
+];
+
+test("Given the approved acquisition manifest, when every route renders, then each page is canonical and unique", async () => {
+  const pages = await Promise.all(acquisitionRoutes.map(async (pathname) => {
+    const response = await render(pathname);
+    return { pathname, response, html: await response.text() };
+  }));
+
+  const titles = new Set();
+  const headings = new Set();
+  for (const { pathname, response, html } of pages) {
+    assert.equal(response.status, 200, pathname);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+    assert.match(html, new RegExp(`rel="canonical" href="https://logic-pro-mcp\\.monglong\\.chatgpt\\.site${pathname}"`));
+    const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+    const heading = html.match(/<h1[^>]*>([^<]+)<\/h1>/)?.[1];
+    assert.ok(title, `${pathname} title`);
+    assert.ok(heading, `${pathname} h1`);
+    titles.add(title);
+    headings.add(heading);
+    assert.match(html, /application\/ld\+json/);
+    assert.match(html, /View source on GitHub/);
+    const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+    assert.ok(jsonLdMatch, `${pathname} JSON-LD`);
+    const graph = JSON.parse(jsonLdMatch[1])["@graph"];
+    const types = graph.map((entry) => entry["@type"]);
+    assert.deepEqual(types.slice(0, 2), ["WebPage", "BreadcrumbList"]);
+    if (pathname.startsWith("/install/")) {
+      assert.equal(types[2], "HowTo");
+      assert.doesNotMatch(html, /Evidence reviewed 2026-07-13/);
+    } else {
+      assert.deepEqual(types, ["WebPage", "BreadcrumbList"]);
+      assert.match(html, /Evidence reviewed 2026-07-13 by the Logic Pro MCP open-source project/);
+    }
+  }
+  assert.equal(titles.size, acquisitionRoutes.length);
+  assert.equal(headings.size, acquisitionRoutes.length);
 });
