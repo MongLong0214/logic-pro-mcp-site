@@ -62,8 +62,8 @@ const site = {
 const product = {
   commit: git(productRoot, ["rev-parse", "HEAD"]),
   tree: git(productRoot, ["rev-parse", "HEAD^{tree}"]),
-  evidenceTag: "v3.11.0",
-  evidenceTagCommit: git(productRoot, ["rev-parse", "v3.11.0^{commit}"]),
+  evidenceTag: "v3.13.0",
+  evidenceTagCommit: git(productRoot, ["rev-parse", "v3.13.0^{commit}"]),
   branch: git(productRoot, ["branch", "--show-current"]),
   remotes: git(productRoot, ["remote", "-v"]).split("\n"),
   status: git(productRoot, ["status", "--porcelain=v1"]),

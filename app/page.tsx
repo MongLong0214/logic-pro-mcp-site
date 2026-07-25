@@ -15,6 +15,7 @@ const doctorOutput = [
   "✓ channel.mcu                 ready", "✓ channel.accessibility       ready",
   "", "STATUS  ready · 5/5 capabilities",
 ].join("\n");
+const ossProgram = "Officially selected for Anthropic's Claude for Open Source program.";
 const installSteps = [
   { name: "Install", description: "Tap the GitHub repository, trust the third-party Homebrew tap on Homebrew 6 or later, and install logic-pro-mcp.", command: installCommand },
   { name: "Register", description: "Register LogicProMCP as a local stdio server in Claude Code or another compatible MCP client.", command: registerCommand },
@@ -93,7 +94,7 @@ const structuredData = {
       url: siteUrl,
       codeRepository: github,
       downloadUrl: `${github}/releases/latest`,
-      softwareVersion: "3.11.0",
+      softwareVersion: "3.13.0",
       applicationCategory: "DeveloperApplication",
       applicationSubCategory: "Model Context Protocol server for music production",
       operatingSystem: "macOS 14 or later",
@@ -131,7 +132,8 @@ export default function Home() {
             <h1>Give your agent a signal path into Logic Pro.</h1>
             <p className="hero-lead">A local MCP server for Claude, Cursor, VS Code, and custom agents to compose, control, inspect, and verify real work in Logic Pro.</p>
             <div className="hero-actions"><a className="button primary" href={github} target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a><a className="button secondary" href="#install">Install with Homebrew <span aria-hidden="true">↓</span></a></div>
-            <p className="compatibility">stable v3.11.0 · macOS 14+ · Logic Pro 12.3 first-class · MIT</p>
+            <p className="compatibility">stable v3.13.0 · macOS 14+ · Logic Pro 12.3 first-class · MIT</p>
+            <a className="recognition" href={github + "/blob/v3.13.0/README.md"} target="_blank" rel="noreferrer"><i aria-hidden="true" />{ossProgram}<span aria-hidden="true">↗</span></a>
           </div>
           <div className="console-shell" aria-label="Example verified Logic Pro MCP workflow">
             <div className="console-top"><span>SESSION / SIGNAL_01</span><span className="live"><i /> CONNECTED</span></div>
@@ -144,8 +146,8 @@ export default function Home() {
 
         <section className="proof-strip" aria-label="Project facts">
           <div><strong>10</strong><span>MCP tools</span></div><div><strong>18</strong><span>read resources</span></div>
-          <div><strong>11</strong><span>resource templates</span></div><div><strong>7</strong><span>native channels</span></div>
-          <div><strong>2,271</strong><span>deterministic tests</span></div>
+          <div><strong>12</strong><span>resource templates</span></div><div><strong>7</strong><span>native channels</span></div>
+          <div><strong>3,211</strong><span>deterministic tests</span></div>
         </section>
 
         <section className="section workflow" id="workflow">
@@ -171,7 +173,7 @@ export default function Home() {
             <li><span>04</span><strong>READ BACK</strong><p>Resources return state with source, freshness, and evidence labels.</p></li>
           </ol>
           <div className="tool-table" aria-label="Public MCP tool groups">{toolGroups.map(([label, tools, body], index) => <article key={label}><span>0{index + 1}</span><div><small>{label}</small><h3>{tools}</h3></div><p>{body}</p></article>)}</div>
-          <p className="surface-note"><strong>Tools act.</strong> Ten compact tools expose 99 public commands. Resources read without mutating Logic, while prompts package ten built-in workflows from readiness and composition to gain staging, cleanup, bounce, and batch export.</p>
+          <p className="surface-note"><strong>Tools act.</strong> Ten compact tools carry the public command surface, and <strong>logic://system/operations</strong> publishes the generated per-operation catalog so a client reads the exact commands and parameters at runtime instead of trusting a number in a document. Resources read without mutating Logic, while prompts package ten built-in workflows from readiness and composition to gain staging, cleanup, bounce, and batch export.</p>
         </section>
 
         <section className="section trust-section">
@@ -183,14 +185,14 @@ export default function Home() {
         </section>
 
         <section className="section evidence" id="evidence">
-          <div className="evidence-heading"><p className="eyebrow"><span /> Claims tied to evidence</p><h2>Stable v3.11.0.<br />No green by implication.</h2><p>Release claims stay attached to shipped artifacts, deterministic tests, targeted live QA, or explicitly linked historical evidence.</p></div>
+          <div className="evidence-heading"><p className="eyebrow"><span /> Claims tied to evidence</p><h2>Stable v3.13.0.<br />No green by implication.</h2><p>Release claims stay attached to shipped artifacts, deterministic tests, targeted live QA, or explicitly linked historical evidence.</p></div>
           <div className="evidence-grid">
-            <article><strong>2,271</strong><span>Swift tests</span><p>Current source tree deterministic suite: passed with zero failures.</p></article>
+            <article><strong>3,211</strong><span>Swift tests</span><p>Current source tree deterministic suite: passed with zero failures.</p></article>
             <article><strong>372 / 373</strong><span>strict live E2E</span><p>Last full Logic Pro 12.3 run on the v3.8 line: 372 passed, one skipped, zero failed.</p></article>
             <article><strong>UNIVERSAL</strong><span>release artifacts</span><p>arm64 and x86_64 archives with SHA256SUMS and release metadata.</p></article>
-            <article><strong>TARGETED</strong><span>current live QA</span><p>Tempo fallback, native Bounce, partial regions, markers, Count In, Step Input, and help categories.</p></article>
+            <article><strong>TARGETED</strong><span>current live QA</span><p>Whole-suite live qualification on the v3.12.0 release tree: every registered operation against Logic Pro 12.3 with independent readback.</p></article>
           </div>
-          <div className="release-line"><span>STABLE / v3.11.0</span><p>Latest Logic Pro first. Logic Pro 12.3 is actively validated; versions down to 12.0.1 remain best-effort. Desktop Logic Pro and Creator Studio are both resolved by bundle identity.</p><a href={github + "/releases/tag/v3.11.0"} target="_blank" rel="noreferrer">Release evidence ↗</a></div>
+          <div className="release-line"><span>STABLE / v3.13.0</span><p>Latest Logic Pro first. Logic Pro 12.3 is actively validated; versions down to 12.0.1 remain best-effort. Desktop Logic Pro and Creator Studio are both resolved by bundle identity, but release qualification is desktop-only by product scope.</p><a href={github + "/releases/tag/v3.13.0"} target="_blank" rel="noreferrer">Release evidence ↗</a></div>
         </section>
 
         <section className="section install" id="install">
@@ -210,7 +212,7 @@ export default function Home() {
         </section>
 
         <section className="section docs-section" aria-labelledby="acquisition-heading">
-          <div className="docs-heading"><p className="eyebrow"><span /> Choose your path</p><h2 id="acquisition-heading">Install, learn, then build.</h2><p>Client-specific setup and evidence-backed Logic Pro workflows, each tied to the current v3.11.0 source.</p></div>
+          <div className="docs-heading"><p className="eyebrow"><span /> Choose your path</p><h2 id="acquisition-heading">Install, learn, then build.</h2><p>Client-specific setup and evidence-backed Logic Pro workflows, each tied to the current v3.13.0 source.</p></div>
           <div className="docs-grid"><Link href="/install/claude-code"><span>CLAUDE CODE</span><p>CLI registration, launcher permissions, Doctor, and recovery.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/claude-desktop"><span>CLAUDE DESKTOP</span><p>Desktop configuration, restart boundary, permissions, and Doctor.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/cursor"><span>CURSOR</span><p>Editor-hosted MCP registration and client-context readiness.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/vscode"><span>VS CODE</span><p>Profile-scoped registration and launcher permission checks.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/logic-pro-mcp"><span>START GUIDE</span><p>Evaluate the real surface, requirements, evidence, and limitations.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/control-logic-pro-with-claude"><span>SAFE CONTROL</span><p>Inspect, target, act, and verify without guessing.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/compose-midi"><span>COMPOSE MIDI</span><p>Create material while preserving send-only readback limits.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/mixer-automation"><span>MIXER</span><p>Verified plug-in apply-back with project identity gates.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/batch-export"><span>EXPORT</span><p>Audit, plan, run, resume, and verify Logic-written files.</p><strong aria-hidden="true">→</strong></Link></div>
         </section>
 

@@ -1,16 +1,16 @@
 # Acquisition content briefs
 
-Evidence frozen 2026-07-13. No search-volume or ranking claim is made. Product claims use the immutable `v3.11.0` tag; client syntax and configuration ownership use the vendor documentation linked below.
+Evidence frozen 2026-07-25 against the `v3.13.0` tag. No search-volume or ranking claim is made. Product claims use the immutable `v3.13.0` tag; client syntax and configuration ownership use the vendor documentation linked below.
 
 | Route | Intent and information gain | Primary evidence | Go/no-go |
 |---|---|---|---|
-| `/install/claude-code` | CLI user-scope registration, launcher permissions, Doctor recovery | [Claude Code MCP](https://code.claude.com/docs/en/mcp), [tagged setup](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/docs/SETUP.md) | GO: unique CLI registration and next step |
+| `/install/claude-code` | CLI user-scope registration, launcher permissions, Doctor recovery | [Claude Code MCP](https://code.claude.com/docs/en/mcp), [tagged setup](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.13.0/docs/SETUP.md) | GO: unique CLI registration and next step |
 | `/install/claude-desktop` | Desktop config/restart boundary and desktop TCC principal | [MCP local-server guide](https://modelcontextprotocol.io/docs/develop/connect-local-servers), tagged setup | GO: desktop lifecycle differs from CLI |
 | `/install/cursor` | Editor-owned registration and launcher permission context | [Cursor MCP](https://docs.cursor.com/context/model-context-protocol), tagged setup | GO: editor registration and recovery intent |
 | `/install/vscode` | Profile-scoped VS Code registration and launcher permissions | [VS Code MCP servers](https://code.visualstudio.com/docs/copilot/chat/mcp-servers), tagged setup | GO: VS Code profile/host intent |
-| `/guides/logic-pro-mcp` | Evaluation, prerequisites, first read, honest envelopes | [tagged API](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/docs/API.md), tagged setup | GO: product-evaluation hub, not client setup |
-| `/guides/control-logic-pro-with-claude` | Read-before-write control and recovery | [tagged security model](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/SECURITY.md), tagged API | GO: safety workflow and evidence semantics |
-| `/use-cases/compose-midi` | MIDI creation with send-only and audibility limits | tagged API, [tagged changelog](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.11.0/CHANGELOG.md) | GO: unique no-readback and region verification boundary |
+| `/guides/logic-pro-mcp` | Evaluation, prerequisites, first read, honest envelopes | [tagged API](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.13.0/docs/API.md), tagged setup | GO: product-evaluation hub, not client setup |
+| `/guides/control-logic-pro-with-claude` | Read-before-write control and recovery | [tagged security model](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.13.0/SECURITY.md), tagged API | GO: safety workflow and evidence semantics |
+| `/use-cases/compose-midi` | MIDI creation with send-only and audibility limits | tagged API, [tagged changelog](https://github.com/MongLong0214/logic-pro-mcp/blob/v3.13.0/CHANGELOG.md) | GO: unique no-readback and region verification boundary |
 | `/use-cases/mixer-automation` | Verified duplicate-project plug-in apply-back | tagged API, tagged security model | GO: unique identity/slot/parameter gates |
 | `/use-cases/batch-export` | Audit, plan, resume, native dialog, artifact verification | tagged API, tagged changelog | GO: distinct file-delivery and verification sequence |
 

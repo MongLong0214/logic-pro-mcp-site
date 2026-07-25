@@ -1,0 +1,35 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.13.0/docs/SETUP.md
+Source tag: v3.13.0
+Source path: docs/SETUP.md
+Source headings: Requirements; Install; Register MCP Client; macOS Permissions
+Accessed UTC: 2026-07-25T10:27:40Z
+Expiry policy: on-release-change
+
+Exact excerpts:
+## Requirements
+
+- macOS 14+
+- Logic Pro — **latest release prioritized (currently 12.3)**; works down to the 12.0.1 floor on a best-effort basis. Supported Mac variants: desktop **Logic Pro** (`com.apple.logic10`, `/Applications/Logic Pro.app`) and Apple Creator Studio **Logic Pro Creator Studio** (`com.apple.mobilelogic`, `/Applications/Logic Pro Creator Studio.app`). They use different process names for System Events automation.
+- Claude Code, Claude Desktop, Cursor, or another MCP client
+- Homebrew, or Xcode/Swift if building from source
+
+## Install
+
+```bash
+brew tap MongLong0214/logic-pro-mcp https://github.com/MongLong0214/logic-pro-mcp
+brew trust monglong0214/logic-pro-mcp   # Homebrew 6.0+ only
+brew install logic-pro-mcp
+```
+
+## Register MCP Client
+
+```bash
+claude mcp add --scope user logic-pro -- LogicProMCP
+```
+
+## macOS Permissions
+
+1. **Accessibility**: enable the app that launches `LogicProMCP` (Claude Code, Terminal, Cursor, or Claude Desktop).
+2. **Automation**: allow that app to control **Logic Pro** and **System Events**.
+
+`--check-permissions` and doctor readiness cover Accessibility, Automation for Logic Pro, Automation for System Events, and trusted PostEvent access. PostEvent is granted through the same launcher-app Accessibility control, but is reported separately because CGEvent fallback paths need it.

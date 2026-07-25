@@ -23,9 +23,10 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /<title>Logic Pro MCP Server for Claude, Cursor &amp; AI Agents<\/title>/i);
   assert.match(html, /Give your agent a signal path into Logic Pro/);
   assert.match(html, /10<\/strong><span>MCP tools/);
-  assert.match(html, /11<\/strong><span>resource templates/);
-  assert.match(html, /2,271<\/strong><span>deterministic tests/);
-  assert.match(html, /99 public commands/);
+  assert.match(html, /12<\/strong><span>resource templates/);
+  assert.match(html, /3,211<\/strong><span>deterministic tests/);
+  assert.match(html, /logic:\/\/system\/operations/);
+  assert.match(html, /Claude for Open Source program/);
   assert.match(html, /Architecture at a glance/);
   assert.match(html, /Known limitations/);
   assert.match(html, /Docs for every stage/);

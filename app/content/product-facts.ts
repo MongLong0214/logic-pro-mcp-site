@@ -2,14 +2,14 @@ import { githubUrl, siteUrl } from "../site-config.ts";
 
 export const productFacts = {
   name: "Logic Pro MCP",
-  version: "3.11.0",
+  version: "3.13.0",
   githubUrl,
   siteUrl,
-  setupUrl: `${githubUrl}/blob/v3.11.0/docs/SETUP.md`,
-  readmeUrl: `${githubUrl}/blob/v3.11.0/README.md`,
-  apiUrl: `${githubUrl}/blob/v3.11.0/docs/API.md`,
-  securityUrl: `${githubUrl}/blob/v3.11.0/SECURITY.md`,
-  changelogUrl: `${githubUrl}/blob/v3.11.0/CHANGELOG.md`,
+  setupUrl: `${githubUrl}/blob/v3.13.0/docs/SETUP.md`,
+  readmeUrl: `${githubUrl}/blob/v3.13.0/README.md`,
+  apiUrl: `${githubUrl}/blob/v3.13.0/docs/API.md`,
+  securityUrl: `${githubUrl}/blob/v3.13.0/SECURITY.md`,
+  changelogUrl: `${githubUrl}/blob/v3.13.0/CHANGELOG.md`,
   requirements: "macOS 14 or later; Logic Pro 12.3 is actively validated, with 12.0.1 and later best-effort.",
   installCommand: [
     "brew tap MongLong0214/logic-pro-mcp https://github.com/MongLong0214/logic-pro-mcp",
