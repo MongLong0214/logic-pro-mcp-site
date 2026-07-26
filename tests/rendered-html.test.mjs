@@ -40,6 +40,11 @@ test("Given the production worker, when the landing page renders, then product p
     jsonLd["@graph"].map((entry) => entry["@type"]),
     ["WebSite", "WebPage", "SoftwareApplication"],
   );
+  assert.deepEqual(jsonLd["@graph"][2].offers, {
+    "@type": "Offer",
+    price: 0,
+    priceCurrency: "USD",
+  });
   assert.match(html, /rel="canonical" href="https:\/\/logicpromcp\.com"/);
   assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
   assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);

@@ -100,6 +100,11 @@ const structuredData = {
       operatingSystem: "macOS 14 or later",
       license: `${github}/blob/main/LICENSE`,
       isAccessibleForFree: true,
+      offers: {
+        "@type": "Offer",
+        price: 0,
+        priceCurrency: "USD",
+      },
       featureList: [
         "Logic Pro track and MIDI composition",
         "Transport, mixer, and navigation control",
