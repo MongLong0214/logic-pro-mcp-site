@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { acquisitionRoutes, decodeHtml, render } from "./lib/render-site.mjs";
 
 const knownRoutes = new Set(["/", ...acquisitionRoutes, "/robots.txt", "/sitemap.xml", "/llms.txt"]);
-const allowedHosts = new Set(["logic-pro-mcp.monglong.chatgpt.site", "github.com", "code.claude.com", "docs.cursor.com", "code.visualstudio.com", "modelcontextprotocol.io"]);
+const allowedHosts = new Set(["logicpromcp.com", "github.com", "code.claude.com", "docs.cursor.com", "code.visualstudio.com", "modelcontextprotocol.io"]);
 for (const pathname of ["/", ...acquisitionRoutes]) {
   const { body } = await render(pathname);
   for (const match of body.matchAll(/href="([^"]+)"/g)) {

@@ -2,7 +2,7 @@
 
 The official landing page and installation guide for [Logic Pro MCP](https://github.com/MongLong0214/logic-pro-mcp), an open-source Model Context Protocol server that lets Claude, Cursor, VS Code, and custom AI agents compose, control, inspect, and automate Logic Pro on macOS.
 
-**[Open the Logic Pro MCP website](https://logic-pro-mcp.monglong.chatgpt.site/)** · **[View the MCP server source](https://github.com/MongLong0214/logic-pro-mcp)** · **[Read the setup guide](https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md)**
+**[Open the Logic Pro MCP website](https://logicpromcp.com/)** · **[View the MCP server source](https://github.com/MongLong0214/logic-pro-mcp)** · **[Read the setup guide](https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md)**
 
 > This repository contains the website. The installable MCP server, releases, documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
 
@@ -17,10 +17,10 @@ LogicProMCP doctor
 
 Then follow the client-specific guide:
 
-- [Claude Code](https://logic-pro-mcp.monglong.chatgpt.site/install/claude-code)
-- [Claude Desktop](https://logic-pro-mcp.monglong.chatgpt.site/install/claude-desktop)
-- [Cursor](https://logic-pro-mcp.monglong.chatgpt.site/install/cursor)
-- [VS Code](https://logic-pro-mcp.monglong.chatgpt.site/install/vscode)
+- [Claude Code](https://logicpromcp.com/install/claude-code)
+- [Claude Desktop](https://logicpromcp.com/install/claude-desktop)
+- [Cursor](https://logicpromcp.com/install/cursor)
+- [VS Code](https://logicpromcp.com/install/vscode)
 
 ## What this site covers
 
@@ -29,7 +29,7 @@ Then follow the client-specific guide:
 - Evidence-backed product facts, operational limits, and verification boundaries
 - Links to the canonical source, releases, setup, API, security, and troubleshooting documentation
 
-Start with the [complete Logic Pro MCP guide](https://logic-pro-mcp.monglong.chatgpt.site/guides/logic-pro-mcp) or learn how to [control Logic Pro with Claude](https://logic-pro-mcp.monglong.chatgpt.site/guides/control-logic-pro-with-claude).
+Start with the [complete Logic Pro MCP guide](https://logicpromcp.com/guides/logic-pro-mcp) or learn how to [control Logic Pro with Claude](https://logicpromcp.com/guides/control-logic-pro-with-claude).
 
 ## SEO and AI discovery
 
@@ -37,7 +37,7 @@ The site provides:
 
 - Canonical URLs, robots directives, Open Graph, and X metadata
 - `WebSite`, `WebPage`, `SoftwareApplication`, `BreadcrumbList`, and visible-step `HowTo` structured data
-- Public [`robots.txt`](https://logic-pro-mcp.monglong.chatgpt.site/robots.txt), [`sitemap.xml`](https://logic-pro-mcp.monglong.chatgpt.site/sitemap.xml), and [`llms.txt`](https://logic-pro-mcp.monglong.chatgpt.site/llms.txt)
+- Public [`robots.txt`](https://logicpromcp.com/robots.txt), [`sitemap.xml`](https://logicpromcp.com/sitemap.xml), and [`llms.txt`](https://logicpromcp.com/llms.txt)
 - Nine focused acquisition pages with unique titles, descriptions, headings, and source-backed content
 - A privacy-preserving analytics event contract with no collector, storage, identifiers, or network transport configured
 

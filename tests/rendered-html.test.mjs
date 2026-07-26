@@ -40,7 +40,7 @@ test("Given the production worker, when the landing page renders, then product p
     jsonLd["@graph"].map((entry) => entry["@type"]),
     ["WebSite", "WebPage", "SoftwareApplication"],
   );
-  assert.match(html, /rel="canonical" href="https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site"/);
+  assert.match(html, /rel="canonical" href="https:\/\/logicpromcp\.com"/);
   assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
   assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
@@ -66,8 +66,8 @@ test("Given the discovery routes, when crawlers request them, then typed canonic
   assert.match(robotsResponse.headers.get("content-type") ?? "", /^text\/plain\b/i);
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /^(?:application|text)\/xml\b/i);
   assert.match(llmsResponse.headers.get("content-type") ?? "", /^text\/plain\b/i);
-  assert.match(robots, /Sitemap: https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site\/sitemap\.xml/i);
-  assert.match(sitemap, /<loc>https:\/\/logic-pro-mcp\.monglong\.chatgpt\.site<\/loc>/);
+  assert.match(robots, /Sitemap: https:\/\/logicpromcp\.com\/sitemap\.xml/i);
+  assert.match(sitemap, /<loc>https:\/\/logicpromcp\.com<\/loc>/);
   assert.match(llms, /https:\/\/github\.com\/MongLong0214\/logic-pro-mcp/);
   assert.match(llms, /brew install logic-pro-mcp/);
 });
@@ -112,7 +112,7 @@ test("Given the approved acquisition manifest, when every route renders, then ea
   for (const { pathname, response, html } of pages) {
     assert.equal(response.status, 200, pathname);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-    assert.match(html, new RegExp(`rel="canonical" href="https://logic-pro-mcp\\.monglong\\.chatgpt\\.site${pathname}"`));
+    assert.match(html, new RegExp(`rel="canonical" href="https://logicpromcp\\.com${pathname}"`));
     const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
     const heading = html.match(/<h1[^>]*>([^<]+)<\/h1>/)?.[1];
     assert.ok(title, `${pathname} title`);
