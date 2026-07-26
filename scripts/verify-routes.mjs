@@ -26,7 +26,7 @@ const headings = new Set();
 for (const pathname of acquisitionRoutes) {
   const { response, body } = await render(pathname);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-  assert.match(body, new RegExp(`rel="canonical" href="https://logic-pro-mcp\\.monglong\\.chatgpt\\.site${pathname}"`));
+  assert.match(body, new RegExp(`rel="canonical" href="https://logicpromcp\\.com${pathname}"`));
   const title = normalizeText(body.match(/<title>([^<]+)<\/title>/i)?.[1] ?? "");
   const heading = normalizeText(body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "");
   assert.ok(title && heading, `${pathname}: title and H1 required`);
