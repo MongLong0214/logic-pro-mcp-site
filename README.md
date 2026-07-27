@@ -1,49 +1,75 @@
-# Logic Pro MCP Site
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="Logic Pro MCP Site: install and operate Logic Pro MCP through an inspect, target, act, and verify workflow.">
+</p>
 
-The official landing page and installation guide for [Logic Pro MCP](https://github.com/MongLong0214/logic-pro-mcp), an open-source Model Context Protocol server that lets Claude, Cursor, VS Code, and custom AI agents compose, control, inspect, and automate Logic Pro on macOS.
+<p align="center">
+  <strong>The official website and installation guide for Logic Pro MCP.</strong><br>
+  Give Claude, Cursor, VS Code, and custom AI agents a verified path into Logic Pro on macOS.
+</p>
 
-**[Open the Logic Pro MCP website](https://logicpromcp.com/)** · **[View the MCP server source](https://github.com/MongLong0214/logic-pro-mcp)** · **[Read the setup guide](https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md)**
+<p align="center">
+  <a href="https://logicpromcp.com/"><strong>Open the website</strong></a>
+  ·
+  <a href="https://github.com/MongLong0214/logic-pro-mcp">MCP server source</a>
+  ·
+  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md">Setup guide</a>
+</p>
 
-> This repository contains the website. The installable MCP server, releases, documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
+> This repository contains the website. Releases, product documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
 
-## Install Logic Pro MCP
+## See the product
 
-Install the server with Homebrew:
+<p align="center">
+  <a href="https://logicpromcp.com/">
+    <img src="./public/og.png" width="100%" alt="Logic Pro MCP signal path from input through read, act, and verify.">
+  </a>
+</p>
+
+Logic Pro MCP is a local Model Context Protocol server for composing, inspecting, controlling, and verifying work in Logic Pro. The site turns the source documentation into practical installation paths and evidence-backed workflows.
+
+## Start here
+
+Install the server and run its readiness checks:
 
 ```bash
 brew install logic-pro-mcp
 LogicProMCP doctor
 ```
 
-Then follow the client-specific guide:
+Then use the guide for the application that will launch it:
 
 - [Claude Code](https://logicpromcp.com/install/claude-code)
 - [Claude Desktop](https://logicpromcp.com/install/claude-desktop)
 - [Cursor](https://logicpromcp.com/install/cursor)
 - [VS Code](https://logicpromcp.com/install/vscode)
 
-## What this site covers
+## What the site explains
 
-- Installation and recovery instructions for four MCP clients
-- Logic Pro MCP workflows for MIDI composition, mixer automation, and batch export
-- Evidence-backed product facts, operational limits, and verification boundaries
-- Links to the canonical source, releases, setup, API, security, and troubleshooting documentation
+- **Install and recover** — client-specific registration, macOS permissions, Doctor checks, and failure recovery.
+- **Compose MIDI** — create musical material while keeping send-only readback limits explicit.
+- **Automate the mixer** — use guarded writes only where project identity and parameter readback exist.
+- **Plan and verify exports** — audit, plan, run, resume, and inspect Logic-written audio artifacts.
+- **Understand the boundary** — distinguish verified state from uncertainty instead of treating a plausible response as proof.
 
-Start with the [complete Logic Pro MCP guide](https://logicpromcp.com/guides/logic-pro-mcp) or learn how to [control Logic Pro with Claude](https://logicpromcp.com/guides/control-logic-pro-with-claude).
+The operating pattern is deliberately simple:
 
-## SEO and AI discovery
+```text
+inspect → name the target → act behind the gate → verify independently
+```
 
-The site provides:
+Read the [complete Logic Pro MCP guide](https://logicpromcp.com/guides/logic-pro-mcp), the [safe Claude control workflow](https://logicpromcp.com/guides/control-logic-pro-with-claude), or jump to a use case:
 
-- Canonical URLs, robots directives, Open Graph, and X metadata
-- `WebSite`, `WebPage`, `SoftwareApplication`, `BreadcrumbList`, and visible-step `HowTo` structured data
-- Public [`robots.txt`](https://logicpromcp.com/robots.txt), [`sitemap.xml`](https://logicpromcp.com/sitemap.xml), and [`llms.txt`](https://logicpromcp.com/llms.txt)
-- Nine focused acquisition pages with unique titles, descriptions, headings, and source-backed content
-- A privacy-preserving analytics event contract with no collector, storage, identifiers, or network transport configured
+- [Compose MIDI](https://logicpromcp.com/use-cases/compose-midi)
+- [Mixer automation](https://logicpromcp.com/use-cases/mixer-automation)
+- [Batch export](https://logicpromcp.com/use-cases/batch-export)
 
-Product claims are pinned to reviewed source excerpts under `docs/evidence/`. The verifier checks their hashes, expiry windows, and exact rendered coverage across UI copy, metadata, JSON-LD, and `llms.txt`.
+## Trust and discovery
 
-## Local development
+Product claims are pinned to reviewed source excerpts under [`docs/evidence/`](docs/evidence/). The verification suite checks their hashes, expiry windows, and rendered coverage across UI copy, metadata, JSON-LD, and [`llms.txt`](https://logicpromcp.com/llms.txt).
+
+The site also publishes canonical metadata, [`robots.txt`](https://logicpromcp.com/robots.txt), [`sitemap.xml`](https://logicpromcp.com/sitemap.xml), and structured data for search and AI discovery. Its analytics contract has no collector, storage, identifiers, or network transport configured.
+
+## Develop locally
 
 Requires Node.js `>=22.13.0`.
 
@@ -52,7 +78,7 @@ npm install
 npm run dev
 ```
 
-Run the production gates before publishing:
+Before publishing:
 
 ```bash
 npm test
@@ -64,11 +90,11 @@ npm run qa:lighthouse
 npm run audit:prod
 ```
 
-The browser and Lighthouse suites use an isolated, exact-version QA environment so test-only packages do not enter the shipped dependency graph. See [`docs/qa.md`](docs/qa.md) for the complete release matrix.
+The browser and Lighthouse suites use an isolated, exact-version QA environment so test-only packages do not enter the shipped dependency graph. See [`docs/qa.md`](docs/qa.md) for the full release matrix.
 
 ## Deployment
 
-The site is deployed with OpenAI Sites. `.openai/hosting.json` stores only the Sites project identifier and optional resource bindings; hosted configuration and access policy remain managed by Sites.
+The site is deployed with OpenAI Sites. `.openai/hosting.json` stores the Sites project identifier and optional resource bindings; hosted configuration and access policy remain managed by Sites.
 
 ## License
 
