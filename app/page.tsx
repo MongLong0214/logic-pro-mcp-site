@@ -71,13 +71,39 @@ const faqs = [
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
-    {
+        {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Logic Pro MCP",
+      url: siteUrl,
+      description: "Maintainer of the open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/og.png`,
+      },
+      knowsAbout: [
+        "Model Context Protocol",
+        "Logic Pro automation",
+        "MIDI composition",
+        "macOS Accessibility and Automation permissions",
+        "DAW agent tooling",
+      ],
+      sameAs: [
+        github,
+        "https://github.com/MongLong0214/logic-pro-mcp-site",
+        "https://www.pulsemcp.com/servers/monglong-logic-pro",
+        "https://lobehub.com/mcp/monglong0214-logic-pro-mcp",
+        "https://glama.ai/mcp/servers/MongLong0214/logic-pro-mcp",
+      ],
+    },
+{
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
       name: "Logic Pro MCP",
       description: "Open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
       inLanguage: "en",
+      publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
       "@type": "WebPage",
