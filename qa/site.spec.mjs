@@ -8,6 +8,53 @@ const routes = [
 ];
 const installRoutes = routes.filter((route) => route.startsWith("/install/"));
 
+test("workflow and outcome controls change the real rendered example", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Mix", exact: true }).click();
+  await expect(page.locator(".bench-narrative h3")).toHaveText("A target, not a guess.");
+  await expect(page.locator(".surface-row").last()).toContainText("logic://mixer");
+  await page.getByRole("button", { name: /B.*Uncertain/ }).click();
+  await expect(page.locator(".outcome-explanation")).toContainText("could not be independently verified");
+  await page.getByRole("button", { name: "Deliver", exact: true }).click();
+  await expect(page.locator(".bench-narrative h3")).toHaveText("The file is the result.");
+  await expect(page.locator(".boundary-note")).toContainText("Opening the Bounce dialog is not an exported artifact");
+});
+
+test("client selection changes configuration and never retains a stale Copied result", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/");
+  const register = page.locator(".install-columns article").nth(1);
+  await expect(register).toContainText("claude mcp add --scope user");
+  await register.getByRole("button", { name: "Copy command" }).click();
+  await expect(register.getByRole("status")).toHaveText("Copied");
+  await page.locator(".client-switch").getByRole("button", { name: "VS Code", exact: true }).click();
+  await expect(register.getByRole("status")).toHaveText("");
+  await expect(register.locator("code")).toContainText('"servers"');
+  await expect(register.locator("code")).not.toContainText('"mcpServers"');
+  await register.getByRole("button", { name: "Copy command" }).click();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain('"servers"');
+});
+
+test("archived media plays only on request and supports independent seek and pause", async ({ page }) => {
+  const mediaRequests = [];
+  page.on("request", request => { if (new URL(request.url()).pathname === "/session-demo.mp4") mediaRequests.push(request.url()); });
+  await page.goto("/");
+  const media = page.locator(".video-stage video");
+  expect(await media.evaluate((video) => video.paused)).toBe(true);
+  expect(mediaRequests).toEqual([]);
+  await page.getByRole("button", { name: "Play recording", exact: true }).first().click();
+  await expect.poll(() => media.evaluate((video) => !video.paused && video.currentTime > 0)).toBe(true);
+  expect(mediaRequests).toHaveLength(1);
+  await page.getByRole("button", { name: "Pause recording", exact: true }).click();
+  await expect.poll(() => media.evaluate((video) => video.paused)).toBe(true);
+  const position = page.getByRole("slider", { name: "Recording position" });
+  await position.focus();
+  await position.press("Home");
+  for (let step = 0; step < 100; step += 1) await position.press("ArrowRight");
+  await expect.poll(() => media.evaluate((video) => video.currentTime)).toBeCloseTo(10, 0);
+  await expect(page.locator(".player-error")).toHaveCount(0);
+});
+
 async function installAnalyticsProbe(target) {
   await target.addInitScript(() => {
     window.__qaAnalyticsEvents = [];
@@ -40,7 +87,7 @@ test("all rendered CTAs and copy controls expose keyboard-native contracts", asy
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   for (const route of routes) {
     await page.goto(route);
-    const ctas = page.locator("a.button, a.nav-cta");
+    const ctas = page.locator("a.button, a.nav-cta, a.desk-button");
     expect(await ctas.count()).toBeGreaterThan(0);
     for (let index = 0; index < await ctas.count(); index += 1) {
       await expect(ctas.nth(index)).toBeVisible();
@@ -69,7 +116,7 @@ test("Tab and Enter activate the skip path", async ({ page }) => {
 
 test("focus, heading order, non-color status, and 200% zoom remain usable", async ({ page }) => {
   await page.goto("/");
-  const primaryCta = page.locator("a.button").first();
+  const primaryCta = page.locator("a.desk-button").first();
   await primaryCta.focus();
   const focusStyle = await primaryCta.evaluate((element) => {
     const style = getComputedStyle(element);
@@ -80,7 +127,7 @@ test("focus, heading order, non-color status, and 200% zoom remain usable", asyn
   const headingLevels = await page.locator("h1, h2, h3, h4, h5, h6").evaluateAll((headings) => headings.map((heading) => Number(heading.tagName.slice(1))));
   expect(headingLevels[0]).toBe(1);
   for (let index = 1; index < headingLevels.length; index += 1) expect(headingLevels[index] - headingLevels[index - 1]).toBeLessThanOrEqual(1);
-  await expect(page.locator(".state-list strong")).toHaveText(["CONFIRMED", "UNCERTAIN", "FAILED"]);
+  await expect(page.locator(".outcome-switch button")).toHaveText(["AConfirmed", "BUncertain", "CFailed"]);
   const viewport = page.viewportSize();
   if (viewport && viewport.width === 1280) {
     await page.setViewportSize({ width: 640, height: 400 });
@@ -112,8 +159,11 @@ test("production responses include the checked-in CSP contract", async ({ reques
 test("reduced-motion users receive effectively disabled animation", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const duration = await page.locator(".signal-path").evaluate((element) => getComputedStyle(element, "::before").animationDuration);
-  expect(duration).toBe("1e-05s");
+  const motion = await page.locator(".section-grid-heading").first().evaluate((element) => ({
+    animation: getComputedStyle(element).animationName,
+    scroll: getComputedStyle(document.documentElement).scrollBehavior,
+  }));
+  expect(motion).toEqual({ animation: "none", scroll: "auto" });
 });
 
 for (const signal of ["doNotTrack", "globalPrivacyControl"]) {

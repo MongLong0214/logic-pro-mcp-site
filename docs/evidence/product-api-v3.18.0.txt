@@ -1,0 +1,78 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.18.0/docs/API.md
+Source tag: v3.18.0
+Source path: docs/API.md
+Source headings: API Reference; logic_plugins; logic_midi; logic_project
+Accessed UTC: 2026-10-05T05:45:51Z
+Expiry policy: on-release-change
+Original source SHA256: 886cb1d4902591eb3da55c48e2bea44fe465e34967c50b8cdb112e7f9fd9bc99
+Original Git blob SHA: e8a8217592d8cd3b5aa41c912a539fb96e739177
+
+Exact excerpts (selected, noncontiguous):
+# API Reference
+
+Current surface: Logic Pro MCP exposes 10 tools, 18 static resources, and 12 resource templates. What each release changed, including every breaking response shape, is in [CHANGELOG.md](../CHANGELOG.md); this page describes the surface, not its history.
+
+Use tools for actions. Use resources for state. Treat every mutating result as one of:
+
+- State A: confirmed success. The server wrote to Logic and independently read the result back.
+- State B: uncertain success. The server attempted the action but could not verify the result.
+- State C: hard failure. The action did not land and is safe to retry only when `retry_safe` says so.
+
+### `logic_plugins`
+
+This is the verified apply-back surface.
+
+Flow:
+
+1. `get_inventory` reads the target track's plugin insert slots.
+2. `insert_verified` inserts an allowlisted stock plugin into an explicit physical slot and verifies post-write inventory.
+3. `logic_plugins.set_param_verified` writes a supported parameter and verifies readback.
+
+Important constraints:
+
+- `insert_verified` requires a confirmation gate named `duplicate_applyback` when the operation can mutate an existing session.
+- `set_param_verified` currently verifies Compressor `threshold` only, normalized 0..100, tolerance 1.0.
+- `set_param_verified` can open the target insert's plugin editor when it is closed, but it writes only after the requested AX slider is present in the acquired window.
+- Arbitrary plugin parameters fail closed with `unsupported_param_readback`.
+- The legacy Scripter `set_plugin_param` path is a legacy unverified State B path. Use `logic_plugins.set_param_verified` for verified apply-back.
+
+
+### `logic_midi`
+
+Common commands: `send_note`, `send_chord`, `send_cc`, `send_program_change`, `send_pitch_bend`, `send_aftertouch`, `send_sysex`, `play_sequence`, `import_file`, `list_ports`, `create_virtual_port`, `step_input`, `mmc_play`, `mmc_stop`, `mmc_record`, `mmc_locate`.
+
+Channels are 1-based (`1..16`) to match Logic's UI.
+
+`send_sysex` accepts `{ bytes: [Int] }` or `{ data: "F0 ... F7" }` and rejects payloads over 1024 bytes before routing to CoreMIDI.
+
+Send-only success responses return an Honest Contract State B JSON envelope because CoreMIDI/MMC writes have no deterministic readback:
+
+```json
+{
+  "success": true,
+  "verified": false,
+  "state": "B",
+  "reason": "send_only_no_readback",
+  "operation": "midi.send_note",
+  "legacy_message": "Note 60 on ch 0 vel 100 dur 30ms",
+  "note": 60,
+  "velocity": 100,
+  "channel_wire": 0,
+  "duration_ms": 30,
+  "message_count": 2
+}
+```
+
+`mmc_locate` with a `bar` parameter is the exception: it routes through `transport.goto_position` and keeps the transport readback contract. Time-based `mmc_locate` remains send-only State B.
+
+`create_virtual_port` reuses same-name/same-mode ports. Reusing a name across modes fails closed with State C `port_unavailable` and includes `port_name`, `existing_mode`, and `requested_mode`.
+
+No MIDI read-back command is shipped: `read_selection_notes` and `record_sequence verify_notes` remain deferred.
+
+### `logic_project`
+
+Common commands: `new`, `open`, `save`, `save_as`, `close`, `bounce`, `is_running`, `launch`, `quit`, `get_regions`, `export_plan`, `export_run`, `export_resume`, `audit`, `cleanup_plan`, `inspect_session`, `cleanup_apply`.
+
+`bounce` runs that preflight, then opens and verifies Logic's native File > Bounce dialog; the caller completes the settings and destination in Logic. It returns `export_readiness_blocked` before opening the dialog when blockers are present.
+
+`export_run` re-plans, opens, verifies project identity, drives the stem Export panel or bounces as appropriate, and analyzes only eligible files observed in the destination's before/after snapshot. It reports one result per populated stem subject but does not invent a filename-to-subject association or claim an observed post-snapshot file was produced by Logic; unbound subject results remain State B. `export_resume` remains available for known-path artifacts.
