@@ -7,6 +7,7 @@ const content = `# Logic Pro MCP — Full Reference
 
 Canonical site: ${siteUrl}
 Source repository: ${githubUrl}
+Published release: [v${productFacts.version}](${githubUrl}/releases/tag/v${productFacts.version})
 License: MIT
 Platform: ${productFacts.requirements}
 
@@ -64,7 +65,7 @@ Read-only tools and resources return plain JSON without this envelope. Registere
 
 Resource templates include \`logic://system/operations\` (read-only operation catalog), \`logic://tracks/{index}\`, \`logic://tracks/{index}/regions\`, \`logic://mixer/{strip}\`, \`logic://stock-plugins/{id}\`, \`logic://stock-plugins/search?query={query}\`, \`logic://stock-instruments/{id}\`, \`logic://stock-instruments/search?query={query}\`, \`logic://session-players/{id}\`, \`logic://workflow-plans/session?prompt={prompt}\`, \`logic://workflow-skills/{id}\`, and \`logic://workflow-skills/search?query={query}\`.
 
-Full parameter-level reference: ${githubUrl}/blob/main/docs/API.md
+Full parameter-level reference: ${productFacts.apiUrl}
 
 ## Permissions (macOS TCC)
 
@@ -101,10 +102,10 @@ LogicProMCP doctor --profile core --client claude-code
 
 ## Primary documentation
 
-- [Setup](${githubUrl}/blob/main/docs/SETUP.md)
-- [API reference](${githubUrl}/blob/main/docs/API.md)
-- [Troubleshooting](${githubUrl}/blob/main/docs/TROUBLESHOOTING.md)
-- [Security](${githubUrl}/blob/main/SECURITY.md)
+- [Setup](${productFacts.setupUrl})
+- [API reference](${productFacts.apiUrl})
+- [Troubleshooting](${githubUrl}/blob/v${productFacts.version}/docs/TROUBLESHOOTING.md)
+- [Security](${productFacts.securityUrl})
 
 Logic Pro MCP is an independent open-source project. Logic Pro is a trademark of Apple Inc.; no affiliation or endorsement is implied.
 `;

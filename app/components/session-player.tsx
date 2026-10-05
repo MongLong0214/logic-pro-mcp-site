@@ -48,24 +48,38 @@ export function SessionPlayer() {
     frame.current = requestAnimationFrame(draw);
   }
   async function prepareAudio() {
-    if (!video.current) return;
+    const media = video.current;
+    if (!media) return;
+    let source: MediaElementAudioSourceNode | undefined;
     try {
       if (!audio.current) {
-        const context = new AudioContext();
-        audio.current = context;
+        audio.current = new AudioContext();
+      }
+      const context = audio.current;
+      // Resume can stay pending or be denied. Do not capture native audio until
+      // the optional graph is actually running, and never make playback await it.
+      await context.resume();
+      if (context.state !== "running" || !media.isConnected) return;
+      if (!analyser.current) {
         const node = context.createAnalyser();
         node.fftSize = 2048;
         node.smoothingTimeConstant = 0.75;
-        context.createMediaElementSource(video.current).connect(node);
         node.connect(context.destination);
+        source = context.createMediaElementSource(media);
+        source.connect(node);
         analyser.current = node;
         frequencyData.current = new Uint8Array(node.frequencyBinCount);
       }
-      await audio.current.resume();
       setAnalysisAvailable(true);
+      cancelAnimationFrame(frame.current);
+      draw();
     } catch {
       // Audio analysis is progressive enhancement; ordinary video playback stays available.
-      setAnalysisAvailable(false);
+      if (source && audio.current?.state === "running") {
+        source.disconnect();
+        source.connect(audio.current.destination);
+      }
+      if (media.isConnected) setAnalysisAvailable(false);
     }
   }
   async function loadRecording(media: HTMLVideoElement) {
@@ -87,9 +101,8 @@ export function SessionPlayer() {
     if (!media.paused) { media.pause(); return; }
     setLoading(true);
     try {
-      const prepared = prepareAudio();
+      void prepareAudio();
       await loadRecording(media);
-      await prepared;
       if (!media.isConnected) return;
       await media.play();
       setError("");

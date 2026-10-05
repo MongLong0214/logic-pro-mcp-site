@@ -35,6 +35,24 @@ test("client selection changes configuration and never retains a stale Copied re
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain('"servers"');
 });
 
+test("all four homepage clients select their own registration and readiness commands by keyboard", async ({ page }) => {
+  await page.goto("/");
+  for (const [name, id, registration] of [
+    ["Claude Code", "claude-code", "claude mcp add --scope user"],
+    ["Claude Desktop", "claude-desktop", '"mcpServers"'],
+    ["Cursor", "cursor", '"mcpServers"'],
+    ["VS Code", "vscode", '"servers"'],
+  ]) {
+    const button = page.locator(".client-switch").getByRole("button", { name, exact: true });
+    await button.focus();
+    await button.press("Enter");
+    await expect(button).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".install-columns article").nth(1).locator("code")).toContainText(registration);
+    await expect(page.locator(".install-columns article").nth(2).locator("code")).toContainText(`doctor --profile core --client ${id}`);
+    await expect(page.locator(".install-after a")).toHaveAttribute("href", `/install/${id}`);
+  }
+});
+
 test("archived media plays only on request and supports independent seek and pause", async ({ page }) => {
   const mediaRequests = [];
   page.on("request", request => { if (new URL(request.url()).pathname === "/session-demo.mp4") mediaRequests.push(request.url()); });
@@ -54,6 +72,44 @@ test("archived media plays only on request and supports independent seek and pau
   await expect.poll(() => media.evaluate((video) => video.currentTime)).toBeCloseTo(10, 0);
   await expect(page.locator(".player-error")).toHaveCount(0);
 });
+
+test("ordinary playback does not wait for optional Web Audio analysis", async ({ page }) => {
+  await page.addInitScript(() => {
+    const NativeAudioContext = window.AudioContext;
+    window.AudioContext = class extends NativeAudioContext {
+      resume() { return new Promise(() => {}); }
+    };
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Play recording", exact: true }).first().click();
+  await expect.poll(() => page.locator("video").evaluate(video => !video.paused && video.currentTime > 0)).toBe(true);
+  await page.getByRole("button", { name: "Pause recording", exact: true }).click();
+  await expect.poll(() => page.locator("video").evaluate(video => video.paused)).toBe(true);
+});
+
+for (const failure of ["absent", "rejected", "pending"]) {
+  test(`native audio is not captured when optional analysis is ${failure}`, async ({ page }) => {
+    await page.addInitScript((mode) => {
+      window.__qaAudioCaptures = 0;
+      const NativeAudioContext = window.AudioContext;
+      if (mode === "absent") { window.AudioContext = undefined; return; }
+      window.AudioContext = class extends NativeAudioContext {
+        resume() { return mode === "rejected" ? Promise.reject(new Error("analysis denied")) : new Promise(() => {}); }
+        createMediaElementSource(media) {
+          window.__qaAudioCaptures += 1;
+          return super.createMediaElementSource(media);
+        }
+      };
+    }, failure);
+    await page.goto("/");
+    await page.getByRole("button", { name: "Play recording", exact: true }).first().click();
+    await expect.poll(() => page.locator("video").evaluate(video => !video.paused && video.currentTime > 0 && !video.muted)).toBe(true);
+    expect(await page.evaluate(() => window.__qaAudioCaptures)).toBe(0);
+    await page.getByRole("button", { name: "Pause recording", exact: true }).click();
+    await expect.poll(() => page.locator("video").evaluate(video => video.paused)).toBe(true);
+    await expect(page.locator(".player-error")).toHaveCount(0);
+  });
+}
 
 async function installAnalyticsProbe(target) {
   await target.addInitScript(() => {

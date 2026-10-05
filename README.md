@@ -12,7 +12,7 @@
   ·
   <a href="https://github.com/MongLong0214/logic-pro-mcp">MCP server source</a>
   ·
-  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md">Setup guide</a>
+  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/v3.18.0/docs/SETUP.md">Setup guide</a>
 </p>
 
 > This repository contains the website. Releases, product documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).

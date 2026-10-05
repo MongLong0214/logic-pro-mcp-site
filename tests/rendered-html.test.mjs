@@ -102,6 +102,17 @@ test("Given the finished site, when assets are inspected, then starter artifacts
   assert.doesNotMatch(page + layout, /_sites-preview|codex-preview|SkeletonPreview/);
 });
 
+test("Given either LLM discovery route, product guidance stays on the published tag", async () => {
+  for (const pathname of ["/llms.txt", "/llms-full.txt"]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.match(text, /v3\.18\.0/);
+    assert.match(text, /blob\/v3\.18\.0\/docs\/API\.md/);
+    assert.doesNotMatch(text, /blob\/main\//);
+  }
+});
+
 const acquisitionRoutes = [
   "/install/claude-code",
   "/install/claude-desktop",

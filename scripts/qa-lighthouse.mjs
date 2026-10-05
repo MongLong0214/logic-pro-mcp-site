@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
-import { mkdtemp, mkdir, readFile, rm } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -64,6 +64,12 @@ function median(values) {
 
 try {
   assert.ok(Number.isInteger(mobileRuns) && mobileRuns > 0 && Number.isInteger(desktopRuns) && desktopRuns > 0, "QA run counts must be positive integers");
+  try {
+    const previous = await readdir(outputRoot);
+    assert.equal(previous.length, 0, "QA output directory already contains reports; choose a fresh QA_LIGHTHOUSE_DIR to preserve previous evidence");
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
   await assertPortFree(`${serverURL}/`, "production server");
   await assertPortFree(`${proxyURL}/`, "Brotli proxy");
   const build = spawnSync("npm", ["run", "build"], { cwd: root, stdio: "inherit" });

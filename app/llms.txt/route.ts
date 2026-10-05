@@ -7,7 +7,7 @@ const content = `# Logic Pro MCP
 
 Canonical site: [Logic Pro MCP](${siteUrl})
 Source repository: [MongLong0214/logic-pro-mcp](${githubUrl})
-Latest release: [Logic Pro MCP releases](${githubUrl}/releases/latest)
+Published release: [v${productFacts.version}](${githubUrl}/releases/tag/v${productFacts.version})
 License: MIT
 Platform: ${productFacts.requirements}
 
@@ -42,10 +42,10 @@ LogicProMCP doctor --profile core --client claude-code
 
 ## Primary documentation
 
-- [Setup](${githubUrl}/blob/main/docs/SETUP.md)
-- [API](${githubUrl}/blob/main/docs/API.md)
-- [Troubleshooting](${githubUrl}/blob/main/docs/TROUBLESHOOTING.md)
-- [Security](${githubUrl}/blob/main/SECURITY.md)
+- [Setup](${productFacts.setupUrl})
+- [API](${productFacts.apiUrl})
+- [Troubleshooting](${githubUrl}/blob/v${productFacts.version}/docs/TROUBLESHOOTING.md)
+- [Security](${productFacts.securityUrl})
 
 Logic Pro MCP is an independent open-source project. Logic Pro is a trademark of Apple Inc.; no affiliation or endorsement is implied.
 `;
