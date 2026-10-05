@@ -8,12 +8,17 @@ const root = new URL("../", import.meta.url);
 const evidence = new URL("../../../.omo/evidence/qa-e2e-current.json", import.meta.url);
 const temp = await mkdtemp(join(tmpdir(), "logic-pro-mcp-e2e-"));
 let server;
+const port = process.env.QA_PORT ?? "4173";
+if (!/^\d+$/.test(port) || Number(port) < 1024 || Number(port) > 65535) throw new Error("QA_PORT must be a valid unprivileged port");
+const baseURL = `http://localhost:${port}`;
 
 async function waitForServer() {
   for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (server.exitCode !== null) throw new Error("owned production server exited");
     try {
-      const response = await fetch("http://127.0.0.1:4173/");
-      if (response.ok) return;
+      const response = await fetch(`${baseURL}/`);
+      const html = await response.text();
+      if (response.ok && html.includes("Your session.") && html.includes("Agent-operated.")) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
@@ -29,18 +34,23 @@ try {
   await writeToolReceipt({ temp, specs, evidence: new URL("../../../.omo/evidence/playwright-toolchain.json", import.meta.url), command: "npm run qa:e2e" });
   await cp(new URL("../qa/playwright.config.mjs", import.meta.url), join(temp, "playwright.config.mjs"));
   await cp(new URL("../qa/site.spec.mjs", import.meta.url), join(temp, "site.spec.mjs"));
-  server = spawn("npm", ["run", "start", "--", "--port", "4173"], { cwd: root, stdio: ["ignore", "pipe", "pipe"] });
+  server = spawn("npm", ["run", "start", "--", "--port", port], { cwd: root, detached: true, stdio: ["ignore", "pipe", "pipe"] });
+  server.stdout.on("data", (chunk) => process.stdout.write(chunk));
+  server.stderr.on("data", (chunk) => process.stderr.write(chunk));
   await waitForServer();
   const evidenceDirectory = new URL("../../../.omo/evidence/playwright/", import.meta.url).pathname;
-  const run = spawnSync(join(temp, "node_modules/.bin/playwright"), ["test", "--config", "playwright.config.mjs", "--reporter=json"], { cwd: temp, encoding: "utf8", maxBuffer: 20 * 1024 * 1024, env: { ...process.env, QA_EVIDENCE_DIR: evidenceDirectory } });
+  const run = spawnSync(join(temp, "node_modules/.bin/playwright"), ["test", "--config", "playwright.config.mjs", "--reporter=json"], { cwd: temp, encoding: "utf8", maxBuffer: 20 * 1024 * 1024, env: { ...process.env, QA_BASE_URL: baseURL, QA_EVIDENCE_DIR: evidenceDirectory } });
   await mkdir(new URL("../../../.omo/evidence/", import.meta.url), { recursive: true });
   await writeFile(evidence, run.stdout || JSON.stringify({ error: run.stderr }), "utf8");
   if (run.status !== 0) {
     process.stderr.write(run.stderr || run.stdout);
-    process.exit(run.status ?? 1);
+    process.exitCode = run.status ?? 1;
+  } else {
+    console.log("Playwright 1.61.1 + Axe 4.11.0 isolated E2E passed; receipt written to .omo/evidence/qa-e2e-current.json");
   }
-  console.log("Playwright 1.61.1 + Axe 4.11.0 isolated E2E passed; receipt written to .omo/evidence/qa-e2e-current.json");
 } finally {
-  server?.kill("SIGTERM");
+  if (server?.pid) {
+    try { process.kill(-server.pid, "SIGTERM"); } catch (error) { if (error.code !== "ESRCH") throw error; }
+  }
   await rm(temp, { recursive: true, force: true });
 }

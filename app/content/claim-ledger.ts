@@ -31,14 +31,14 @@ type EvidenceSource = Pick<ClaimEvidence,
 
 const accessedAt = "2026-07-13T05:56:43Z";
 // Product-doc snapshots are re-taken on every release change; client docs keep their 90-day window.
-const productAccessedAt = "2026-07-25T10:27:40Z";
+const productAccessedAt = "2026-10-05T05:45:50Z";
 const taggedSetup = {
   sourceType: "tagged-source",
   sourceUrl: productFacts.setupUrl,
-  sourceRef: "v3.13.0:docs/SETUP.md#Install",
+  sourceRef: "v3.18.0:docs/SETUP.md#Install",
   sourceHeading: "Install",
-  evidenceFile: "docs/evidence/product-setup-v3.13.0.txt",
-  sourceSha256: "a641664304f4b0e24a0af15dbaee6da9b45e001bff575e24e9f6dc9b09992692",
+  evidenceFile: "docs/evidence/product-setup-v3.18.0.txt",
+  sourceSha256: "bc030de8c5260296dacfa06eb153670075c6ede57faa2a0c4a53b8eb0dac9704",
   accessedAt: productAccessedAt,
   expiryPolicy: "on-release-change",
   expiresAt: null,
@@ -46,28 +46,28 @@ const taggedSetup = {
 } as const satisfies EvidenceSource;
 const taggedApi = {
   sourceType: "tagged-source", sourceUrl: productFacts.apiUrl,
-  sourceRef: "v3.13.0:docs/API.md#logic_midi", sourceHeading: "logic_midi",
-  evidenceFile: "docs/evidence/product-api-v3.13.0.txt",
-  sourceSha256: "b268e8ea8e4ef28132fc39457e262ee5c82a7d30bc7ab0c0ba787ab18f08199c",
-  accessedAt: productAccessedAt, expiryPolicy: "on-release-change", expiresAt: null,
+  sourceRef: "v3.18.0:docs/API.md#logic_midi", sourceHeading: "logic_midi",
+  evidenceFile: "docs/evidence/product-api-v3.18.0.txt",
+  sourceSha256: "a6b28b9bb39ead2ebf14359d9ec420cf136e54eae2ef89478ec373a589dd9e1f",
+  accessedAt: "2026-10-05T05:45:51Z", expiryPolicy: "on-release-change", expiresAt: null,
   sourceExcerpt: "Send-only success responses return an Honest Contract State B JSON envelope because CoreMIDI/MMC writes have no deterministic readback:",
 } as const satisfies EvidenceSource;
 const taggedSecurity = {
   sourceType: "tagged-source", sourceUrl: productFacts.securityUrl,
-  sourceRef: "v3.13.0:SECURITY.md#Verified-plugin-apply-back-gate", sourceHeading: "Verified plugin apply-back gate",
-  evidenceFile: "docs/evidence/product-security-v3.13.0.txt",
-  sourceSha256: "2a5b81401ded4b0bf3322919b7a432006cf0b6d6e5c8d6731a02fa0161a512a6",
-  accessedAt: productAccessedAt, expiryPolicy: "on-release-change", expiresAt: null,
+  sourceRef: "v3.18.0:SECURITY.md#Verified-plugin-apply-back-gate", sourceHeading: "Verified plugin apply-back gate",
+  evidenceFile: "docs/evidence/product-security-v3.18.0.txt",
+  sourceSha256: "068e195c2abfbffad5fc02be08cf746687ff32bf6e962564bffc3f9e24f0975c",
+  accessedAt: "2026-10-05T05:45:51Z", expiryPolicy: "on-release-change", expiresAt: null,
   sourceExcerpt: "State A is emitted only after post-write inventory readback observes the requested plugin at the requested slot.",
 } as const satisfies EvidenceSource;
 const taggedReadme = {
   sourceType: "tagged-source", sourceUrl: productFacts.readmeUrl,
-  sourceRef: "v3.13.0:README.md#logic-pro-mcp-server-for-claude-cursor-and-ai-agents",
+  sourceRef: "v3.18.0:README.md#logic-pro-mcp-server-for-claude-cursor-and-ai-agents",
   sourceHeading: "Logic Pro MCP Server for Claude, Cursor, and AI Agents",
-  evidenceFile: "docs/evidence/product-readme-v3.13.0.txt",
-  sourceSha256: "201748fdab4d2b07e8d87a23e4498b5719a2544f0160975112daf2829245bf62",
+  evidenceFile: "docs/evidence/product-readme-v3.18.0.txt",
+  sourceSha256: "0afa3109245bc4c2cadf36fc563a89d4c6c934f4ec93f6224b9f05fea1d35a8a",
   accessedAt: productAccessedAt, expiryPolicy: "on-release-change", expiresAt: null,
-  sourceExcerpt: "A local Model Context Protocol (MCP) server that lets Claude Code, Claude Desktop, Cursor, VS Code, and custom AI agents control Logic Pro",
+  sourceExcerpt: "A local Model Context Protocol (MCP) server that lets Claude Code, Claude Desktop, Cursor, Codex, VS Code, and other MCP clients control Logic Pro",
 } as const satisfies EvidenceSource;
 
 const officialSources = {
@@ -171,8 +171,8 @@ const coreClaims = [
   claim({ key: "claude-code-register", subject: "client.claude-code.registration", exactText: productFacts.claudeCodeCommand, source: officialSources["claude-code"], surfaces: ["ui", "llms"], routes: ["/install/claude-code", "/llms.txt"], scope: "Claude Code registration", limitation: "Options precede the server name; -- separates the executable." }),
   claim({ key: "midi-send-only", subject: "logic_midi.send-only.outcome", exactText: "send-only operations report State B with the no-readback reason.", source: taggedApi, surfaces: ["ui"], routes: ["/use-cases/compose-midi"], scope: "logic_midi", limitation: "A successful send is not proof that a region or audible result exists." }),
   claim({ key: "plugin-applyback", subject: "logic_plugins.state-a", exactText: "The verified response reports the expected project, target slot or parameter, and matching post-write observation.", source: taggedSecurity, surfaces: ["ui"], routes: ["/use-cases/mixer-automation"], scope: "logic_plugins", limitation: "Only supported stock-plugin parameters can produce verified writes." }),
-  claim({ key: "oss-program", subject: "program.claude-for-open-source", exactText: "Officially selected for Anthropic's Claude for Open Source program.", source: { ...taggedReadme, sourceRef: "v3.13.0:README.md#selected-for-anthropic-s-claude-for-open-source-program", sourceHeading: "Selected for Anthropic's Claude for Open Source program", sourceExcerpt: "Logic Pro MCP has been **officially selected for Anthropic's Claude for Open Source program**" }, surfaces: ["ui"], routes: ["/"], scope: "project recognition", limitation: "Program selection recognizes the open-source project; it is not an Apple or Logic Pro endorsement." }),
-  claim({ key: "bounce-boundary", subject: "logic_project.bounce.success", exactText: "The native Bounce dialog is opened and verified, and produced files are checked through logic_audio; a dialog-open result alone is not an exported artifact.", source: { ...taggedApi, sourceRef: "v3.13.0:docs/API.md#logic_project", sourceHeading: "logic_project", sourceExcerpt: "`export_run` and `export_resume` re-plan, open, verify project identity, bounce, and verify artifacts via `logic_audio`." }, surfaces: ["ui"], routes: ["/use-cases/batch-export"], scope: "logic_project.bounce", limitation: "The user completes Bounce settings and destination in Logic." }),
+  claim({ key: "oss-program", subject: "program.claude-for-open-source", exactText: "Officially selected for Anthropic's Claude for Open Source program.", source: { ...taggedReadme, sourceRef: "v3.18.0:README.md#selected-for-anthropic-s-claude-for-open-source-program", sourceHeading: "Selected for Anthropic's Claude for Open Source program", sourceExcerpt: "Logic Pro MCP has been **officially selected for Anthropic's Claude for Open Source program**" }, surfaces: ["ui"], routes: ["/"], scope: "project recognition", limitation: "Program selection recognizes the open-source project; it is not an Apple or Logic Pro endorsement." }),
+  claim({ key: "bounce-boundary", subject: "logic_project.bounce.success", exactText: "A verified Bounce dialog is not an exported artifact. Unbound stem results remain State B; export_resume is limited to known-path artifacts.", source: { ...taggedApi, sourceRef: "v3.18.0:docs/API.md#logic_project", sourceHeading: "logic_project", sourceExcerpt: "`export_run` re-plans, opens, verifies project identity, drives the stem Export panel or bounces as appropriate, and analyzes only eligible files observed in the destination's before/after snapshot." }, surfaces: ["ui"], routes: ["/use-cases/batch-export"], scope: "logic_project.bounce", limitation: "The user completes Bounce settings and destination in Logic." }),
 ] as const;
 
 export const claimLedger = [...coreClaims, ...identityClaims, ...installClaims, ...workflowClaims] as const satisfies readonly ClaimEvidence[];

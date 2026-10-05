@@ -21,16 +21,21 @@ test("Given the production worker, when the landing page renders, then product p
 
   const html = await response.text();
   assert.match(html, /<title>Logic Pro MCP Server for Claude, Cursor &amp; AI Agents<\/title>/i);
-  assert.match(html, /Give your agent a signal path into Logic Pro/);
-  assert.match(html, /10<\/strong><span>MCP tools/);
-  assert.match(html, /12<\/strong><span>resource templates/);
-  assert.match(html, /3,211<\/strong><span>deterministic tests/);
+  assert.match(html, /Your session\.<br\/>.*Agent-operated\./);
+  assert.match(html, /<strong>10<\/strong> compact tools/);
+  assert.match(html, /<strong>12<\/strong> resource templates/);
+  assert.match(html, /INTERACTIVE EXAMPLE \/ NOT LIVE/);
+  assert.doesNotMatch(html, /3,211|>CONNECTED<|>LIVE</);
+  assert.match(html, /softwareVersion&quot;|softwareVersion/);
+  assert.match(html, /<video[^>]+poster="\/session-poster\.webp"[^>]+preload="none"/);
+  assert.doesNotMatch(html, /<video[^>]+src=/);
+  assert.match(html, /Recording position/);
   assert.match(html, /logic:\/\/system\/operations/);
   assert.match(html, /Claude for Open Source program/);
-  assert.match(html, /Architecture at a glance/);
+  assert.match(html, /PUBLIC SURFACE/);
   assert.match(html, /Known limitations/);
-  assert.match(html, /Docs for every stage/);
-  assert.match(html, /Before you install/);
+  assert.match(html, /Go deeper/);
+  assert.match(html, /BEFORE YOU INSTALL/);
   assert.match(html, /application\/ld\+json/);
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   assert.ok(jsonLdMatch, "JSON-LD graph must be rendered");
@@ -38,15 +43,18 @@ test("Given the production worker, when the landing page renders, then product p
   assert.equal(jsonLd["@context"], "https://schema.org");
   assert.deepEqual(
     jsonLd["@graph"].map((entry) => entry["@type"]),
-    ["WebSite", "WebPage", "SoftwareApplication"],
+    ["Organization", "WebSite", "WebPage", "SoftwareApplication"],
   );
-  assert.deepEqual(jsonLd["@graph"][2].offers, {
+  assert.deepEqual(jsonLd["@graph"][3].offers, {
     "@type": "Offer",
     price: 0,
     priceCurrency: "USD",
   });
+  assert.equal(jsonLd["@graph"][3].softwareVersion, "3.18.0");
+  assert.deepEqual(jsonLd["@graph"][1].publisher, { "@id": "https://logicpromcp.com/#organization" });
+  assert.match(html, /blob\/v3\.18\.0\/docs\/API\.md/);
   assert.match(html, /rel="canonical" href="https:\/\/logicpromcp\.com"/);
-  assert.match(html, /<meta name="theme-color" content="#080b0c"\/>/);
+  assert.match(html, /<meta name="theme-color" content="#f1f0eb"\/>/);
   assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);
   assert.match(html, /href="#main">Skip to main content<\/a>/);
   assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/);
@@ -87,11 +95,22 @@ test("Given the finished site, when assets are inspected, then starter artifacts
     access(new URL("../public/favicon.svg", import.meta.url)),
   ]);
 
-  assert.match(page, /githubUrl as github, siteUrl/);
+  assert.match(page, /githubUrl, siteUrl/);
   assert.match(layout, /images: \["\/og\.png"\]/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page + layout, /_sites-preview|codex-preview|SkeletonPreview/);
+});
+
+test("Given either LLM discovery route, product guidance stays on the published tag", async () => {
+  for (const pathname of ["/llms.txt", "/llms-full.txt"]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.match(text, /v3\.18\.0/);
+    assert.match(text, /blob\/v3\.18\.0\/docs\/API\.md/);
+    assert.doesNotMatch(text, /blob\/main\//);
+  }
 });
 
 const acquisitionRoutes = [
@@ -136,7 +155,7 @@ test("Given the approved acquisition manifest, when every route renders, then ea
       assert.doesNotMatch(html, /Evidence reviewed 2026-07-13/);
     } else {
       assert.deepEqual(types, ["WebPage", "BreadcrumbList"]);
-      assert.match(html, /Evidence reviewed 2026-07-13 by the Logic Pro MCP open-source project/);
+      assert.match(html, /Product sources reviewed October 5, 2026/);
     }
   }
   assert.equal(titles.size, acquisitionRoutes.length);

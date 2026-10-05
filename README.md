@@ -12,7 +12,7 @@
   ·
   <a href="https://github.com/MongLong0214/logic-pro-mcp">MCP server source</a>
   ·
-  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/main/docs/SETUP.md">Setup guide</a>
+  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/v3.18.0/docs/SETUP.md">Setup guide</a>
 </p>
 
 > This repository contains the website. Releases, product documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
@@ -26,6 +26,8 @@
 </p>
 
 Logic Pro MCP is a local Model Context Protocol server for composing, inspecting, controlling, and verifying work in Logic Pro. The site turns the source documentation into practical installation paths and evidence-backed workflows.
+
+The Session Desk redesign uses the published **v3.18.0** documentation (reviewed October 5, 2026). Its archived demo plays only on request, with a spectrum derived from the actual recording. The interactive workflow desk explains A/B/C outcomes without pretending to connect to a user's Mac; the installation desk switches between the four real client configurations. Native View Transitions and scroll-linked CSS are progressive enhancements, with reduced-motion and keyboard alternatives.
 
 ## Start here
 
@@ -91,6 +93,8 @@ npm run audit:prod
 ```
 
 The browser and Lighthouse suites use an isolated, exact-version QA environment so test-only packages do not enter the shipped dependency graph. See [`docs/qa.md`](docs/qa.md) for the full release matrix.
+
+The player downloads its small same-origin recording only after activation and revokes its media object URL on unmount. `media-src 'self' blob:` permits this seekable local playback; script and connection policies remain unchanged. The original poster is retained alongside an optimized WebP delivery asset. No analytics collector, database, or new application dependency was added for the redesign.
 
 ## Deployment
 

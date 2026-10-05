@@ -7,7 +7,7 @@ const compressible = /^(?:text\/|application\/(?:javascript|json|xml))/i;
 export function createBrotliProxy() {
   return createServer(async (request, response) => {
     try {
-      const upstream = await fetch(`http://127.0.0.1:4174${request.url}`, { headers: { accept: request.headers.accept ?? "*/*" } });
+      const upstream = await fetch(`${process.env.QA_UPSTREAM_URL ?? "http://127.0.0.1:4174"}${request.url}`, { headers: { accept: request.headers.accept ?? "*/*" } });
       const raw = Buffer.from(await upstream.arrayBuffer());
       const headers = new Headers(upstream.headers);
       headers.delete("content-encoding");
@@ -30,5 +30,5 @@ export function createBrotliProxy() {
 export const brotliProxyEntryPath = fileURLToPath(import.meta.url);
 
 if (process.argv[1] === brotliProxyEntryPath) {
-  createBrotliProxy().listen(4175, "127.0.0.1");
+  createBrotliProxy().listen(Number(process.env.QA_PROXY_PORT ?? "4175"), "127.0.0.1");
 }

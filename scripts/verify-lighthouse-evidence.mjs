@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 
-const root = new URL("../../../.omo/evidence/lighthouse-current/", import.meta.url);
+const root = process.env.QA_LIGHTHOUSE_DIR ? pathToFileURL(`${process.env.QA_LIGHTHOUSE_DIR}/`) : new URL("../../../.omo/evidence/lighthouse-current/", import.meta.url);
 const routes = ["home", "install-claude-code", "guide-control", "use-case-export"];
 function median(values) {
   const sorted = [...values].sort((left, right) => left - right);

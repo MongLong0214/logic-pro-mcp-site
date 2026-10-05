@@ -10,7 +10,7 @@ export default defineConfig({
   timeout: 30_000,
   outputDir: process.env.QA_EVIDENCE_DIR ?? "test-results",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: process.env.QA_BASE_URL ?? "http://localhost:4173",
     locale: "en-US",
     timezoneId: "UTC",
     colorScheme: "light",

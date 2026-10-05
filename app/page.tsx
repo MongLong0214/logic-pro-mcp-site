@@ -1,261 +1,85 @@
-import { githubUrl as github, siteUrl } from "./site-config";
 import Link from "next/link";
-const installCommand = [
-  "brew tap MongLong0214/logic-pro-mcp \\",
-  "  https://github.com/MongLong0214/logic-pro-mcp",
-  "brew trust monglong0214/logic-pro-mcp",
-  "brew install logic-pro-mcp",
-].join("\n");
-const registerCommand = ["claude mcp add --scope user \\", "  logic-pro -- LogicProMCP"].join("\n");
-const permissionsCommand = "LogicProMCP --check-permissions";
-const doctorCommand = ["LogicProMCP doctor \\", "  --profile core \\", "  --client claude-code"].join("\n");
-const doctorOutput = [
-  "$ LogicProMCP doctor --profile core", "", "✓ binary.path                 ready",
-  "✓ permissions.accessibility  granted", "✓ logic.running               detected",
-  "✓ channel.mcu                 ready", "✓ channel.accessibility       ready",
-  "", "STATUS  ready · 5/5 capabilities",
-].join("\n");
-const ossProgram = "Officially selected for Anthropic's Claude for Open Source program.";
-const installSteps = [
-  { name: "Install", description: "Tap the GitHub repository, trust the third-party Homebrew tap on Homebrew 6 or later, and install logic-pro-mcp.", command: installCommand },
-  { name: "Register", description: "Register LogicProMCP as a local stdio server in Claude Code or another compatible MCP client.", command: registerCommand },
-  { name: "Permissions", description: "Grant Accessibility, Automation, and Input Monitoring permissions required for the workflows you use.", command: permissionsCommand, note: "Checks Accessibility, Automation to Logic Pro and System Events, plus PostEvent/Input Monitoring." },
-  { name: "Diagnose", description: "Run LogicProMCP doctor with the profile and client that match your workflow.", command: doctorCommand },
-] as const;
-
-const capabilities = [
-  ["COMPOSE", "Create tracks, write MIDI, set instruments, and shape tempo from an agent prompt."],
-  ["CONTROL", "Operate transport, navigation, mixer state, and project lifecycle with explicit targets."],
-  ["READ", "Inspect transport, tracks, mixer, markers, project metadata, inventory, and readiness as resources."],
-  ["VERIFY", "Return confirmed, uncertain, or failed outcomes instead of turning automation into guesswork."],
-] as const;
-const toolGroups = [
-  ["COMPOSE", "logic_tracks · logic_midi", "Create tracks, write and import MIDI, resolve instruments, and manage ports."],
-  ["CONTROL", "logic_transport · logic_edit · logic_navigate", "Run transport, edit regions, move by bar or marker, and control views."],
-  ["MIX", "logic_mixer · logic_plugins", "Set level and pan, inspect stock plugins, and perform guarded verified apply-back."],
-  ["DELIVER", "logic_project", "Open, save, audit, bounce, plan exports, and resume interrupted batches."],
-  ["OBSERVE", "logic_audio · logic_system", "Analyze exported audio and report health, channels, permissions, and readiness."],
-] as const;
-const trustContracts = [
-  ["HONEST ENVELOPES", "Every mutation returns confirmed, uncertain with a reason, or failed with an error."],
-  ["EXACT TARGETS", "Track, marker, mixer, MIDI import, and plugin writes validate explicit targets before acting."],
-  ["VERIFIED APPLY-BACK", "Plugin State A requires project, track, slot, identity, and post-write readback to agree."],
-  ["CONFIRMATION LEVELS", "Destructive project flows and plugin insertion require explicit confirmation metadata."],
-  ["PROVENANCE", "Read surfaces label source, freshness, and evidence so agents do not have to guess."],
-  ["HARDENED DELIVERY", "Homebrew pins release SHA256; shell installs fail closed without explicit trust pins."],
-] as const;
-const limitations = [
-  ["Tempo input", "Exact AX slider fallbacks are bounded and fail closed when Logic cannot confirm the requested tempo."],
-  ["MIDI region padding", "Imported regions may visually extend from bar 1 to the target bar; note timing remains exact."],
-  ["External MIDI bounce", "Unverified GM Device or External MIDI regions block a claimed audible bounce."],
-  ["Key Commands", "Logic 12.2+ requires Manual MIDI Learn because the legacy plist is no longer auto-imported."],
-  ["Markers", "Unreadable state stays unreadable or cached; rename_marker remains not implemented."],
-  ["Plugin parameters", "Unsupported live parameter readback remains limited and fails closed."],
-] as const;
-const docs = [
-  ["SETUP", "Install, permissions, MCP registration, Logic integration, and Doctor remediation.", github + "/blob/main/docs/SETUP.md"],
-  ["API", "All tools, resources, templates, Honest Contract, and verified apply-back.", github + "/blob/main/docs/API.md"],
-  ["TROUBLESHOOT", "Common client, permission, channel, and Logic Pro failures with fixes.", github + "/blob/main/docs/TROUBLESHOOTING.md"],
-  ["SECURITY", "Threat model, installer trust tiers, hardening, and private disclosure.", github + "/blob/main/SECURITY.md"],
-  ["CHANGELOG", "Stable release history, deferred work, and evidence-linked changes.", github + "/blob/main/CHANGELOG.md"],
-  ["CONTRIBUTE", "Development setup, scoped PR workflow, verification, and open issues.", github + "/blob/main/CONTRIBUTING.md"],
-] as const;
-const faqs = [
-  ["What is Logic Pro MCP?", "Logic Pro MCP is an open-source local Model Context Protocol server that lets compatible AI clients compose, control, inspect, and verify work in Logic Pro on macOS."],
-  ["Which AI clients can use it?", "It works with MCP clients that can launch a local stdio server, including Claude Code, Claude Desktop, Cursor, VS Code, and custom agents."],
-  ["What can an AI agent control in Logic Pro?", "Agents can create tracks and MIDI, operate transport and navigation, inspect mixer and project state, manage project workflows, analyze exported audio, and verify high-risk writes."],
-  ["How do I install Logic Pro MCP?", "Install the universal binary with the Homebrew tap, register LogicProMCP with your MCP client, grant the required macOS permissions, and run LogicProMCP doctor to verify readiness."],
-  ["Is Logic Pro MCP free?", "Yes. The project is open source under the MIT License, and its source, releases, setup guide, API reference, security policy, and issue tracker are public on GitHub."],
-] as const;
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-        {
-      "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: "Logic Pro MCP",
-      url: siteUrl,
-      description: "Maintainer of the open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteUrl}/og.png`,
-      },
-      knowsAbout: [
-        "Model Context Protocol",
-        "Logic Pro automation",
-        "MIDI composition",
-        "macOS Accessibility and Automation permissions",
-        "DAW agent tooling",
-      ],
-      sameAs: [
-        github,
-        "https://github.com/MongLong0214/logic-pro-mcp-site",
-        "https://www.pulsemcp.com/servers/monglong-logic-pro",
-        "https://lobehub.com/mcp/monglong0214-logic-pro-mcp",
-        "https://glama.ai/mcp/servers/MongLong0214/logic-pro-mcp",
-      ],
-    },
-{
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: "Logic Pro MCP",
-      description: "Open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
-      inLanguage: "en",
-      publisher: { "@id": `${siteUrl}/#organization` },
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${siteUrl}/#webpage`,
-      url: siteUrl,
-      name: "Logic Pro MCP Server for Claude, Cursor & AI Agents",
-      isPartOf: { "@id": `${siteUrl}/#website` },
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": `${siteUrl}/#software`,
-      name: "Logic Pro MCP",
-      alternateName: "Logic Pro Model Context Protocol Server",
-      url: siteUrl,
-      codeRepository: github,
-      downloadUrl: `${github}/releases/latest`,
-      softwareVersion: "3.13.0",
-      applicationCategory: "DeveloperApplication",
-      applicationSubCategory: "Model Context Protocol server for music production",
-      operatingSystem: "macOS 14 or later",
-      license: `${github}/blob/main/LICENSE`,
-      isAccessibleForFree: true,
-      offers: {
-        "@type": "Offer",
-        price: 0,
-        priceCurrency: "USD",
-      },
-      featureList: [
-        "Logic Pro track and MIDI composition",
-        "Transport, mixer, and navigation control",
-        "Live project state resources",
-        "Confirmed, uncertain, or failed verification envelopes",
-        "Homebrew installation for Apple silicon and Intel Macs",
-      ],
-      sameAs: [github],
-    },
-  ],
-};
+import { preload } from "react-dom";
+import { SessionPlayer } from "./components/session-player";
+import { OperationBench } from "./components/operation-bench";
+import { InstallDesk } from "./components/install-desk";
+import { productFacts } from "./content/product-facts";
+import { githubUrl, siteUrl } from "./site-config";
 
 export default function Home() {
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
-      <a className="skip-link" href="#main">Skip to main content</a>
-      <header className="site-header">
-        <nav className="nav-shell" aria-label="Primary navigation">
-          <a className="wordmark" href="#top" aria-label="Logic Pro MCP home"><span className="mark" aria-hidden="true"><i /><i /><i /></span><span>Logic Pro <strong>MCP</strong></span></a>
-          <div className="nav-links"><Link href="/guides/logic-pro-mcp">Guide</Link><Link href="/install/claude-code">Install</Link><Link href="/use-cases/mixer-automation">Use cases</Link><a href="#evidence">Evidence</a></div>
-          <a className="nav-cta" href={github} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-        </nav>
-      </header>
-
-      <main id="main">
-        <section className="hero section" id="top">
-          <div className="hero-copy">
-            <p className="eyebrow"><span /> Open-source Logic Pro control plane</p>
-            <h1>Give your agent a signal path into Logic Pro.</h1>
-            <p className="hero-lead">A local MCP server for Claude, Cursor, VS Code, and custom agents to compose, control, inspect, and verify real work in Logic Pro.</p>
-            <div className="hero-actions"><a className="button primary" href={github} target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a><a className="button secondary" href="#install">Install with Homebrew <span aria-hidden="true">↓</span></a></div>
-            <p className="compatibility">stable v3.13.0 · macOS 14+ · Logic Pro 12.3 first-class · MIT</p>
-            <a className="recognition" href={github + "/blob/v3.13.0/README.md"} target="_blank" rel="noreferrer"><i aria-hidden="true" />{ossProgram}<span aria-hidden="true">↗</span></a>
+  preload("/session-poster.webp", { as: "image", fetchPriority: "high" });
+  return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      "@context": "https://schema.org", "@graph": [
+      { "@type": "Organization", "@id": siteUrl + "/#organization", name: "Logic Pro MCP", url: siteUrl,
+        description: "Maintainer of the open-source Logic Pro MCP server for Claude, Cursor, VS Code, and custom AI agents.",
+        logo: { "@type": "ImageObject", url: siteUrl + "/og.png" },
+        knowsAbout: ["Model Context Protocol", "Logic Pro automation", "MIDI composition", "macOS Accessibility and Automation permissions", "DAW agent tooling"],
+        sameAs: [githubUrl, "https://github.com/MongLong0214/logic-pro-mcp-site", "https://www.pulsemcp.com/servers/monglong-logic-pro", "https://lobehub.com/mcp/monglong0214-logic-pro-mcp", "https://glama.ai/mcp/servers/MongLong0214/logic-pro-mcp"] },
+      { "@type": "WebSite", "@id": siteUrl + "/#website", name: "Logic Pro MCP", url: siteUrl, inLanguage: "en", publisher: { "@id": siteUrl + "/#organization" } },
+      { "@type": "WebPage", "@id": siteUrl + "/#webpage", name: "Logic Pro MCP Server for Claude, Cursor & AI Agents", url: siteUrl, isPartOf: { "@id": siteUrl + "/#website" } },
+      { "@type": "SoftwareApplication",
+      "@id": siteUrl + "/#software", alternateName: "Logic Pro Model Context Protocol Server",
+      name: "Logic Pro MCP", url: siteUrl, codeRepository: githubUrl,
+      softwareVersion: productFacts.version, applicationCategory: "DeveloperApplication",
+      applicationSubCategory: "Model Context Protocol server for music production", isAccessibleForFree: true,
+      license: githubUrl + "/blob/v" + productFacts.version + "/LICENSE", sameAs: [githubUrl],
+      operatingSystem: "macOS 14 or later", downloadUrl: githubUrl + "/releases/latest",
+      offers: { "@type": "Offer", price: 0, priceCurrency: "USD" } }],
+    }).replace(/</g, "\\u003c") }} />
+    <a className="skip-link" href="#main">Skip to main content</a>
+    <header className="desk-header"><Link className="desk-brand" href="/">Logic Pro <span>MCP</span></Link>
+      <nav aria-label="Primary navigation"><Link href="/guides/logic-pro-mcp">Guide</Link><a href="#install">Install</a><a href={githubUrl}>Source</a></nav>
+      <a className="release-tag" href={githubUrl + "/releases/tag/v" + productFacts.version}>v{productFacts.version} <span>Latest release</span></a>
+    </header>
+    <main id="main">
+      <section className="session-intro" id="top">
+        <div className="intro-topline"><span>LOCAL CONTROL / OPEN SOURCE</span><span>FOR MACOS & LOGIC PRO</span></div>
+        <div className="intro-heading"><h1>Your session.<br /><em>Agent-operated.</em></h1>
+          <div className="intro-aside"><p>Compose, control, and inspect Logic Pro through a local MCP server. Explicit targets. Honest readback. Your tools, working together.</p>
+            <a className="desk-button" href="#install">Install the server</a><Link className="quiet-link" href="/guides/logic-pro-mcp">Read the practical guide</Link>
           </div>
-          <div className="console-shell" aria-label="Example verified Logic Pro MCP workflow">
-            <div className="console-top"><span>SESSION / SIGNAL_01</span><span className="live"><i /> CONNECTED</span></div>
-            <div className="request"><span>REQUEST</span><p>“Build an 8-bar ambient loop at 92 BPM.”</p></div>
-            <div className="signal-path" aria-label="Input, read, act, verify">{["INPUT", "READ", "ACT", "VERIFY"].map((step, index) => <div className="signal-node" key={step}><span>0{index + 1}</span><strong>{step}</strong></div>)}</div>
-            <div className="timeline" aria-hidden="true"><span className="playhead" /><div><b>CHORDS</b><i className="clip clip-a" /><i className="clip clip-a short" /></div><div><b>BASS</b><i className="clip clip-b" /><i className="clip clip-b short" /></div><div><b>TEXTURE</b><i className="clip clip-c" /></div></div>
-            <div className="meters"><div><span>STATE</span><strong className="confirmed">CONFIRMED</strong></div><div><span>TEMPO</span><strong>92.00 <small>BPM</small></strong></div><div><span>REGIONS</span><strong>03 <small>LIVE</small></strong></div></div>
-          </div>
-        </section>
-
-        <section className="proof-strip" aria-label="Project facts">
-          <div><strong>10</strong><span>MCP tools</span></div><div><strong>18</strong><span>read resources</span></div>
-          <div><strong>12</strong><span>resource templates</span></div><div><strong>7</strong><span>native channels</span></div>
-          <div><strong>3,211</strong><span>deterministic tests</span></div>
-        </section>
-
-        <section className="section workflow" id="workflow">
-          <div className="section-heading"><p className="eyebrow"><span /> From intent to evidence</p><h2>Automation you can hear.<br />State you can trust.</h2><p>Each operation routes through the strongest available macOS channel, then exposes what Logic Pro actually did.</p></div>
-          <div className="workflow-grid">
-            <article className="workflow-card compose-card"><span className="card-index">01 / COMPOSE</span><h3>Turn prompts into playable sessions.</h3><p>Create instrument and Drummer tracks, generate MIDI sequences, assign patches, set tempo, and play back the result.</p><div className="piano-roll" role="img" aria-label="A generated MIDI sequence preview">{[72,48,88,60,36,80,52,92,44,68,84,56].map((height, index) => <i key={index} style={{ height: height + "%" }} />)}</div></article>
-            <article className="workflow-card verify-card"><span className="card-index">02 / VERIFY</span><h3>Know what happened after the write.</h3><p>High-risk operations carry target identity, confirmation level, readback, and a typed outcome.</p><div className="state-list"><div><i className="state-dot ok" /><span>STATE A</span><strong>CONFIRMED</strong></div><div><i className="state-dot warning" /><span>STATE B</span><strong>UNCERTAIN</strong></div><div><i className="state-dot danger" /><span>STATE C</span><strong>FAILED</strong></div></div></article>
-            <article className="workflow-card export-card"><span className="card-index">03 / DELIVER</span><h3>Plan, export, and inspect audio artifacts.</h3><p>Dry-run export plans, resume interrupted batches, and analyze the files Logic Pro produced.</p><div className="waveform" aria-hidden="true">{[18,28,44,76,32,58,88,64,36,72,48,94,62,34,78,54,26,68,42,22].map((height, index) => <i key={index} style={{ height }} />)}</div></article>
-          </div>
-        </section>
-
-        <section className="section capabilities" id="capabilities">
-          <div className="cap-intro"><p className="eyebrow"><span /> A broader control surface</p><h2>One interface.<br />Seven native channels.</h2><p>MCU, Accessibility, AppleScript, CoreMIDI, CGEvent, Scripter, and MIDI Key Commands are routed behind a compact MCP surface.</p></div>
-          <div className="cap-list">{capabilities.map(([title, body], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
-        </section>
-
-        <section className="section architecture" id="architecture">
-          <div className="section-heading"><p className="eyebrow"><span /> Architecture at a glance</p><h2>Compact outside.<br />Purpose-built inside.</h2><p>The Swift stdio server validates intent, chooses the strongest channel, then publishes cached or live evidence through resources.</p></div>
-          <ol className="architecture-flow" aria-label="Logic Pro MCP request lifecycle">
-            <li><span>01</span><strong>MCP CLIENT</strong><p>Claude, Cursor, VS Code, or a custom agent launches the local stdio server.</p></li>
-            <li><span>02</span><strong>DISPATCH</strong><p>Ten compact tools validate command parameters and safety requirements.</p></li>
-            <li><span>03</span><strong>ROUTE</strong><p>ChannelRouter selects the strongest available native control channel.</p></li>
-            <li><span>04</span><strong>READ BACK</strong><p>Resources return state with source, freshness, and evidence labels.</p></li>
-          </ol>
-          <div className="tool-table" aria-label="Public MCP tool groups">{toolGroups.map(([label, tools, body], index) => <article key={label}><span>0{index + 1}</span><div><small>{label}</small><h3>{tools}</h3></div><p>{body}</p></article>)}</div>
-          <p className="surface-note"><strong>Tools act.</strong> Ten compact tools carry the public command surface, and <strong>logic://system/operations</strong> publishes the generated per-operation catalog so a client reads the exact commands and parameters at runtime instead of trusting a number in a document. Resources read without mutating Logic, while prompts package ten built-in workflows from readiness and composition to gain staging, cleanup, bounce, and batch export.</p>
-        </section>
-
-        <section className="section trust-section">
-          <div className="trust-panel">
-            <div className="trust-copy"><p className="eyebrow"><span /> Fail closed by design</p><h2>Honest when the UI is not.</h2><p>Targets are explicit. Destructive flows require confirmation. Unreadable or unverified state is returned as uncertain or failed, never promoted to success.</p><p className="trust-detail">Doctor scopes readiness to core, mixer, keycmd, legacy-scripter, or full, then adapts checks for Claude, Cursor, VS Code, terminal, or custom hosts.</p><a className="text-link" href={github + "#trust-model"} target="_blank" rel="noreferrer">Read the trust model <span aria-hidden="true">↗</span></a></div>
-            <div className="doctor-output" aria-label="Example Logic Pro MCP doctor output"><div className="code-label"><span>LOGICPRO MCP / DOCTOR</span><span>PROFILE: CORE</span></div><pre tabIndex={0}><code>{doctorOutput}</code></pre></div>
-            <div className="trust-contracts">{trustContracts.map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}</div>
-          </div>
-        </section>
-
-        <section className="section evidence" id="evidence">
-          <div className="evidence-heading"><p className="eyebrow"><span /> Claims tied to evidence</p><h2>Stable v3.13.0.<br />No green by implication.</h2><p>Release claims stay attached to shipped artifacts, deterministic tests, targeted live QA, or explicitly linked historical evidence.</p></div>
-          <div className="evidence-grid">
-            <article><strong>3,211</strong><span>Swift tests</span><p>Current source tree deterministic suite: passed with zero failures.</p></article>
-            <article><strong>372 / 373</strong><span>strict live E2E</span><p>Last full Logic Pro 12.3 run on the v3.8 line: 372 passed, one skipped, zero failed.</p></article>
-            <article><strong>UNIVERSAL</strong><span>release artifacts</span><p>arm64 and x86_64 archives with SHA256SUMS and release metadata.</p></article>
-            <article><strong>TARGETED</strong><span>current live QA</span><p>Whole-suite live qualification on the v3.12.0 release tree: every registered operation against Logic Pro 12.3 with independent readback.</p></article>
-          </div>
-          <div className="release-line"><span>STABLE / v3.13.0</span><p>Latest Logic Pro first. Logic Pro 12.3 is actively validated; versions down to 12.0.1 remain best-effort. Desktop Logic Pro and Creator Studio are both resolved by bundle identity, but release qualification is desktop-only by product scope.</p><a href={github + "/releases/tag/v3.13.0"} target="_blank" rel="noreferrer">Release evidence ↗</a></div>
-        </section>
-
-        <section className="section install" id="install">
-          <div className="section-heading install-heading"><p className="eyebrow"><span /> Start with a verified install</p><h2>From zero to ready.</h2><p>Install the universal binary, register your client, verify macOS permissions, then let Doctor order the remaining work.</p></div>
-          <div className="install-steps">{installSteps.map((step, index) => <article key={step.name}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><h3>{step.name}</h3><pre tabIndex={0}><code translate="no">{step.command}</code></pre>{"note" in step ? <p>{step.note}</p> : null}</article>)}</div>
-          <p className="install-note">Full setup registers the LogicProMCP-MCU-Internal control surface. Scripter is optional unless you need legacy plugin-parameter writes.</p>
-        </section>
-
-        <section className="section technical-depth" id="limitations">
-          <div className="section-heading"><p className="eyebrow"><span /> Boundaries, not footnotes</p><h2>Known limitations,<br />published plainly.</h2><p>Where Logic Pro cannot provide faithful readback, the server constrains the operation or refuses the claim.</p></div>
-          <div className="limitation-list">{limitations.map(([title, body], index) => <details key={title}><summary><span>0{index + 1}</span><strong>{title}</strong><i aria-hidden="true">+</i></summary><p>{body}</p></details>)}</div>
-        </section>
-
-        <section className="section docs-section" id="docs">
-          <div className="docs-heading"><p className="eyebrow"><span /> Go to the source</p><h2>Docs for every stage.</h2><p>From first launch to API contracts, threat modeling, troubleshooting, and contribution.</p></div>
-          <div className="docs-grid">{docs.map(([title, body, href]) => <a href={href} target="_blank" rel="noreferrer" key={title}><span>{title}</span><p>{body}</p><strong aria-hidden="true">↗</strong></a>)}</div>
-        </section>
-
-        <section className="section docs-section" aria-labelledby="acquisition-heading">
-          <div className="docs-heading"><p className="eyebrow"><span /> Choose your path</p><h2 id="acquisition-heading">Install, learn, then build.</h2><p>Client-specific setup and evidence-backed Logic Pro workflows, each tied to the current v3.13.0 source.</p></div>
-          <div className="docs-grid"><Link href="/install/claude-code"><span>CLAUDE CODE</span><p>CLI registration, launcher permissions, Doctor, and recovery.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/claude-desktop"><span>CLAUDE DESKTOP</span><p>Desktop configuration, restart boundary, permissions, and Doctor.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/cursor"><span>CURSOR</span><p>Editor-hosted MCP registration and client-context readiness.</p><strong aria-hidden="true">→</strong></Link><Link href="/install/vscode"><span>VS CODE</span><p>Profile-scoped registration and launcher permission checks.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/logic-pro-mcp"><span>START GUIDE</span><p>Evaluate the real surface, requirements, evidence, and limitations.</p><strong aria-hidden="true">→</strong></Link><Link href="/guides/control-logic-pro-with-claude"><span>SAFE CONTROL</span><p>Inspect, target, act, and verify without guessing.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/compose-midi"><span>COMPOSE MIDI</span><p>Create material while preserving send-only readback limits.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/mixer-automation"><span>MIXER</span><p>Verified plug-in apply-back with project identity gates.</p><strong aria-hidden="true">→</strong></Link><Link href="/use-cases/batch-export"><span>EXPORT</span><p>Audit, plan, run, resume, and verify Logic-written files.</p><strong aria-hidden="true">→</strong></Link></div>
-        </section>
-
-        <section className="section faq-section" id="faq">
-          <div className="section-heading"><p className="eyebrow"><span /> Logic Pro MCP FAQ</p><h2>Before you install.</h2><p>Direct answers for musicians, developers, and AI agents evaluating the server.</p></div>
-          <div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary><strong>{question}</strong><i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}</div>
-        </section>
-
-        <section className="final-cta section"><div><p className="eyebrow"><span /> Build with the signal, not the screen</p><h2>Make Logic Pro agent-ready.</h2></div><a className="button primary" href={github} target="_blank" rel="noreferrer">Explore the repository <span aria-hidden="true">↗</span></a></section>
-      </main>
-
-      <footer><a className="wordmark" href="#top"><span className="mark" aria-hidden="true"><i /><i /><i /></span><span>Logic Pro <strong>MCP</strong></span></a><p>Independent open-source project. Logic Pro is a trademark of Apple Inc. No affiliation or endorsement is implied.</p><div className="footer-links"><a href={github + "/issues"} target="_blank" rel="noreferrer">Issues</a><a href={github + "/blob/main/SECURITY.md"} target="_blank" rel="noreferrer">Security</a><a href={github + "/blob/main/LICENSE"} target="_blank" rel="noreferrer">MIT</a></div></footer>
-    </>
-  );
+        </div>
+        <SessionPlayer />
+        <div className="session-caption"><p>ONE PROMPT. A REAL LOGIC SESSION.</p><p>Archived product demo · 82 BPM · D minor · not a live connection</p></div>
+      </section>
+      <section className="desk-section work-section" id="workflows">
+        <div className="section-grid-heading"><div><p className="desk-kicker">01 / FROM INTENT TO EVIDENCE</p><h2>Less hand-off.<br />More hands-on.</h2></div><p>One local interface for composing, mixing and delivery. Explore the workflow, then look at what each result actually means.</p></div>
+        <OperationBench />
+        <div className="surface-facts"><span><strong>10</strong> compact tools</span><span><strong>18</strong> read resources</span><span><strong>12</strong> resource templates</span><span><strong>7</strong> native channels</span></div>
+        <p className="surface-footnote">Read <code>logic://system/operations</code> for the exact runtime catalog. Tools act; resources inspect. Channel availability and supported readback determine the outcome.</p>
+      </section>
+      <section className="desk-section principles" id="boundaries">
+        <div><p className="desk-kicker">02 / CONTROL WITH CONTEXT</p><h2>Good tools know<br />where to stop.</h2><Link className="quiet-link" href="/guides/control-logic-pro-with-claude">Read the safe-control workflow</Link></div>
+        <div className="principle-list">
+          <article><span>01</span><div><h3>Name the target.</h3><p>A track ordinal is not a permanent identity. Inspect the current project, track and slot before a write.</p></div></article>
+          <article><span>02</span><div><h3>Keep uncertainty visible.</h3><p>Unreadable state, missing evidence and send-only responses are boundaries, not a reason to assume success.</p></div></article>
+          <article><span>03</span><div><h3>Verify the result, not the request.</h3><p>A successful send or an open dialog is not a confirmed region, parameter or exported audio file.</p></div></article>
+        </div>
+      </section>
+      <section className="desk-section" id="install"><div className="section-grid-heading"><div><p className="desk-kicker">03 / YOUR NEXT SESSION</p><h2>Keep the studio.<br />Add an agent.</h2></div><p>The server runs on your Mac. Choose the application that will launch it, then follow its installation path.</p></div>
+        <InstallDesk />
+        <div className="requirements-line"><span>BEFORE YOU INSTALL</span><p>{productFacts.requirements} Apple silicon and Intel release artifacts. Desktop Logic Pro is the release qualification scope; Creator Studio identification is not a support promise.</p></div>
+      </section>
+      <section className="desk-section evidence-desk" id="evidence">
+        <div className="section-grid-heading"><div><p className="desk-kicker">04 / CHECK THE SOURCE</p><h2>Open source.<br />Open boundaries.</h2></div><p>Release documentation, ongoing development and archived recordings have different scopes. No test counter can erase that distinction.</p></div>
+        <div className="evidence-rows">
+          <details><summary><span>RELEASE</span><strong>v{productFacts.version}</strong><span>Published September 28, 2026</span><i aria-hidden="true">+</i></summary><div><p>The current published server release. Installation and product documentation on this site are pinned to this tag, not unreleased changes.</p><a href={githubUrl + "/releases/tag/v" + productFacts.version}>Release notes and artifacts</a><a href={productFacts.apiUrl}>Tagged API contract</a></div></details>
+          <details><summary><span>DEVELOPMENT</span><strong>Current main</strong><span>Changes after the release</span><i aria-hidden="true">+</i></summary><div><p>Issue fixes and pull requests on main are ongoing development. Their local tests are not a release qualification claim.</p><a href={githubUrl + "/pulls"}>Follow pull requests</a><a href={githubUrl + "/issues"}>Known limitations and open issues</a></div></details>
+          <details><summary><span>RECORDING</span><strong>Session 001</strong><span>Archived product demo</span><i aria-hidden="true">+</i></summary><div><p>The recording above is an example from the project media archive. It is not a live connection to your Mac, a measurement of the latest release or a compatibility guarantee.</p><a href={githubUrl + "/blob/main/docs/media/README.md"}>Recording provenance</a></div></details>
+        </div>
+        <p className="program-note">Officially selected for Anthropic&apos;s Claude for Open Source program. <a href={productFacts.readmeUrl + "#selected-for-anthropics-claude-for-open-source-program"}>Project announcement</a></p>
+      </section>
+      <section className="desk-section reading-desk" id="docs">
+        <p className="desk-kicker">05 / ON THE DESK</p><h2>Go deeper.</h2>
+        <div className="reading-links">{[
+          ["01", "Setup", "Permissions, routing and recovery.", productFacts.setupUrl],
+          ["02", "API", "Tools, resources and the outcome contract.", productFacts.apiUrl],
+          ["03", "Security", "Trust boundaries and installer hardening.", productFacts.securityUrl],
+          ["04", "Changelog", "What shipped, and what remains deferred.", productFacts.changelogUrl],
+        ].map(([number, title, description, href]) => <a key={title} href={href}><span>{number}</span><h3>{title}</h3><p>{description}</p><span className="reading-action">Read documentation</span></a>)}</div>
+      </section>
+    </main>
+    <footer className="desk-footer"><Link className="desk-brand" href="/">Logic Pro <span>MCP</span></Link><p>Independent open-source project. Logic Pro is a trademark of Apple Inc.</p><a href={githubUrl}>MIT licensed. Built in the open.</a></footer>
+  </>;
 }
