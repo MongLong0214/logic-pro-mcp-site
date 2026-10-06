@@ -4,6 +4,7 @@ html { background:var(--desk-paper); color-scheme:light; scroll-behavior:smooth;
 body { background:var(--desk-paper); color:var(--desk-ink); letter-spacing:-.015em; }
 body::before { display:none; }
 a:focus-visible, button:focus-visible, input:focus-visible { outline:3px solid #51721b; outline-offset:5px; }
+:is(.operation-bench, .session-player) :is(a, button, input):focus-visible { outline-color:var(--desk-acid); }
 .desk-header { max-width:1500px; margin:auto; padding:28px 4vw; display:flex; align-items:center; justify-content:space-between; gap:24px; border-bottom:1px solid var(--desk-line); }
 .desk-brand { font-size:22px; font-weight:650; letter-spacing:-.05em; }
 .desk-brand span { font-family:var(--font-plex-mono); font-size:14px; font-weight:450; letter-spacing:-.03em; margin-left:6px; border:1px solid currentColor; padding:4px 6px; }

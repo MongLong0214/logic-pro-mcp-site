@@ -191,6 +191,66 @@ test("focus, heading order, non-color status, and 200% zoom remain usable", asyn
   }
 });
 
+test("keyboard focus contrasts with its adjacent surface on the bench, player and paper", async ({ page }, testInfo) => {
+  await page.goto("/");
+  const observations = [];
+  async function checkFocus(control) {
+    await control.focus();
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Shift+Tab");
+    await expect(control).toBeFocused();
+    const reading = await control.evaluate((element) => {
+      const style = getComputedStyle(element);
+      // The offset outline sits outside the control, including selected light
+      // buttons. Walk the transparent wrappers to the actual adjacent surface.
+      let surface = element.parentElement;
+      while (surface && getComputedStyle(surface).backgroundColor === "rgba(0, 0, 0, 0)") surface = surface.parentElement;
+      const background = getComputedStyle(surface ?? document.documentElement).backgroundColor;
+      function luminance(color) {
+        const channels = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(value => {
+          const channel = value / 255;
+          return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+        });
+        return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+      }
+      const ring = luminance(style.outlineColor);
+      const adjacent = luminance(background);
+      return {
+        name: element.getAttribute("aria-label") ?? element.textContent.trim(),
+        visible: element.matches(":focus-visible"),
+        outlineStyle: style.outlineStyle,
+        outlineWidth: Number.parseFloat(style.outlineWidth),
+        outlineColor: style.outlineColor,
+        background,
+        contrast: (Math.max(ring, adjacent) + 0.05) / (Math.min(ring, adjacent) + 0.05),
+      };
+    });
+    observations.push(reading);
+    expect.soft(reading.visible, reading.name).toBe(true);
+    expect.soft(reading.outlineStyle, reading.name).not.toBe("none");
+    expect.soft(reading.outlineWidth, reading.name).toBeGreaterThanOrEqual(2);
+    expect.soft(reading.contrast, `${reading.name}: ${reading.outlineColor} against ${reading.background}`).toBeGreaterThanOrEqual(3);
+  }
+  for (const group of [".workflow-switch", ".outcome-switch"]) {
+    for (const control of await page.locator(`${group} button`).all()) {
+      await checkFocus(control);
+      await control.press("Enter");
+      await expect(control).toHaveAttribute("aria-pressed", "true");
+      await checkFocus(control);
+    }
+  }
+  const play = page.locator(".transport-controls").getByRole("button", { name: "Play recording", exact: true });
+  await checkFocus(play);
+  await play.press("Enter");
+  await expect.poll(() => page.locator("video").evaluate(video => !video.paused && video.currentTime > 0)).toBe(true);
+  const pause = page.getByRole("button", { name: "Pause recording", exact: true });
+  await checkFocus(pause);
+  await pause.press("Enter");
+  for (const control of await page.locator(".transport-controls button, .transport-controls input, .transport-controls a").all()) await checkFocus(control);
+  for (const control of await page.locator(".client-switch button, .install-desk .copy-command button, a.desk-button, .reading-links a, .evidence-rows summary").all()) await checkFocus(control);
+  await testInfo.attach("computed-keyboard-focus", { body: JSON.stringify(observations, null, 2), contentType: "application/json" });
+});
+
 test("forced clipboard denial preserves a manual-copy recovery message", async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: () => Promise.reject(new DOMException("Denied", "NotAllowedError")) } });
