@@ -1,5 +1,48 @@
 # Logic Pro MCP Design System
 
+## Current: Session Desk
+
+The deployed design is Session Desk, introduced in [PR #6](https://github.com/MongLong0214/logic-pro-mcp-site/pull/6), with the keyboard-focus correction in [PR #7](https://github.com/MongLong0214/logic-pro-mcp-site/pull/7). The earlier Signal Lab specification below is retained as history, not the current palette, layout or accessibility audit. Use `app/session.css` for the landing page and `app/globals.css` for shared typography and documentation surfaces; `app/layout.tsx` loads both.
+
+### Identity and surfaces
+
+An editorial session sheet frames a real archived Logic recording. Paper is the default surface; dark green is reserved for the recording and interactive workflow bench. The accent marks active controls rather than pretending an agent is connected.
+
+| Token | Value | Role |
+|---|---|---|
+| `--desk-paper` | `#f1f0eb` | Page and document background |
+| `--desk-ink` | `#1c211f` | Primary text and installation CTA |
+| `--desk-muted` | `#58615d` | Supporting text |
+| `--desk-acid` | `#d4ed77` | Active controls, spectrum and dark-surface focus |
+| `--desk-line` | `#ccd0c6` | Paper dividers |
+
+The player uses `#1d2320`; the workflow bench uses `#202721`. Neither is a universal card treatment. Paper focus outlines use `#51721b`; controls within the player and bench use the acid accent. Preserve the 3px outline and 5px offset, and evaluate focus against the adjacent surface rather than only the selected button fill.
+
+### Typography and layout
+
+The actual sans stack is Helvetica Neue, Helvetica, Arial, sans-serif. The monospace stack is SFMono-Regular, Consolas, Liberation Mono, monospace; the `--font-plex-*` variable names do not indicate downloaded Plex fonts.
+
+The desktop hero uses `clamp(3.75rem, 7.9vw, 8.5rem)`, weight 550, tracking `-.07em` and line-height `.97`. Section headings use `clamp(2.75rem, 5vw, 5rem)`, weight 500 and line-height `1.04`. Do not apply the historical optical-tracking table to these selectors.
+
+Landing sections have a 1500px maximum width and 4vw horizontal padding. At 900px, the hero, workflow bench and installation columns become single-column; at 600px, navigation wraps, playback controls reflow and section spacing becomes 72px with 5vw gutters. Documentation uses its own 650px breakpoint. These are the implemented layouts, not a requirement to add more breakpoints.
+
+### Interaction and honest feedback
+
+- The player fetches the same-origin recording only after activation. Play, pause, seek and mute operate on that recording; the spectrum comes from its actual Web Audio data. Optional analysis failure must not block ordinary playback. Keep loading/error recovery and the original-recording link.
+- Compose, Mix and Deliver change the rendered workflow. A/B/C buttons explain the outcome contract; the example remains explicitly not live. Supported browsers use native View Transitions, with ordinary state updates as the reduced-motion/unsupported fallback.
+- The installation desk switches among four actual client configurations. Copy feedback resets when the client changes, and VS Code retains its distinct `servers` shape.
+- Release, development and recording provenance use native disclosures. Product guidance stays pinned to the published release; an archived recording or ongoing main change is not release qualification.
+
+Scroll-linked motion applies only to section headings on widths above 900px, behind CSS feature detection and the no-preference motion setting. It translates by 20px without hiding the content. Reduced motion disables transitions, animations and smooth scrolling. Hover scale and blur on the play overlay are implemented exceptions to the historical Signal Lab motion rules, not permission to add decorative cursor effects or simulated telemetry.
+
+### Verification scope
+
+Use the existing tests and QA instructions in `docs/qa.md`; no additional release gate is introduced here. PR #7 records the actual keyboard-focus correction and 90 passing Chromium checks. That receipt does not establish physical Safari/iOS behavior, human audible listening, a fully unclipped focus perimeter or video-overlay pixel contrast. The historical measurements below belong to the earlier design and must not be reused as Session Desk results.
+
+## Historical: Signal Lab
+
+The following specification is preserved from the earlier design. Its constraints and measured results describe that implementation, not the current Session Desk.
+
 ## 0. Research Log
 
 - Embedded references: shortlisted Linear, Vercel, and Supabase; picked Soft Skill + Linear for precise dark-surface hierarchy, then replaced its violet identity with an original professional-audio signal palette.
