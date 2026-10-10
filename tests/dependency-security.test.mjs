@@ -4,6 +4,13 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import postcss from "postcss";
+import { load } from "js-yaml";
+
+test("YAML empty merge sources consume the configured merge budget", () => {
+  assert.throws(() => load("empty: &empty {}\ntarget: { <<: [*empty, *empty] }\n", {
+    maxTotalMergeKeys: 1,
+  }), { name: "YAMLException", reason: "merge keys exceeded maxTotalMergeKeys (1)" });
+});
 
 test("PostCSS refuses an absolute external source map without a source filename", async () => {
   const directory = await mkdtemp(path.join(tmpdir(), "lpm-postcss-map-"));
