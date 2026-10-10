@@ -40,7 +40,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.44.0",
+    "@cloudflare/vite-plugin": "1.63.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -55,11 +55,11 @@
     "typescript": "5.9.3",
     "vinext": "0.0.50",
     "vite": "8.1.4",
-    "wrangler": "4.110.0"
+    "wrangler": "4.149.0"
   },
   "overrides": {
     "@babel/core": "7.29.7",
-    "js-yaml": "4.3.0",
+    "js-yaml": "4.3.2",
     "postcss": "8.5.23"
   },
   "type": "module"
