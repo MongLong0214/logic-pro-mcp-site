@@ -28,7 +28,7 @@ export type AnalyticsEvent = Readonly<{
   command_step?: CommandStep;
 }>;
 
-const allowedHosts = new Set(["", "github.com", "code.claude.com", "support.anthropic.com", "docs.cursor.com", "code.visualstudio.com", "modelcontextprotocol.io"]);
+const allowedHosts = new Set(["", "github.com", "code.claude.com", "support.anthropic.com", "cursor.com", "code.visualstudio.com", "modelcontextprotocol.io"]);
 const allowedKeys = new Set(["name", "page", "placement", "destination_host", "client", "command_step"]);
 const handledActivations = new WeakSet<Event>();
 const viewedInstallRoutes = new WeakMap<object, Set<string>>();

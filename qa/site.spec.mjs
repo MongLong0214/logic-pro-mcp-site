@@ -24,7 +24,7 @@ test("client selection changes configuration and never retains a stale Copied re
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto("/");
   const register = page.locator(".install-columns article").nth(1);
-  await expect(register).toContainText("claude mcp add --scope user");
+  await expect(register).toContainText("claude mcp add --transport stdio --scope user");
   await register.getByRole("button", { name: "Copy command" }).click();
   await expect(register.getByRole("status")).toHaveText("Copied");
   await page.locator(".client-switch").getByRole("button", { name: "VS Code", exact: true }).click();
@@ -33,12 +33,22 @@ test("client selection changes configuration and never retains a stale Copied re
   await expect(register.locator("code")).not.toContainText('"mcpServers"');
   await register.getByRole("button", { name: "Copy command" }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain('"servers"');
+  const copiedVSCode = JSON.parse(await page.evaluate(() => navigator.clipboard.readText()));
+  expect(Object.keys(copiedVSCode)).toEqual(["servers"]);
+  expect(copiedVSCode.servers["logic-pro"]).toEqual({ type: "stdio", command: "LogicProMCP", args: [] });
+  await page.locator(".client-switch").getByRole("button", { name: "Cursor", exact: true }).click();
+  await expect(register.getByRole("status")).toHaveText("");
+  await register.getByRole("button", { name: "Copy command" }).click();
+  await expect(register.getByRole("status")).toHaveText("Copied");
+  const copiedCursor = JSON.parse(await page.evaluate(() => navigator.clipboard.readText()));
+  expect(Object.keys(copiedCursor)).toEqual(["mcpServers"]);
+  expect(copiedCursor.mcpServers["logic-pro"]).toEqual({ type: "stdio", command: "LogicProMCP", args: [] });
 });
 
 test("all four homepage clients select their own registration and readiness commands by keyboard", async ({ page }) => {
   await page.goto("/");
   for (const [name, id, registration] of [
-    ["Claude Code", "claude-code", "claude mcp add --scope user"],
+    ["Claude Code", "claude-code", "claude mcp add --transport stdio --scope user"],
     ["Claude Desktop", "claude-desktop", '"mcpServers"'],
     ["Cursor", "cursor", '"mcpServers"'],
     ["VS Code", "vscode", '"servers"'],
@@ -47,7 +57,16 @@ test("all four homepage clients select their own registration and readiness comm
     await button.focus();
     await button.press("Enter");
     await expect(button).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator(".install-columns article").nth(1).locator("code")).toContainText(registration);
+    const renderedRegistration = page.locator(".install-columns article").nth(1).locator("code");
+    await expect(renderedRegistration).toContainText(registration);
+    if (id !== "claude-code") {
+      const config = JSON.parse(await renderedRegistration.innerText());
+      const root = id === "vscode" ? "servers" : "mcpServers";
+      expect(Object.keys(config)).toEqual([root]);
+      expect(config[root]["logic-pro"].command).toBe("LogicProMCP");
+      expect(config[root]["logic-pro"].args).toEqual([]);
+      if (id !== "claude-desktop") expect(config[root]["logic-pro"].type).toBe("stdio");
+    }
     await expect(page.locator(".install-columns article").nth(2).locator("code")).toContainText(`doctor --profile core --client ${id}`);
     await expect(page.locator(".install-after a")).toHaveAttribute("href", `/install/${id}`);
   }

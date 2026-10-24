@@ -1,0 +1,10 @@
+Source URL: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+Source heading: Commands
+Accessed UTC: 2026-10-24T19:37:10Z
+Expires UTC: 2027-01-22T19:37:10Z
+
+Exact excerpt:
+MCP: Open User Configuration
+
+Reviewed guidance (summary):
+VS Code profile/workspace mcp.json uses servers. Portable Copilot configuration uses mcpServers in .mcp.json. Workspace servers inherit Workspace Trust. Use MCP: List Servers for output and lifecycle actions.

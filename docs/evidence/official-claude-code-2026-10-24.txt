@@ -1,0 +1,10 @@
+Source URL: https://code.claude.com/docs/en/mcp
+Source heading: Option 3: Add a local stdio server
+Accessed UTC: 2026-10-24T19:37:10Z
+Expires UTC: 2027-01-22T19:37:10Z
+
+Exact excerpt:
+claude mcp add [options] <name> -- <command> [args...]
+
+Reviewed guidance (summary):
+The local server command follows --; transport and scope options belong to the client. The guide declares stdio explicitly.

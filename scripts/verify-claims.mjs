@@ -77,7 +77,7 @@ for (const claim of claimLedger) {
     taggedPathAndHeading(claim);
   } else {
     assert.equal(claim.expiryPolicy, "90-days", `${claim.key}: official docs use 90-day expiry`);
-    assert.equal(claim.expiresAt, "2026-10-11T05:56:43Z", `${claim.key}: official docs expiry must be 2026-10-11`);
+    assert.equal(Date.parse(claim.expiresAt) - Date.parse(claim.accessedAt), 90 * 24 * 60 * 60 * 1000, `${claim.key}: official docs expiry must follow its access date by 90 days`);
     assert.ok(today <= Date.parse(claim.expiresAt), `${claim.key}: official evidence expired`);
     assert.ok(claim.sourceRef.startsWith(`${claim.sourceUrl}#`), `${claim.key}: official sourceRef must anchor its URL`);
   }
