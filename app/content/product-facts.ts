@@ -16,7 +16,7 @@ export const productFacts = {
     "brew trust monglong0214/logic-pro-mcp",
     "brew install logic-pro-mcp",
   ].join("\n"),
-  claudeCodeCommand: "claude mcp add --scope user logic-pro -- LogicProMCP",
+  claudeCodeCommand: "claude mcp add --transport stdio --scope user logic-pro -- LogicProMCP",
   permissionCommand: "LogicProMCP --check-permissions",
 } as const;
 

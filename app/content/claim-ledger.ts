@@ -29,7 +29,7 @@ type EvidenceSource = Pick<ClaimEvidence,
   "sourceSha256" | "accessedAt" | "expiryPolicy" | "expiresAt" | "sourceExcerpt"
 >;
 
-const accessedAt = "2026-07-13T05:56:43Z";
+const accessedAt = "2026-10-24T19:37:10Z";
 // Product-doc snapshots are re-taken on every release change; client docs keep their 90-day window.
 const productAccessedAt = "2026-10-05T05:45:50Z";
 const taggedSetup = {
@@ -74,30 +74,30 @@ const officialSources = {
   "claude-code": {
     sourceType: "official-client-doc", sourceUrl: "https://code.claude.com/docs/en/mcp",
     sourceRef: "https://code.claude.com/docs/en/mcp#option-3-add-a-local-stdio-server", sourceHeading: "Option 3: Add a local stdio server",
-    evidenceFile: "docs/evidence/official-claude-code-2026-07-13.txt", sourceSha256: "08fc1705283faa43668b03d9c8e5f442f1cd3dfdcb058a2ffaac1d73f85a7a09",
-    accessedAt, expiryPolicy: "90-days", expiresAt: "2026-10-11T05:56:43Z",
+    evidenceFile: "docs/evidence/official-claude-code-2026-10-24.txt", sourceSha256: "0f386d32a1b698cd2c008a8d1510e715bd39b6d483d685c0b85a56dcc9765a37",
+    accessedAt, expiryPolicy: "90-days", expiresAt: "2027-01-22T19:37:10Z",
     sourceExcerpt: "claude mcp add [options] <name> -- <command> [args...]",
   },
   "claude-desktop": {
     sourceType: "official-client-doc", sourceUrl: "https://modelcontextprotocol.io/docs/develop/connect-local-servers",
     sourceRef: "https://modelcontextprotocol.io/docs/develop/connect-local-servers#restart-claude-desktop", sourceHeading: "Restart Claude Desktop",
-    evidenceFile: "docs/evidence/official-claude-desktop-2026-07-13.txt", sourceSha256: "b25a8c88c8426043ee1f24053e83e9b07ff768383885ba841591e514d0bdeda4",
-    accessedAt, expiryPolicy: "90-days", expiresAt: "2026-10-11T05:56:43Z",
-    sourceExcerpt: "After saving the configuration file, completely quit Claude Desktop and restart it.",
+    evidenceFile: "docs/evidence/official-claude-desktop-2026-10-24.txt", sourceSha256: "3c5213fa5a7f1a17eb3cc79e9495abfffc4cebb08764879c9cc471867ab8574e",
+    accessedAt, expiryPolicy: "90-days", expiresAt: "2027-01-22T19:37:10Z",
+    sourceExcerpt: "completely quit Claude Desktop and restart it.",
   },
   cursor: {
-    sourceType: "official-client-doc", sourceUrl: "https://docs.cursor.com/context/model-context-protocol",
-    sourceRef: "https://docs.cursor.com/context/model-context-protocol#configuration", sourceHeading: "Configuration",
-    evidenceFile: "docs/evidence/official-cursor-2026-07-13.txt", sourceSha256: "eaccf90321153ad54cf472a91221c3f55b7be61cb059a0d66aa485ac31464840",
-    accessedAt, expiryPolicy: "90-days", expiresAt: "2026-10-11T05:56:43Z",
-    sourceExcerpt: "Create `.cursor/mcp.json` in your project for project-specific tools, or `~/.cursor/mcp.json` for tools available across projects.",
+    sourceType: "official-client-doc", sourceUrl: "https://cursor.com/docs/mcp",
+    sourceRef: "https://cursor.com/docs/mcp#configuration-locations", sourceHeading: "Configuration locations",
+    evidenceFile: "docs/evidence/official-cursor-2026-10-24.txt", sourceSha256: "43721b45b2111107d6231e01cb78f1cf58bd9ac32c1915910f9874a6e77368b8",
+    accessedAt, expiryPolicy: "90-days", expiresAt: "2027-01-22T19:37:10Z",
+    sourceExcerpt: "Create `.cursor/mcp.json` in your project for project-specific tools.",
   },
   vscode: {
-    sourceType: "official-client-doc", sourceUrl: "https://code.visualstudio.com/docs/agent-customization/mcp-servers",
-    sourceRef: "https://code.visualstudio.com/docs/agent-customization/mcp-servers#configure-the-mcpjson-file", sourceHeading: "Configure the mcp.json file",
-    evidenceFile: "docs/evidence/official-vscode-2026-07-13.txt", sourceSha256: "bac88e1e2c7ada8e6a375120d16be950e97259440703c8f70ffcb96f7a058f0f",
-    accessedAt, expiryPolicy: "90-days", expiresAt: "2026-10-11T05:56:43Z",
-    sourceExcerpt: "For workspace configuration, create `.vscode/mcp.json`.",
+    sourceType: "official-client-doc", sourceUrl: "https://code.visualstudio.com/docs/agents/reference/mcp-configuration",
+    sourceRef: "https://code.visualstudio.com/docs/agents/reference/mcp-configuration#commands", sourceHeading: "Commands",
+    evidenceFile: "docs/evidence/official-vscode-2026-10-24.txt", sourceSha256: "9d2b9fe3259bba8947ddebd640151b79d17f07b00258aeee8cae93a70c9495ed",
+    accessedAt, expiryPolicy: "90-days", expiresAt: "2027-01-22T19:37:10Z",
+    sourceExcerpt: "MCP: Open User Configuration",
   },
 } as const satisfies Record<"claude-code" | "claude-desktop" | "cursor" | "vscode", EvidenceSource>;
 

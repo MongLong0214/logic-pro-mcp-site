@@ -1,0 +1,10 @@
+Source URL: https://cursor.com/docs/mcp
+Source heading: Configuration locations
+Accessed UTC: 2026-10-24T19:37:10Z
+Expires UTC: 2027-01-22T19:37:10Z
+
+Exact excerpt:
+Create `.cursor/mcp.json` in your project for project-specific tools.
+
+Reviewed guidance (summary):
+The global configuration is ~/.cursor/mcp.json. Local entries support type stdio. Enable servers from Customize; inspect startup errors in Output → MCP Logs.

@@ -1,0 +1,10 @@
+Source URL: https://modelcontextprotocol.io/docs/develop/connect-local-servers
+Source heading: Restart Claude Desktop
+Accessed UTC: 2026-10-24T19:37:10Z
+Expires UTC: 2027-01-22T19:37:10Z
+
+Exact excerpt:
+completely quit Claude Desktop and restart it.
+
+Reviewed guidance (summary):
+The macOS configuration remains ~/Library/Application Support/Claude/claude_desktop_config.json with an mcpServers object. Restart after editing.

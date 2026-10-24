@@ -19,7 +19,7 @@ brew install logic-pro-mcp
 
 Register with Claude Code:
 
-claude mcp add --scope user logic-pro -- LogicProMCP
+${productFacts.claudeCodeCommand}
 
 Verify readiness:
 
