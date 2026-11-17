@@ -10,6 +10,7 @@ Source repository: [MongLong0214/logic-pro-mcp](${githubUrl})
 Published release: [v${productFacts.version}](${githubUrl}/releases/tag/v${productFacts.version})
 License: MIT
 Platform: ${productFacts.requirements}
+Qualification: ${productFacts.qualification}
 
 ## Install
 

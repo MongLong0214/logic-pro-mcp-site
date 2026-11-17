@@ -31,7 +31,8 @@ test("Given the production worker, when the landing page renders, then product p
   assert.doesNotMatch(html, /<video[^>]+src=/);
   assert.match(html, /Recording position/);
   assert.match(html, /logic:\/\/system\/operations/);
-  assert.match(html, /Claude for Open Source program/);
+  assert.match(html, /17 of 138 operations are live-qualified/);
+  assert.doesNotMatch(html, /Claude for Open Source/);
   assert.match(html, /PUBLIC SURFACE/);
   assert.match(html, /Known limitations/);
   assert.match(html, /Go deeper/);
@@ -50,9 +51,9 @@ test("Given the production worker, when the landing page renders, then product p
     price: 0,
     priceCurrency: "USD",
   });
-  assert.equal(jsonLd["@graph"][3].softwareVersion, "3.18.0");
+  assert.equal(jsonLd["@graph"][3].softwareVersion, "3.19.0");
   assert.deepEqual(jsonLd["@graph"][1].publisher, { "@id": "https://logicpromcp.com/#organization" });
-  assert.match(html, /blob\/v3\.18\.0\/docs\/API\.md/);
+  assert.match(html, /blob\/v3\.19\.0\/docs\/API\.md/);
   assert.match(html, /rel="canonical" href="https:\/\/logicpromcp\.com"/);
   assert.match(html, /<meta name="theme-color" content="#f1f0eb"\/>/);
   assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);
@@ -107,8 +108,8 @@ test("Given either LLM discovery route, product guidance stays on the published 
     const response = await render(pathname);
     assert.equal(response.status, 200);
     const text = await response.text();
-    assert.match(text, /v3\.18\.0/);
-    assert.match(text, /blob\/v3\.18\.0\/docs\/API\.md/);
+    assert.match(text, /v3\.19\.0/);
+    assert.match(text, /blob\/v3\.19\.0\/docs\/API\.md/);
     assert.doesNotMatch(text, /blob\/main\//);
   }
 });

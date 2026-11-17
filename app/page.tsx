@@ -46,7 +46,7 @@ export default function Home() {
       <section className="desk-section work-section" id="workflows">
         <div className="section-grid-heading"><div><p className="desk-kicker">01 / FROM INTENT TO EVIDENCE</p><h2>Less hand-off.<br />More hands-on.</h2></div><p>One local interface for composing, mixing and delivery. Explore the workflow, then look at what each result actually means.</p></div>
         <OperationBench />
-        <div className="surface-facts"><span><strong>10</strong> compact tools</span><span><strong>18</strong> read resources</span><span><strong>12</strong> resource templates</span><span><strong>7</strong> native channels</span></div>
+        <div className="surface-facts"><span><strong>10</strong> compact tools</span><span><strong>138</strong> operations</span><span><strong>19</strong> read resources</span><span><strong>12</strong> resource templates</span><span><strong>7</strong> native channels</span></div>
         <p className="surface-footnote">Read <code>logic://system/operations</code> for the exact runtime catalog. Tools act; resources inspect. Channel availability and supported readback determine the outcome.</p>
       </section>
       <section className="desk-section principles" id="boundaries">
@@ -64,11 +64,11 @@ export default function Home() {
       <section className="desk-section evidence-desk" id="evidence">
         <div className="section-grid-heading"><div><p className="desk-kicker">04 / CHECK THE SOURCE</p><h2>Open source.<br />Open boundaries.</h2></div><p>Release documentation, ongoing development and archived recordings have different scopes. No test counter can erase that distinction.</p></div>
         <div className="evidence-rows">
-          <details><summary><span>RELEASE</span><strong>v{productFacts.version}</strong><span>Published September 28, 2026</span><i aria-hidden="true">+</i></summary><div><p>The current published server release. Installation and product documentation on this site are pinned to this tag, not unreleased changes.</p><a href={githubUrl + "/releases/tag/v" + productFacts.version}>Release notes and artifacts</a><a href={productFacts.apiUrl}>Tagged API contract</a></div></details>
+          <details><summary><span>RELEASE</span><strong>v{productFacts.version}</strong><span>Changelog dated November 14, 2026</span><i aria-hidden="true">+</i></summary><div><p>The current published server release. Installation and product documentation on this site are pinned to this tag, not unreleased changes.</p><a href={githubUrl + "/releases/tag/v" + productFacts.version}>Release notes and artifacts</a><a href={productFacts.apiUrl}>Tagged API contract</a></div></details>
+          <details><summary><span>QUALIFICATION</span><strong>Logic Pro 13.0</strong><span>17 of 138 operations</span><i aria-hidden="true">+</i></summary><div><p>{productFacts.qualification}</p><p>{productFacts.locales}</p><a href={productFacts.qualificationUrl}>Not-qualified list with reasons</a></div></details>
           <details><summary><span>DEVELOPMENT</span><strong>Current main</strong><span>Changes after the release</span><i aria-hidden="true">+</i></summary><div><p>Issue fixes and pull requests on main are ongoing development. Their local tests are not a release qualification claim.</p><a href={githubUrl + "/pulls"}>Follow pull requests</a><a href={githubUrl + "/issues"}>Known limitations and open issues</a></div></details>
           <details><summary><span>RECORDING</span><strong>Session 001</strong><span>Archived product demo</span><i aria-hidden="true">+</i></summary><div><p>The recording above is an example from the project media archive. It is not a live connection to your Mac, a measurement of the latest release or a compatibility guarantee.</p><a href={githubUrl + "/blob/main/docs/media/README.md"}>Recording provenance</a></div></details>
         </div>
-        <p className="program-note">Officially selected for Anthropic&apos;s Claude for Open Source program. <a href={productFacts.readmeUrl + "#selected-for-anthropics-claude-for-open-source-program"}>Project announcement</a></p>
       </section>
       <section className="desk-section reading-desk" id="docs">
         <p className="desk-kicker">05 / ON THE DESK</p><h2>Go deeper.</h2>

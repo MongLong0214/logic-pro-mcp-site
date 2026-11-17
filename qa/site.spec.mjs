@@ -17,7 +17,7 @@ test("workflow and outcome controls change the real rendered example", async ({ 
   await expect(page.locator(".outcome-explanation")).toContainText("could not be independently verified");
   await page.getByRole("button", { name: "Deliver", exact: true }).click();
   await expect(page.locator(".bench-narrative h3")).toHaveText("The file is the result.");
-  await expect(page.locator(".boundary-note")).toContainText("Opening the Bounce dialog is not an exported artifact");
+  await expect(page.locator(".boundary-note")).toContainText("Standalone bounce is unsupported");
 });
 
 test("client selection changes configuration and never retains a stale Copied result", async ({ page, context }) => {
