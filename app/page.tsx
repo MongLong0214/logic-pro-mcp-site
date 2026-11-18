@@ -69,6 +69,7 @@ export default function Home() {
           <details><summary><span>DEVELOPMENT</span><strong>Current main</strong><span>Changes after the release</span><i aria-hidden="true">+</i></summary><div><p>Issue fixes and pull requests on main are ongoing development. Their local tests are not a release qualification claim.</p><a href={githubUrl + "/pulls"}>Follow pull requests</a><a href={githubUrl + "/issues"}>Known limitations and open issues</a></div></details>
           <details><summary><span>RECORDING</span><strong>Session 001</strong><span>Archived product demo</span><i aria-hidden="true">+</i></summary><div><p>The recording above is an example from the project media archive. It is not a live connection to your Mac, a measurement of the latest release or a compatibility guarantee.</p><a href={githubUrl + "/blob/main/docs/media/README.md"}>Recording provenance</a></div></details>
         </div>
+        <p className="program-note">Officially selected for Anthropic&apos;s Claude for Open Source program. <a href={productFacts.readmeUrl + "#selected-for-anthropics-claude-for-open-source-program"}>Project announcement</a></p>
       </section>
       <section className="desk-section reading-desk" id="docs">
         <p className="desk-kicker">05 / ON THE DESK</p><h2>Go deeper.</h2>

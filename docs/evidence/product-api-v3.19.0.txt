@@ -2,11 +2,11 @@ Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/docs/API.
 Source tag: v3.19.0
 Source path: docs/API.md
 Source headings: API Reference; logic_plugins; logic_midi; logic_project
-Accessed UTC: 2026-11-17T23:20:00Z
+Accessed UTC: 2026-11-18T05:58:41Z
 Expiry policy: on-release-change
 Original source SHA256: 7c15d546506db64a530bd5d73e757de1498e00d7a2a40fa985162c4501d91f44
 Original Git blob SHA: 05d44bf5bb46ad7b0e4f3df4c15d02d315cc4998
-Snapshot note: taken from the v3.19.0 source candidate (commit a3f7537522beb016411a6755d14f3990ef6dd1f9) before the v3.19.0 tag existed; re-take after tagging.
+Snapshot note: taken from the published tag v3.19.0 (tag object e251a78538e2ba9d901f8b1154d3b53a142431de, commit 409af686b4a088b6f2b0db7308678ee2e92b4a67).
 
 Exact excerpts (selected, noncontiguous):
 # API Reference

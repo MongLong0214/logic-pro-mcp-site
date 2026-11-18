@@ -2,11 +2,11 @@ Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/SECURITY.
 Source tag: v3.19.0
 Source path: SECURITY.md
 Source headings: Verified plugin apply-back gate; Deployment security
-Accessed UTC: 2026-11-17T23:20:00Z
+Accessed UTC: 2026-11-18T05:58:41Z
 Expiry policy: on-release-change
 Original source SHA256: 6cd9d88bef6a435661ec21d50037bbda742a6b0eefd58a7d98489e58a0111cd7
 Original Git blob SHA: 37c431ba63d214b715520abe6c115a0d3f463e75
-Snapshot note: taken from the v3.19.0 source candidate (commit a3f7537522beb016411a6755d14f3990ef6dd1f9) before the v3.19.0 tag existed; re-take after tagging.
+Snapshot note: taken from the published tag v3.19.0 (tag object e251a78538e2ba9d901f8b1154d3b53a142431de, commit 409af686b4a088b6f2b0db7308678ee2e92b4a67).
 
 Exact excerpts (selected, noncontiguous):
 ### Verified plugin apply-back gate

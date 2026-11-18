@@ -32,7 +32,7 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /Recording position/);
   assert.match(html, /logic:\/\/system\/operations/);
   assert.match(html, /17 of 138 operations are live-qualified/);
-  assert.doesNotMatch(html, /Claude for Open Source/);
+  assert.match(html, /Claude for Open Source program/);
   assert.match(html, /PUBLIC SURFACE/);
   assert.match(html, /Known limitations/);
   assert.match(html, /Go deeper/);
