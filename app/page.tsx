@@ -4,7 +4,19 @@ import { SessionPlayer } from "./components/session-player";
 import { OperationBench } from "./components/operation-bench";
 import { InstallDesk } from "./components/install-desk";
 import { productFacts } from "./content/product-facts";
+import { pageRecords } from "./content/page-records";
 import { githubUrl, siteUrl } from "./site-config";
+
+const registrationFor = (route: "/install/claude-code" | "/install/claude-desktop" | "/install/cursor" | "/install/vscode", step: number) => {
+  const registrationStep = pageRecords[route].steps[step];
+  return "command" in registrationStep ? registrationStep.command : undefined;
+};
+const registrations = {
+  "claude-code": registrationFor("/install/claude-code", 1),
+  "claude-desktop": registrationFor("/install/claude-desktop", 2),
+  cursor: registrationFor("/install/cursor", 2),
+  vscode: registrationFor("/install/vscode", 2),
+} as const;
 
 export default function Home() {
   preload("/session-poster.webp", { as: "image", fetchPriority: "high" });
@@ -28,8 +40,8 @@ export default function Home() {
       offers: { "@type": "Offer", price: 0, priceCurrency: "USD" } }],
     }).replace(/</g, "\\u003c") }} />
     <a className="skip-link" href="#main">Skip to main content</a>
-    <header className="desk-header"><Link className="desk-brand" href="/">Logic Pro <span>MCP</span></Link>
-      <nav aria-label="Primary navigation"><Link href="/guides/logic-pro-mcp">Guide</Link><a href="#install">Install</a><a href={githubUrl}>Source</a></nav>
+    <header className="desk-header"><Link prefetch={false} className="desk-brand" href="/">Logic Pro <span>MCP</span></Link>
+      <nav aria-label="Primary navigation"><Link prefetch={false} href="/guides/logic-pro-mcp">Guide</Link><a href="#install">Install</a><a href={githubUrl}>Source</a></nav>
       <a className="release-tag" href={githubUrl + "/releases/tag/v" + productFacts.version}>v{productFacts.version} <span>Latest release</span></a>
     </header>
     <main id="main">
@@ -37,7 +49,7 @@ export default function Home() {
         <div className="intro-topline"><span>LOCAL CONTROL / OPEN SOURCE</span><span>FOR MACOS & LOGIC PRO</span></div>
         <div className="intro-heading"><h1>Your session.<br /><em>Agent-operated.</em></h1>
           <div className="intro-aside"><p>Compose, control, and inspect Logic Pro through a local MCP server. Explicit targets. Honest readback. Your tools, working together.</p>
-            <a className="desk-button" href="#install">Install the server</a><Link className="quiet-link" href="/guides/logic-pro-mcp">Read the practical guide</Link>
+            <a className="desk-button" href="#install">Install the server</a><Link prefetch={false} className="quiet-link" href="/guides/logic-pro-mcp">Read the practical guide</Link>
           </div>
         </div>
         <SessionPlayer />
@@ -50,7 +62,7 @@ export default function Home() {
         <p className="surface-footnote">Read <code>logic://system/operations</code> for the exact runtime catalog. Tools act; resources inspect. Channel availability and supported readback determine the outcome.</p>
       </section>
       <section className="desk-section principles" id="boundaries">
-        <div><p className="desk-kicker">02 / CONTROL WITH CONTEXT</p><h2>Good tools know<br />where to stop.</h2><Link className="quiet-link" href="/guides/control-logic-pro-with-claude">Read the safe-control workflow</Link></div>
+        <div><p className="desk-kicker">02 / CONTROL WITH CONTEXT</p><h2>Good tools know<br />where to stop.</h2><Link prefetch={false} className="quiet-link" href="/guides/control-logic-pro-with-claude">Read the safe-control workflow</Link></div>
         <div className="principle-list">
           <article><span>01</span><div><h3>Name the target.</h3><p>A track ordinal is not a permanent identity. Inspect the current project, track and slot before a write.</p></div></article>
           <article><span>02</span><div><h3>Keep uncertainty visible.</h3><p>Unreadable state, missing evidence and send-only responses are boundaries, not a reason to assume success.</p></div></article>
@@ -58,7 +70,7 @@ export default function Home() {
         </div>
       </section>
       <section className="desk-section" id="install"><div className="section-grid-heading"><div><p className="desk-kicker">03 / YOUR NEXT SESSION</p><h2>Keep the studio.<br />Add an agent.</h2></div><p>The server runs on your Mac. Choose the application that will launch it, then follow its installation path.</p></div>
-        <InstallDesk />
+        <InstallDesk registrations={registrations} />
         <div className="requirements-line"><span>BEFORE YOU INSTALL</span><p>{productFacts.requirements} Apple silicon and Intel release artifacts. Desktop Logic Pro is the release qualification scope; Creator Studio identification is not a support promise.</p></div>
       </section>
       <section className="desk-section evidence-desk" id="evidence">
@@ -81,6 +93,6 @@ export default function Home() {
         ].map(([number, title, description, href]) => <a key={title} href={href}><span>{number}</span><h3>{title}</h3><p>{description}</p><span className="reading-action">Read documentation</span></a>)}</div>
       </section>
     </main>
-    <footer className="desk-footer"><Link className="desk-brand" href="/">Logic Pro <span>MCP</span></Link><p>Independent open-source project. Logic Pro is a trademark of Apple Inc.</p><a href={githubUrl}>MIT licensed. Built in the open.</a></footer>
+    <footer className="desk-footer"><Link prefetch={false} className="desk-brand" href="/">Logic Pro <span>MCP</span></Link><p>Independent open-source project. Logic Pro is a trademark of Apple Inc.</p><a href={githubUrl}>MIT licensed. Built in the open.</a></footer>
   </>;
 }

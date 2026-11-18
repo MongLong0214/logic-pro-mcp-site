@@ -42,7 +42,7 @@ export function OperationBench() {
     <div className="bench-body">
       <div className="bench-narrative" key={flow.name}><p className="bench-label">INTENT / {flow.name.toUpperCase()}</p><h3>{flow.title}</h3><p>{flow.intent}</p>
         <ol className="flow-steps">{flow.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}</ol>
-        <Link className="bench-guide" href={flow.path}>Read the {flow.name.toLowerCase()} workflow</Link>
+        <Link className="bench-guide" href={flow.path} prefetch={false}>Read the {flow.name.toLowerCase()} workflow</Link>
       </div>
       <div className="bench-contract"><p className="bench-label">PUBLIC SURFACE</p>
         <div className="surface-row"><span>ACT</span><div>{flow.tools.map(tool => <code key={tool}>{tool}</code>)}</div></div>
