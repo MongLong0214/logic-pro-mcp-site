@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { extname, join } from "node:path";
 
-const roots = ["app", "public", "worker", "scripts", "tests", "docs"];
+const roots = ["app", "public", "scripts", "tests", "docs"];
 const patterns = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
   /\bgh[oprsu]_[A-Za-z0-9]{36,}\b/,

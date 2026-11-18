@@ -98,7 +98,16 @@ The player downloads its small same-origin recording only after activation and r
 
 ## Deployment
 
-The site is deployed with OpenAI Sites. `.openai/hosting.json` stores the Sites project identifier and optional resource bindings; hosted configuration and access policy remain managed by Sites.
+The site is a standard Next.js App Router project and deploys to [Vercel](https://vercel.com) with the zero-config Next.js preset: no `vercel.json` is needed.
+
+- **Build:** `npm run build` (`next build`); Vercel auto-detects the framework and Node.js `>=22.13.0`.
+- **Output:** every page, `robots.txt` and `sitemap.xml` are prerendered static; `/llms.txt` and `/llms-full.txt` are route handlers.
+- **Security headers:** the Content-Security-Policy, Permissions-Policy, Referrer-Policy, Strict-Transport-Security, X-Content-Type-Options and X-Frame-Options are set for every path in `headers()` in [`next.config.ts`](next.config.ts). `tests/security-policy.json` is the expected policy; `npm run verify:security` checks the config against it and `npm test` checks the served headers.
+- **Environment variables:** none are required. The analytics contract has no collector.
+- **Preview:** `vercel deploy` creates a preview deployment. Promote to production (`vercel --prod`) and attach `logicpromcp.com` only after reviewing the preview.
+- **Custom domain:** add `logicpromcp.com` in the Vercel project's Domains settings and create the DNS records Vercel shows there.
+
+Verifiers (`npm test`, `npm run verify:all`, `npm run qa:e2e`) run against the production build: build first with `npm run build`, then they start `next start` on a free local port.
 
 ## License
 

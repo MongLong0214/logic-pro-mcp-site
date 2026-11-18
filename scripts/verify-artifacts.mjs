@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { extname, join } from "node:path";
 
-const roots = ["app", "public", "worker", "docs"];
+const roots = ["app", "public", "docs"];
 const forbiddenNames = [/skeleton/i, /starter/i, /debug\.(?:log|txt)$/i, /report\.html$/i];
 const forbiddenContent = [/Your site is taking shape/i, /codex-preview/i, /react-loading-skeleton/i];
 async function walk(relative) {

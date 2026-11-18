@@ -1,23 +1,19 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
+import { fetchFromBuild } from "../scripts/lib/next-server.mjs";
 
 async function render(pathname = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  return fetchFromBuild(pathname);
 }
 
-test("Given the production worker, when the landing page renders, then product proof is present", async () => {
+test("Given the production build, when the landing page renders, then product proof is present", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const policy = JSON.parse(await readFile(new URL("./security-policy.json", import.meta.url), "utf8"));
+  for (const [header, value] of Object.entries(policy)) assert.equal(response.headers.get(header), value, `${header} must be served`);
 
   const html = await response.text();
   assert.match(html, /<title>Logic Pro MCP Server for Claude, Cursor &amp; AI Agents<\/title>/i);
