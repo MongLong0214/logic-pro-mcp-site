@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 const clock = (seconds: number) => `${Math.floor(seconds / 60).toString().padStart(2, "0")}:${Math.floor(seconds % 60).toString().padStart(2, "0")}`;
 
 export function SessionPlayer() {
   const video = useRef<HTMLVideoElement>(null);
+  const poster = useRef<HTMLImageElement>(null);
   const spectrum = useRef<HTMLCanvasElement>(null);
   const audio = useRef<AudioContext | null>(null);
   const analyser = useRef<AnalyserNode | null>(null);
@@ -20,6 +22,8 @@ export function SessionPlayer() {
   const [error, setError] = useState("");
   const [analysisAvailable, setAnalysisAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
+  // The first frame is a plain server-rendered <img>; the <video> only exists once playback is requested.
+  const [videoPoster, setVideoPoster] = useState<string | null>(null);
   useEffect(() => () => {
     cancelAnimationFrame(frame.current);
     download.current?.abort();
@@ -96,8 +100,10 @@ export function SessionPlayer() {
     media.src = recordingUrl.current;
   }
   async function toggle() {
+    if (loading) return;
+    if (!video.current) flushSync(() => setVideoPoster(poster.current?.currentSrc || "/session-poster.webp"));
     const media = video.current;
-    if (!media || loading) return;
+    if (!media) return;
     if (!media.paused) { media.pause(); return; }
     setLoading(true);
     try {
@@ -110,17 +116,22 @@ export function SessionPlayer() {
       if (media.isConnected) setError("Playback unavailable. Open the original recording below.");
     } finally { if (media.isConnected) setLoading(false); }
   }
+  // Hand-sized WebP assets with a srcset; the optimizer route would add a request hop for the LCP image.
+  // eslint-disable-next-line @next/next/no-img-element
+  const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Archived Logic Pro MCP product demo: the first frame of the recording" fetchPriority="high" decoding="async" />;
   return <div className="session-player">
     <div className="player-label"><span>SESSION 001 / FROM PROMPT TO PLAYBACK</span><span>ARCHIVED RECORDING</span></div>
     <div className="video-stage">
-      <video ref={video} poster="/session-poster.webp" preload="none" playsInline muted={muted}
+      {videoPoster === null
+        ? firstFrame
+        : <video ref={video} poster={videoPoster} preload="none" playsInline muted={muted}
         onPlay={() => { setPlaying(true); cancelAnimationFrame(frame.current); draw(); }}
         onPause={() => { setPlaying(false); cancelAnimationFrame(frame.current); }}
         onEnded={() => { setPlaying(false); cancelAnimationFrame(frame.current); }}
         onTimeUpdate={() => setTime(video.current?.currentTime ?? 0)}
         onLoadedMetadata={() => setDuration(video.current?.duration ?? 0)}
         onError={() => setError("Recording unavailable. Open the original below.")}
-        aria-label="Archived Logic Pro MCP product demo, with audio" />
+        aria-label="Archived Logic Pro MCP product demo, with audio" />}
       {!playing && <button className="stage-play" disabled={loading} onClick={toggle} aria-label={time > 0 ? "Resume recording" : "Play recording"}><span aria-hidden="true">▶</span><span>{loading ? "Loading session…" : time > 0 ? "Resume session" : "Hear the session"}</span></button>}
     </div>
     <div className="spectrum-strip"><span>{playing && analysisAvailable ? "RECORDING SPECTRUM" : "PLAY TO EXPLORE THE AUDIO"}</span><canvas ref={spectrum} width="768" height="40" aria-hidden="true" /><span>WEB AUDIO / LOCAL</span></div>

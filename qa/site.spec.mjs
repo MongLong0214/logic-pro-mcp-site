@@ -1,5 +1,22 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test as base } from "@playwright/test";
+
+// The framework scripts start 250 ms after the load event (scripts/defer-hydration.mjs), so the page is
+// server-rendered and visible first and interactive a moment later. Every navigation waits for
+// hydration, as a person would before pressing a control.
+// React tags a DOM node with a __reactFiber$ key once it has hydrated it.
+const hydrated = () => Object.keys(document.querySelector("main") ?? {}).some((key) => key.startsWith("__reactFiber$"));
+const test = base.extend({
+  page: async ({ page }, provide) => {
+    const goto = page.goto.bind(page);
+    page.goto = async (url, options) => {
+      const response = await goto(url, options);
+      if (response?.ok()) await page.waitForFunction(hydrated);
+      return response;
+    };
+    await provide(page);
+  },
+});
 
 const routes = [
   "/", "/install/claude-code", "/install/claude-desktop", "/install/cursor", "/install/vscode",
@@ -77,9 +94,15 @@ test("archived media plays only on request and supports independent seek and pau
   page.on("request", request => { if (new URL(request.url()).pathname === "/session-demo.mp4") mediaRequests.push(request.url()); });
   await page.goto("/");
   const media = page.locator(".video-stage video");
-  expect(await media.evaluate((video) => video.paused)).toBe(true);
+  const firstFrame = page.locator(".video-stage img");
+  await expect(firstFrame).toHaveAttribute("src", "/session-poster.webp");
+  await expect(firstFrame).toHaveAttribute("fetchpriority", "high");
+  await expect(media).toHaveCount(0);
+  const shownFrame = await firstFrame.evaluate((image) => image.currentSrc);
   expect(mediaRequests).toEqual([]);
   await page.getByRole("button", { name: "Play recording", exact: true }).first().click();
+  await expect(media).toHaveAttribute("poster", shownFrame);
+  await expect(firstFrame).toHaveCount(0);
   await expect.poll(() => media.evaluate((video) => !video.paused && video.currentTime > 0)).toBe(true);
   expect(mediaRequests).toHaveLength(1);
   await page.getByRole("button", { name: "Pause recording", exact: true }).click();
@@ -310,6 +333,7 @@ for (const signal of ["doNotTrack", "globalPrivacyControl"]) {
     }, signal);
     const page = await context.newPage();
     await page.goto("/install/claude-code");
+    await page.waitForFunction(hydrated);
     await expect.poll(() => page.evaluate(() => window.__qaAnalyticsEvents.length)).toBe(0);
     await context.close();
   });

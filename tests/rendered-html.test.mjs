@@ -23,8 +23,16 @@ test("Given the production build, when the landing page renders, then product pr
   assert.match(html, /INTERACTIVE EXAMPLE \/ NOT LIVE/);
   assert.doesNotMatch(html, /3,211|>CONNECTED<|>LIVE</);
   assert.match(html, /softwareVersion&quot;|softwareVersion/);
-  assert.match(html, /<video[^>]+poster="\/session-poster\.webp"[^>]+preload="none"/);
-  assert.doesNotMatch(html, /<video[^>]+src=/);
+  // The first frame is a plain server-rendered image that is high priority and has a reserved size;
+  // the <video> is only created when playback is requested, so the recording is never fetched on load.
+  const firstFrame = html.match(/<img[^>]+src="\/session-poster\.webp"[^>]*>/)?.[0] ?? "";
+  assert.match(firstFrame, /fetchPriority="high"/);
+  assert.match(firstFrame, /width="1024"/);
+  assert.match(firstFrame, /height="576"/);
+  assert.match(firstFrame, /alt="[^"]+"/);
+  assert.match(firstFrame, /srcSet="\/session-poster-660\.webp 660w, \/session-poster\.webp 1024w"/);
+  assert.doesNotMatch(html, /<video/);
+  assert.doesNotMatch(html, /session-demo\.mp4/);
   assert.match(html, /Recording position/);
   assert.match(html, /logic:\/\/system\/operations/);
   assert.match(html, /17 of 138 operations are live-qualified/);
