@@ -12,7 +12,7 @@ for (const pathname of ["/", ...acquisitionRoutes]) {
     if (href.startsWith("#")) continue;
     if (href.startsWith("/")) {
       const target = href.split(/[?#]/, 1)[0];
-      assert.ok(knownRoutes.has(target) || target.startsWith("/assets/") || target.startsWith("/og.png") || target.startsWith("/favicon.svg"), `${pathname}: unknown internal link ${href}`);
+      assert.ok(knownRoutes.has(target) || target.startsWith("/_next/static/") || target.startsWith("/og.png") || target.startsWith("/favicon.svg"), `${pathname}: unknown internal link ${href}`);
       continue;
     }
     const url = new URL(href);

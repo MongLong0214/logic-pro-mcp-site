@@ -1,0 +1,38 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/docs/API.md
+Source tag: v3.19.0
+Source path: docs/API.md
+Source headings: API Reference; logic_plugins; logic_midi; logic_project
+Accessed UTC: 2026-11-18T05:58:41Z
+Expiry policy: on-release-change
+Original source SHA256: 7c15d546506db64a530bd5d73e757de1498e00d7a2a40fa985162c4501d91f44
+Original Git blob SHA: 05d44bf5bb46ad7b0e4f3df4c15d02d315cc4998
+Snapshot note: taken from the published tag v3.19.0 (tag object e251a78538e2ba9d901f8b1154d3b53a142431de, commit 409af686b4a088b6f2b0db7308678ee2e92b4a67).
+
+Exact excerpts (selected, noncontiguous):
+# API Reference
+
+Current surface: Logic Pro MCP exposes 10 tools, 19 static resources, and 12 resource templates. What each release changed, including every breaking response shape, is in [CHANGELOG.md](../CHANGELOG.md); this page describes the surface, not its history.
+
+Use tools for actions. Use resources for state. Treat every mutating result as one of:
+
+- State A: confirmed success. The server wrote to Logic and independently read the result back.
+- State B: uncertain success. The server attempted the action but could not verify the result.
+- State C: hard failure. The action did not land and is safe to retry only when `retry_safe` says so.
+
+### `logic_plugins`
+
+This is the stock-plugin inventory, parameter-read and verified apply-back surface.
+
+For every `logic_plugins` command, `track` is the zero-based Arrange track-header index, not the Mixer strip ordinal. `get_inventory` reports the observed `track_name` and `mixer_strip_index`; the latter is a read-only diagnostic, not a mutation selector. Aux strips can make these indices differ: if Bass is Arrange track 9 and Mixer strip 11, use `track: 9` for inventory and writes. Clients that previously compensated for the indexing bug by passing 11 must switch to 9. A `plugin_insert_ref` binds the observed Arrange identity, physical insert slot and occupied plugin identity (or a verified empty slot), rather than the Mixer ordinal; unreadable or incomplete inventory does not issue usable insert references.
+
+Flow:
+
+1. `get_inventory` reads the target track's plugin insert slots.
+2. `insert_verified` inserts an allowlisted stock plugin into an explicit physical slot and verifies post-write inventory.
+3. `logic_plugins.set_param_verified` writes a supported parameter and verifies readback.
+
+Send-only success responses return an Honest Contract State B JSON envelope because CoreMIDI/MMC writes have no deterministic readback:
+
+Common commands: `new`, `open`, `save`, `save_as`, `close`, `bounce`, `is_running`, `launch`, `quit`, `get_regions`, `export_plan`, `export_run`, `export_resume`, `audit`, `cleanup_plan`, `inspect_session`, `plan_session_repair`, `apply_session_repair`, `cleanup_apply`.
+
+Destructive or file-writing paths require confirmation. `save_as` verifies the resulting `.logicx` package. `audit` marks GM Device / External MIDI tracks with MIDI regions as `external_midi_regions_bounce_risk` export blockers. Standalone `bounce` is unsupported: it terminates before opening UI because that route cannot finish an artifact unattended. The registered `export_run` workflow is the automated artifact-producing path. `export_plan` is read-only. Its `stem` form deliberately refuses unless exactly one currently scanned project has a fresh, project-coherent complete region inventory proving its populated tracks and `output_root` is an existing readable directory. A dry plan cannot inspect Logic's Export-panel browser without opening it, so browser visibility is an execution-time precondition: the driver refuses an existing directory that is not exposed there and never navigates arbitrary paths or creates folders. Stem filenames and output format are late-bound and unpromised. For stems, `fail_if_exists` examines only top-level non-directory entries with suffix `wav`, `wave`, `aif`, `aiff`, `aifc`, `m4a`, or `mp3`, and refuses if enumeration fails or the authoritative immediately-pre-export snapshot is non-empty; files that appear only after that snapshot are observations, not attributed produced artifacts. `skip_existing` and `export_resume` refuse stems because Logic assigns filenames only after export. `export_run` re-plans, opens, verifies project identity, drives the stem Export panel or bounces as appropriate, and analyzes only eligible files observed in the destination's before/after snapshot. It reports one result per populated stem subject but does not invent a filename-to-subject association or claim an observed post-snapshot file was produced by Logic; unbound subject results remain State B. `export_resume` remains available for known-path artifacts.

@@ -15,8 +15,8 @@ const workflows = [
     boundary: "Arrange track ordinals and mixer-strip ordinals are not interchangeable. Unsupported plugin parameters cannot become verified writes." },
   { name: "Deliver", number: "03", title: "The file is the result.", intent: "Audit the project, review an export plan, then inspect the audio files Logic writes.",
     tools: ["logic_project", "logic_audio"], read: "logic://system/operations", path: "/use-cases/batch-export",
-    steps: ["Audit the project and destination.", "Review the export plan before running it.", "Complete the required Logic bounce settings.", "Inspect the produced audio artifacts."],
-    boundary: "Opening the Bounce dialog is not an exported artifact. File existence alone does not establish that an external MIDI instrument was audible." },
+    steps: ["Audit the project and destination.", "Review the export plan before running it.", "Run the guarded export with explicit confirmation.", "Inspect the produced audio artifacts."],
+    boundary: "Standalone bounce is unsupported; the guarded export is the automated path. A file in the destination does not establish who produced it or that an external MIDI instrument was audible." },
 ] as const;
 const outcomes = [
   { state: "A", name: "Confirmed", detail: "The supported write and its independent readback agree. Confirmation applies to that operation and target—not the whole session.", tone: "confirmed" },
@@ -42,7 +42,7 @@ export function OperationBench() {
     <div className="bench-body">
       <div className="bench-narrative" key={flow.name}><p className="bench-label">INTENT / {flow.name.toUpperCase()}</p><h3>{flow.title}</h3><p>{flow.intent}</p>
         <ol className="flow-steps">{flow.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}</ol>
-        <Link className="bench-guide" href={flow.path}>Read the {flow.name.toLowerCase()} workflow</Link>
+        <Link className="bench-guide" href={flow.path} prefetch={false}>Read the {flow.name.toLowerCase()} workflow</Link>
       </div>
       <div className="bench-contract"><p className="bench-label">PUBLIC SURFACE</p>
         <div className="surface-row"><span>ACT</span><div>{flow.tools.map(tool => <code key={tool}>{tool}</code>)}</div></div>

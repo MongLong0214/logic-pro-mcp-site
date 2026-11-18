@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 
 const [analytics, worker, expectedText] = await Promise.all([
   readFile(new URL("../app/lib/analytics.ts", import.meta.url), "utf8"),
-  readFile(new URL("../worker/index.ts", import.meta.url), "utf8"),
+  readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
   readFile(new URL("../tests/security-policy.json", import.meta.url), "utf8"),
 ]);
 const expected = JSON.parse(expectedText);

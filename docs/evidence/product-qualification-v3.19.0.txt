@@ -1,0 +1,39 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/docs/qualification/NOT_QUALIFIED_ON_LOGIC13.md
+Source tag: v3.19.0
+Source path: docs/qualification/NOT_QUALIFIED_ON_LOGIC13.md
+Source headings: Operations not qualified on Logic Pro 13.0 (7801); By reason
+Accessed UTC: 2026-11-18T05:58:41Z
+Expiry policy: on-release-change
+Original source SHA256: 6cd0a8400df511a1da130310fb6f41a7ecbf06b99d263911d771da2c4be6142c
+Original Git blob SHA: e3d68a18d88821314b3887fbac6a4a52436ac10c
+Snapshot note: taken from the published tag v3.19.0 (tag object e251a78538e2ba9d901f8b1154d3b53a142431de, commit 409af686b4a088b6f2b0db7308678ee2e92b4a67).
+
+Exact excerpts (selected, noncontiguous):
+# Operations not qualified on Logic Pro 13.0 (7801)
+
+Generated from `docs/qualification/not-qualified-logic13.json`. Do not edit by hand:
+`QualificationNotQualifiedListTests` fails when this file differs from the generator.
+
+An operation is listed here when the live gate does not EXERCISE it: the real handler ran,
+an independent readback was compared, and (for a write) the restore was read back.
+Nothing listed here is reported as qualified.
+
+Listed operations: 121
+
+## By reason
+
+| reason | count |
+|---|---|
+| `consent_probe_only` | 3 |
+| `env_precondition` | 2 |
+| `needs_fixture_value_check` | 2 |
+| `readback_not_compared` | 21 |
+| `readback_not_independent` | 1 |
+| `recipe_disabled` | 3 |
+| `recipe_refused` | 10 |
+| `semantic_validator_unavailable` | 8 |
+| `unknown_param_probe_only` | 69 |
+| `unsupported_by_contract` | 2 |
+
+Also from CHANGELOG.md at the same tag (blob 985baa08e1cc1c48153aa1c96eef34241d617c5d), which gives the 138 total:
+`legacy_index_allowed` census; after the later additions above, v3.19 exposes 138 operations.

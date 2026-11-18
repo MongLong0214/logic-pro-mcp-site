@@ -5,7 +5,7 @@ const files = await Promise.all([
   readFile(new URL("../app/content/page-records.ts", import.meta.url), "utf8"),
   readFile(new URL("../app/content/claim-ledger.ts", import.meta.url), "utf8"),
   readFile(new URL("../app/lib/analytics.ts", import.meta.url), "utf8"),
-  readFile(new URL("../worker/index.ts", import.meta.url), "utf8"),
+  readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
   readFile(new URL("../tests/security-policy.json", import.meta.url), "utf8"),
 ]);
 const [routes, claims, analytics, worker, policyText] = files;

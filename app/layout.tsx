@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import "./session.css";
 import { siteUrl } from "./site-config";
 
 export const metadata: Metadata = {

@@ -1,0 +1,33 @@
+Source URL: https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/SECURITY.md
+Source tag: v3.19.0
+Source path: SECURITY.md
+Source headings: Verified plugin apply-back gate; Deployment security
+Accessed UTC: 2026-11-18T05:58:41Z
+Expiry policy: on-release-change
+Original source SHA256: 6cd9d88bef6a435661ec21d50037bbda742a6b0eefd58a7d98489e58a0111cd7
+Original Git blob SHA: 37c431ba63d214b715520abe6c115a0d3f463e75
+Snapshot note: taken from the published tag v3.19.0 (tag object e251a78538e2ba9d901f8b1154d3b53a142431de, commit 409af686b4a088b6f2b0db7308678ee2e92b4a67).
+
+Exact excerpts (selected, noncontiguous):
+### Verified plugin apply-back gate
+
+v3.12.0 hardens filesystem-adjacent server paths: the trace-clear audit receipt and support-bundle publish are descriptor-relative, no-follow, identity-checked, and crash-durable (#417); saga execution runs under a single bounded lifecycle deadline with gate-ownership checks so a timed-out predecessor can never resume mutating (#412); session-stable `target_ref` writes carry live-identity cross-checks that fail closed on ambiguous or wrong-target resolution (#285); and the release pipeline adds an import-closure gate so a packaged Python helper can never ship without its transitive local modules (#427).
+
+`logic_plugins` is the v3.6.0+ verified apply-back surface and remains unchanged as a security boundary in v3.12.0. Its mutating commands (`insert_verified`, `set_param_verified`) are scoped to `mode:"duplicate_applyback"` and require an explicit `project_expected_path`. The server reads the live front Logic project path at call time and returns State C `project_identity_mismatch` before any write if the document changed. `set_param_verified` may open the requested insert's plugin editor when it is closed, but it still returns State C with `write_attempted:false` if the acquired window does not expose the requested AX slider.
+
+The insert path is fail-closed:
+
+- target track selection must verify before the write boundary;
+- `get_inventory` must report a complete, readable physical insert chain;
+- the requested physical slot must be empty;
+- the slot popup must be spatially anchored to the requested slot before any plugin leaf is clicked;
+- State A is emitted only after post-write inventory readback observes the requested plugin at the requested slot.
+
+Unknown plugin aliases, unsupported parameters, unreadable inventory, unanchored popups, wrong-slot mounts, and rollback failures all return HC v2 State C with `verified:false`. The router treats these codes as terminal and never falls back to Scripter, MCU, or a best-effort macro path.
+
+## Deployment security
+
+Releases are built with Command Line Tools and published without an Apple signing or notarization
+step. The release workflow packages the exact release build, verifies the archive manifest, checks
+SHA256 again after artifact transfer, and installs the archive on supported macOS runners before
+publication.

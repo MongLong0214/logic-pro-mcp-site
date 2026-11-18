@@ -10,6 +10,7 @@ Source repository: ${githubUrl}
 Published release: [v${productFacts.version}](${githubUrl}/releases/tag/v${productFacts.version})
 License: MIT
 Platform: ${productFacts.requirements}
+Qualification: ${productFacts.qualification}
 
 ## What this is
 
@@ -31,21 +32,22 @@ Read-only tools and resources return plain JSON without this envelope. Registere
 |------|---------|
 | \`logic_transport\` | play, stop, record, locate, tempo, cycle, metronome, count-in, autopunch |
 | \`logic_tracks\` | create, select, rename, delete, duplicate, arm/arm_only, mute, solo, automation, set instrument, library scans |
-| \`logic_mixer\` | volume, pan, master volume, mixer strip reads, guarded legacy plugin insertion |
+| \`logic_mixer\` | volume, pan, master volume, mixer strip reads, guarded legacy plugin insertion, verified output assignment |
 | \`logic_plugins\` | verified stock-plugin inventory, exact-slot insertion, verified parameter write/readback |
-| \`logic_midi\` | send notes/CC/SysEx/MMC, import MIDI, step input, create/list virtual ports |
+| \`logic_midi\` | send notes/CC/SysEx/MMC, import/export track MIDI, read exported notes, step input, create/list virtual ports |
 | \`logic_edit\` | undo, redo, cut, copy, paste, quantize, split, join, bounce-in-place, normalize, duplicate |
 | \`logic_navigate\` | bars, markers, zoom, view toggles |
-| \`logic_project\` | new, open, save, save_as, close, bounce, launch/quit, is_running, regions, export plan/run/resume, audit, cleanup |
+| \`logic_project\` | new, open, save, save_as, close, bounce (unsupported; use export_run), launch/quit, is_running, regions, export plan/run/resume, audit, cleanup |
 | \`logic_audio\` | read-only audio artifact analysis |
 | \`logic_system\` | health, permissions, command help, arm key-command auto-setup, trace list/read/clear, saga preflight/execute/status/cancel |
 
-## Resources (18 static, 12 templates)
+## Resources (19 static, 12 templates)
 
 | Resource | Returns |
 |----------|---------|
 | \`logic://system/health\` | channel readiness, permissions, manual-validation state |
-| \`logic://transport/state\` | tempo, position, cycle, play/record state |
+| \`logic://transport/state\` | tempo, position, cycle, play/record state, optional current key signature |
+| \`logic://tempo/map\` | observations from an already-open Tempo List, with raw position, BPM and SMPTE |
 | \`logic://tracks\` | track list with source/freshness metadata |
 | \`logic://mixer\` | mixer strips, plugin slots, data-source labels |
 | \`logic://markers\` | marker list when Logic exposes it |

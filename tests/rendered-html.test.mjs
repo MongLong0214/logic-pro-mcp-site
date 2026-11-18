@@ -1,23 +1,19 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
+import { fetchFromBuild } from "../scripts/lib/next-server.mjs";
 
 async function render(pathname = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  return fetchFromBuild(pathname);
 }
 
-test("Given the production worker, when the landing page renders, then product proof is present", async () => {
+test("Given the production build, when the landing page renders, then product proof is present", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const policy = JSON.parse(await readFile(new URL("./security-policy.json", import.meta.url), "utf8"));
+  for (const [header, value] of Object.entries(policy)) assert.equal(response.headers.get(header), value, `${header} must be served`);
 
   const html = await response.text();
   assert.match(html, /<title>Logic Pro MCP Server for Claude, Cursor &amp; AI Agents<\/title>/i);
@@ -27,10 +23,19 @@ test("Given the production worker, when the landing page renders, then product p
   assert.match(html, /INTERACTIVE EXAMPLE \/ NOT LIVE/);
   assert.doesNotMatch(html, /3,211|>CONNECTED<|>LIVE</);
   assert.match(html, /softwareVersion&quot;|softwareVersion/);
-  assert.match(html, /<video[^>]+poster="\/session-poster\.webp"[^>]+preload="none"/);
-  assert.doesNotMatch(html, /<video[^>]+src=/);
+  // The first frame is a plain server-rendered image that is high priority and has a reserved size;
+  // the <video> is only created when playback is requested, so the recording is never fetched on load.
+  const firstFrame = html.match(/<img[^>]+src="\/session-poster\.webp"[^>]*>/)?.[0] ?? "";
+  assert.match(firstFrame, /fetchPriority="high"/);
+  assert.match(firstFrame, /width="1024"/);
+  assert.match(firstFrame, /height="576"/);
+  assert.match(firstFrame, /alt="[^"]+"/);
+  assert.match(firstFrame, /srcSet="\/session-poster-660\.webp 660w, \/session-poster\.webp 1024w"/);
+  assert.doesNotMatch(html, /<video/);
+  assert.doesNotMatch(html, /session-demo\.mp4/);
   assert.match(html, /Recording position/);
   assert.match(html, /logic:\/\/system\/operations/);
+  assert.match(html, /17 of 138 operations are live-qualified/);
   assert.match(html, /Claude for Open Source program/);
   assert.match(html, /PUBLIC SURFACE/);
   assert.match(html, /Known limitations/);
@@ -50,9 +55,9 @@ test("Given the production worker, when the landing page renders, then product p
     price: 0,
     priceCurrency: "USD",
   });
-  assert.equal(jsonLd["@graph"][3].softwareVersion, "3.18.0");
+  assert.equal(jsonLd["@graph"][3].softwareVersion, "3.19.0");
   assert.deepEqual(jsonLd["@graph"][1].publisher, { "@id": "https://logicpromcp.com/#organization" });
-  assert.match(html, /blob\/v3\.18\.0\/docs\/API\.md/);
+  assert.match(html, /blob\/v3\.19\.0\/docs\/API\.md/);
   assert.match(html, /rel="canonical" href="https:\/\/logicpromcp\.com"/);
   assert.match(html, /<meta name="theme-color" content="#f1f0eb"\/>/);
   assert.match(html, /<meta name="google-site-verification" content="bUwMzrGp8x19XCEN1zdyLQTR4IfRIwGXfOOcEikcnGc"\/>/);
@@ -107,8 +112,8 @@ test("Given either LLM discovery route, product guidance stays on the published 
     const response = await render(pathname);
     assert.equal(response.status, 200);
     const text = await response.text();
-    assert.match(text, /v3\.18\.0/);
-    assert.match(text, /blob\/v3\.18\.0\/docs\/API\.md/);
+    assert.match(text, /v3\.19\.0/);
+    assert.match(text, /blob\/v3\.19\.0\/docs\/API\.md/);
     assert.doesNotMatch(text, /blob\/main\//);
   }
 });

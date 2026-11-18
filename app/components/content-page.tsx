@@ -1,3 +1,4 @@
+import "../docs.css";
 import { CopyCommand } from "./copy-command";
 import { InstallViewEvent } from "./install-view-event";
 import Link from "next/link";

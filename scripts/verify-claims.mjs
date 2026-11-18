@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { fetchFromBuild } from "./lib/next-server.mjs";
 import { claimLedger, declaredMaterialClaims } from "../app/content/claim-ledger.ts";
 import { productFacts } from "../app/content/product-facts.ts";
 import { pageRecords, routePaths } from "../app/content/page-records.ts";
@@ -21,14 +22,7 @@ function normalize(value) {
 }
 
 async function render(pathname) {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("claim-verifier", `${process.pid}-${pathname}`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request(`http://localhost${pathname}`),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await fetchFromBuild(pathname);
   assert.equal(response.status, 200, `${pathname} must render for claim verification`);
   return response.text();
 }

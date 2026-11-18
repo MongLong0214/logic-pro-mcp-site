@@ -57,7 +57,7 @@ const site = {
   status: git(siteRoot, ["status", "--porcelain=v1"]),
   statusSha256: createHash("sha256").update(git(siteRoot, ["status", "--porcelain=v1"])).digest("hex"),
   currentSourceSha256: await treeDigest(["app/", "docs/", "qa/", "scripts/", "tests/", "public/"]),
-  artifactSha256: await treeDigest(["dist/"]),
+  artifactSha256: await treeDigest([".next/"]),
 };
 const product = {
   commit: git(productRoot, ["rev-parse", "HEAD"]),

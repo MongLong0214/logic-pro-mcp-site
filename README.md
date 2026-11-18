@@ -12,7 +12,7 @@
   ·
   <a href="https://github.com/MongLong0214/logic-pro-mcp">MCP server source</a>
   ·
-  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/v3.18.0/docs/SETUP.md">Setup guide</a>
+  <a href="https://github.com/MongLong0214/logic-pro-mcp/blob/v3.19.0/docs/SETUP.md">Setup guide</a>
 </p>
 
 > This repository contains the website. Releases, product documentation, issues, and contributions live in [`MongLong0214/logic-pro-mcp`](https://github.com/MongLong0214/logic-pro-mcp).
@@ -27,7 +27,7 @@
 
 Logic Pro MCP is a local Model Context Protocol server for composing, inspecting, controlling, and verifying work in Logic Pro. The site turns the source documentation into practical installation paths and evidence-backed workflows.
 
-The Session Desk redesign uses the published **v3.18.0** documentation (reviewed October 5, 2026). Its archived demo plays only on request, with a spectrum derived from the actual recording. The interactive workflow desk explains A/B/C outcomes without pretending to connect to a user's Mac; the installation desk switches between the four real client configurations. Native View Transitions and scroll-linked CSS are progressive enhancements, with reduced-motion and keyboard alternatives.
+The Session Desk redesign uses the published **v3.19.0** documentation (reviewed November 18, 2026). Its archived demo plays only on request, with a spectrum derived from the actual recording. The interactive workflow desk explains A/B/C outcomes without pretending to connect to a user's Mac; the installation desk switches between the four real client configurations. Native View Transitions and scroll-linked CSS are progressive enhancements, with reduced-motion and keyboard alternatives.
 
 ## Start here
 
@@ -98,7 +98,16 @@ The player downloads its small same-origin recording only after activation and r
 
 ## Deployment
 
-The site is deployed with OpenAI Sites. `.openai/hosting.json` stores the Sites project identifier and optional resource bindings; hosted configuration and access policy remain managed by Sites.
+The site is a standard Next.js App Router project and deploys to [Vercel](https://vercel.com) with the zero-config Next.js preset: no `vercel.json` is needed.
+
+- **Build:** `npm run build` (`next build`); Vercel auto-detects the framework and Node.js `>=22.13.0`.
+- **Output:** every page, `robots.txt` and `sitemap.xml` are prerendered static; `/llms.txt` and `/llms-full.txt` are route handlers.
+- **Security headers:** the Content-Security-Policy, Permissions-Policy, Referrer-Policy, Strict-Transport-Security, X-Content-Type-Options and X-Frame-Options are set for every path in `headers()` in [`next.config.ts`](next.config.ts). `tests/security-policy.json` is the expected policy; `npm run verify:security` checks the config against it and `npm test` checks the served headers.
+- **Environment variables:** none are required. The analytics contract has no collector.
+- **Preview:** `vercel deploy` creates a preview deployment. Promote to production (`vercel --prod`) and attach `logicpromcp.com` only after reviewing the preview.
+- **Custom domain:** add `logicpromcp.com` in the Vercel project's Domains settings and create the DNS records Vercel shows there.
+
+Verifiers (`npm test`, `npm run verify:all`, `npm run qa:e2e`) run against the production build: build first with `npm run build`, then they start `next start` on a free local port.
 
 ## License
 
