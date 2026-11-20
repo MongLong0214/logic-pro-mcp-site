@@ -120,7 +120,7 @@ export function SessionPlayer() {
   // eslint-disable-next-line @next/next/no-img-element
   const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Archived Logic Pro MCP launch film: a scripted MCP client mixing a five-track song in Logic Pro 13" fetchPriority="high" decoding="async" />;
   return <div className="session-player">
-    <div className="player-label"><span>SESSION 001 / FROM PROMPT TO PLAYBACK</span><span>ARCHIVED RECORDING</span></div>
+    <div className="player-label"><span>LAUNCH FILM / A SCRIPTED CLIENT, A REAL SESSION</span><span>RECORDED ON LOGIC 13.0</span></div>
     <div className="video-stage">
       {videoPoster === null
         ? firstFrame
@@ -131,7 +131,7 @@ export function SessionPlayer() {
         onTimeUpdate={() => setTime(video.current?.currentTime ?? 0)}
         onLoadedMetadata={() => setDuration(video.current?.duration ?? 0)}
         onError={() => setError("Recording unavailable. Open the original below.")}
-        aria-label="Archived Logic Pro MCP product demo, with audio" />}
+        aria-label="Logic Pro MCP launch film, with audio" />}
       {!playing && <button className="stage-play" disabled={loading} onClick={toggle} aria-label={time > 0 ? "Resume recording" : "Play recording"}><span aria-hidden="true">▶</span><span>{loading ? "Loading session…" : time > 0 ? "Resume session" : "Hear the session"}</span></button>}
     </div>
     <div className="spectrum-strip"><span>{playing && analysisAvailable ? "RECORDING SPECTRUM" : "PLAY TO EXPLORE THE AUDIO"}</span><canvas ref={spectrum} width="768" height="40" aria-hidden="true" /><span>WEB AUDIO / LOCAL</span></div>

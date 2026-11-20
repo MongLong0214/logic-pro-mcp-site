@@ -28,7 +28,7 @@ export function HomePage({ registrations }: { registrations: Registrations }) {
           </div>
         </div>
         <SessionPlayer />
-        <div className="session-caption"><p>ONE PROMPT. A REAL LOGIC SESSION.</p><p>Launch film · 112 BPM · A minor · recorded on Logic Pro 13.0 with v3.19.0 · not a live connection</p></div>
+        <div className="session-caption"><p>A SCRIPTED MCP CLIENT. A REAL LOGIC SESSION.</p><p>Launch film · 120 BPM · A minor · recorded on Logic Pro 13.0 with v3.19.0 · not a live connection</p></div>
       </section>
       <section className="desk-section work-section" id="workflows">
         <div className="section-grid-heading"><div><p className="desk-kicker">01 / FROM INTENT TO EVIDENCE</p><h2>Less hand-off.<br />More hands-on.</h2></div><p>One local interface for composing, mixing and delivery. Explore the workflow, then look at what each result actually means.</p></div>
@@ -54,7 +54,7 @@ export function HomePage({ registrations }: { registrations: Registrations }) {
           <details><summary><span>RELEASE</span><strong>v{productFacts.version}</strong><span>Changelog dated November 14, 2026</span><i aria-hidden="true">+</i></summary><div><p>The current published server release. Installation and product documentation on this site are pinned to this tag, not unreleased changes.</p><a href={githubUrl + "/releases/tag/v" + productFacts.version}>Release notes and artifacts</a><a href={productFacts.apiUrl}>Tagged API contract</a></div></details>
           <details><summary><span>QUALIFICATION</span><strong>Logic Pro 13.0</strong><span>17 of 138 operations</span><i aria-hidden="true">+</i></summary><div><p>{productFacts.qualification}</p><p>{productFacts.locales}</p><a href={productFacts.qualificationUrl}>Not-qualified list with reasons</a></div></details>
           <details><summary><span>DEVELOPMENT</span><strong>Current main</strong><span>Changes after the release</span><i aria-hidden="true">+</i></summary><div><p>Issue fixes and pull requests on main are ongoing development. Their local tests are not a release qualification claim.</p><a href={githubUrl + "/pulls"}>Follow pull requests</a><a href={githubUrl + "/issues"}>Known limitations and open issues</a></div></details>
-          <details><summary><span>RECORDING</span><strong>Session 001</strong><span>Archived product demo</span><i aria-hidden="true">+</i></summary><div><p>The recording above is an example from the project media archive. It is not a live connection to your Mac, a measurement of the latest release or a compatibility guarantee.</p><a href={githubUrl + "/blob/main/docs/media/README.md"}>Recording provenance</a></div></details>
+          <details><summary><span>RECORDING</span><strong>Launch film</strong><span>Recorded on Logic Pro 13.0 with v3.19.0</span><i aria-hidden="true">+</i></summary><div><p>The film above was recorded on Logic Pro 13.0 with the published v3.19.0 binary, driven by a scripted MCP client rather than an AI model. Every operation shown is a live call that Logic answered, and the provenance page lists what was prepared by hand. It is not a live connection to your Mac or a compatibility guarantee.</p><a href={githubUrl + "/blob/main/docs/media/README.md"}>Recording provenance</a></div></details>
         </div>
         <p className="program-note">Officially selected for Anthropic&apos;s Claude for Open Source program. <a href={productFacts.readmeUrl + "#selected-for-anthropics-claude-for-open-source-program"}>Project announcement</a></p>
       </section>
