@@ -28,7 +28,7 @@ export function HomePage({ registrations }: { registrations: Registrations }) {
           </div>
         </div>
         <SessionPlayer />
-        <div className="session-caption"><p>ONE PROMPT. A REAL LOGIC SESSION.</p><p>Archived product demo · 82 BPM · D minor · not a live connection</p></div>
+        <div className="session-caption"><p>ONE PROMPT. A REAL LOGIC SESSION.</p><p>Launch film · 112 BPM · A minor · recorded on Logic Pro 13.0 with v3.19.0 · not a live connection</p></div>
       </section>
       <section className="desk-section work-section" id="workflows">
         <div className="section-grid-heading"><div><p className="desk-kicker">01 / FROM INTENT TO EVIDENCE</p><h2>Less hand-off.<br />More hands-on.</h2></div><p>One local interface for composing, mixing and delivery. Explore the workflow, then look at what each result actually means.</p></div>

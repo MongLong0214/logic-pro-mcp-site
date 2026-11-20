@@ -118,7 +118,7 @@ export function SessionPlayer() {
   }
   // Hand-sized WebP assets with a srcset; the optimizer route would add a request hop for the LCP image.
   // eslint-disable-next-line @next/next/no-img-element
-  const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Archived Logic Pro MCP product demo: the first frame of the recording" fetchPriority="high" decoding="async" />;
+  const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Archived Logic Pro MCP launch film: a scripted MCP client mixing a five-track song in Logic Pro 13" fetchPriority="high" decoding="async" />;
   return <div className="session-player">
     <div className="player-label"><span>SESSION 001 / FROM PROMPT TO PLAYBACK</span><span>ARCHIVED RECORDING</span></div>
     <div className="video-stage">
