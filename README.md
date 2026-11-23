@@ -27,7 +27,7 @@
 
 Logic Pro MCP is a local Model Context Protocol server for composing, inspecting, controlling, and verifying work in Logic Pro. The site turns the source documentation into practical installation paths and evidence-backed workflows.
 
-The Session Desk redesign uses the published **v3.19.0** documentation (reviewed November 18, 2026). Its archived demo plays only on request, with a spectrum derived from the actual recording. The interactive workflow desk explains A/B/C outcomes without pretending to connect to a user's Mac; the installation desk switches between the four real client configurations. Native View Transitions and scroll-linked CSS are progressive enhancements, with reduced-motion and keyboard alternatives.
+The Session Desk redesign uses the published **v3.19.0** documentation (synced with the project README on November 23, 2026). Its archived demo plays only on request, with a spectrum derived from the actual recording. The interactive workflow desk explains A/B/C outcomes without pretending to connect to a user's Mac; the installation desk switches between the four real client configurations. Native View Transitions and scroll-linked CSS are progressive enhancements, with reduced-motion and keyboard alternatives.
 
 ## Start here
 

@@ -118,7 +118,7 @@ export function SessionPlayer() {
   }
   // Hand-sized WebP assets with a srcset; the optimizer route would add a request hop for the LCP image.
   // eslint-disable-next-line @next/next/no-img-element
-  const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Archived Logic Pro MCP product demo: the first frame of the recording" fetchPriority="high" decoding="async" />;
+  const firstFrame = <img ref={poster} src="/session-poster.webp" srcSet="/session-poster-660.webp 660w, /session-poster.webp 1024w" sizes="(max-width: 1100px) 90vw, 1200px" width="1024" height="576" alt="Poster frame of the Logic Pro MCP demo. The full film is a real Claude Code session on Logic Pro 13.0 with v3.19.0: 14 writes, each read back, median round trip 437 ms." fetchPriority="high" decoding="async" />;
   return <div className="session-player">
     <div className="player-label"><span>SESSION 001 / FROM PROMPT TO PLAYBACK</span><span>ARCHIVED RECORDING</span></div>
     <div className="video-stage">
@@ -131,7 +131,7 @@ export function SessionPlayer() {
         onTimeUpdate={() => setTime(video.current?.currentTime ?? 0)}
         onLoadedMetadata={() => setDuration(video.current?.duration ?? 0)}
         onError={() => setError("Recording unavailable. Open the original below.")}
-        aria-label="Archived Logic Pro MCP product demo, with audio" />}
+        aria-label="Logic Pro MCP demo recording, with audio. The full 130.8 second film is linked as Original." />}
       {!playing && <button className="stage-play" disabled={loading} onClick={toggle} aria-label={time > 0 ? "Resume recording" : "Play recording"}><span aria-hidden="true">▶</span><span>{loading ? "Loading session…" : time > 0 ? "Resume session" : "Hear the session"}</span></button>}
     </div>
     <div className="spectrum-strip"><span>{playing && analysisAvailable ? "RECORDING SPECTRUM" : "PLAY TO EXPLORE THE AUDIO"}</span><canvas ref={spectrum} width="768" height="40" aria-hidden="true" /><span>WEB AUDIO / LOCAL</span></div>
